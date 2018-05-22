@@ -81,8 +81,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        //카메라 버튼 누를 시 검색 창으로 이동
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

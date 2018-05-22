@@ -30,6 +30,16 @@
             android:label="sign_in_activity"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity">
         </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="search_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
+        <activity
+            android:name=".RecipeListActivity"
+            android:label="recipelist_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
 
     </application>
 
