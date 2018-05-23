@@ -17,6 +17,8 @@ import android.widget.Toast;
 public class SearchActivity extends AppCompatActivity
 {
     final int MAXINGREDIENT = 10;
+    final int MAXLAYOUTSIZE = 20;
+    final int MARGINSIZE = 2;
     int ingredientNum = 0;
     int [] lineSize = { 0, 0, 0, 0 };
     Ingredient[] ingredientSet = new Ingredient[MAXINGREDIENT];
@@ -52,29 +54,29 @@ public class SearchActivity extends AppCompatActivity
             public void onClick(View v) {
                 if ( edtAddIngredient.getText().toString().length() > 0 ) {
 
-                    if(lineSize[0] <= 20)
+                    if(lineSize[0] <= MAXLAYOUTSIZE)
                     {
                         addIngredient(edtAddIngredient.getText().toString(), llNowIngredient1);
                         lineSize[0] += edtAddIngredient.getText().toString().length();
-                        lineSize[0] += 2;
+                        lineSize[0] += MARGINSIZE;
                     }
-                    else if(lineSize[1] <= 20)
+                    else if(lineSize[1] <= MAXLAYOUTSIZE)
                     {
                         addIngredient(edtAddIngredient.getText().toString(), llNowIngredient2);
                         lineSize[1] += edtAddIngredient.getText().toString().length();
-                        lineSize[1] += 2;
+                        lineSize[1] += MARGINSIZE;
                     }
-                    else if(lineSize[2] <= 20)
+                    else if(lineSize[2] <= MAXLAYOUTSIZE)
                     {
                         addIngredient(edtAddIngredient.getText().toString(), llNowIngredient3);
                         lineSize[2] += edtAddIngredient.getText().toString().length();
-                        lineSize[2] += 2;
+                        lineSize[2] += MARGINSIZE;
                     }
-                    else if(lineSize[3] <= 20)
+                    else if(lineSize[3] <= MAXLAYOUTSIZE)
                     {
                         addIngredient(edtAddIngredient.getText().toString(), llNowIngredient4);
                         lineSize[3] += edtAddIngredient.getText().toString().length();
-                        lineSize[3] += 2;
+                        lineSize[3] += MARGINSIZE;
                     }
 
                     edtAddIngredient.setText(null);
@@ -90,29 +92,29 @@ public class SearchActivity extends AppCompatActivity
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     if ( edtAddIngredient.getText().toString().length() > 0 ) {
 
-                        if(lineSize[0] <= 20)
+                        if(lineSize[0] <= MAXLAYOUTSIZE)
                         {
                             addIngredient(edtAddIngredient.getText().toString(), llNowIngredient1);
                             lineSize[0] += edtAddIngredient.getText().toString().length();
-                            lineSize[0] += 2;
+                            lineSize[0] += MARGINSIZE;
                         }
-                        else if(lineSize[1] <= 20)
+                        else if(lineSize[1] <= MAXLAYOUTSIZE)
                         {
                             addIngredient(edtAddIngredient.getText().toString(), llNowIngredient2);
                             lineSize[1] += edtAddIngredient.getText().toString().length();
-                            lineSize[1] += 2;
+                            lineSize[1] += MARGINSIZE;
                         }
-                        else if(lineSize[2] <= 20)
+                        else if(lineSize[2] <= MAXLAYOUTSIZE)
                         {
                             addIngredient(edtAddIngredient.getText().toString(), llNowIngredient3);
                             lineSize[2] += edtAddIngredient.getText().toString().length();
-                            lineSize[2] += 2;
+                            lineSize[2] += MARGINSIZE;
                         }
-                        else if(lineSize[3] <= 20)
+                        else if(lineSize[3] <= MAXLAYOUTSIZE)
                         {
                             addIngredient(edtAddIngredient.getText().toString(), llNowIngredient4);
                             lineSize[3] += edtAddIngredient.getText().toString().length();
-                            lineSize[3] += 2;
+                            lineSize[3] += MARGINSIZE;
                         }
                         edtAddIngredient.setText(null);
 
@@ -156,12 +158,23 @@ public class SearchActivity extends AppCompatActivity
         final TextView textview_ingredient = new TextView(SearchActivity.this);
         textview_ingredient.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         textview_ingredient.setBackgroundColor(Color.parseColor("#00FFFFFF"));
-        textview_ingredient.setPadding(20, 10, 10, 10);
+
         textview_ingredient.setTextColor(Color.parseColor("#000000"));
-        textview_ingredient.setTextSize(13);
+        textview_ingredient.setTextSize(16);
         textview_ingredient.setText(s);
         textview_ingredient.setSingleLine();
         ll.addView(textview_ingredient);
+
+        textview_ingredient.setBackgroundResource(R.drawable.roundingbox_green);
+        /*android:id="@+id/tbResultItemCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:textColor="#ffffff"
+        android:textSize="32px"
+        android:layout_marginBottom="35px"
+        android:layout_marginLeft="60px"
+        android:layout_marginRight="120px"*/
 
         //재료 목록 배열에 저장
         ingredientSet[ingredientNum] = dummy;
@@ -178,12 +191,15 @@ public class SearchActivity extends AppCompatActivity
                 {
                     case 0:
                         textview_ingredient.setTextColor(Color.parseColor("#000000"));
+                        textview_ingredient.setBackgroundResource(R.drawable.roundingbox_green);
                         break;
                     case 1:
-                        textview_ingredient.setTextColor(Color.parseColor("#0000FF"));
+                        textview_ingredient.setTextColor(Color.parseColor("#FFFFFF"));
+                        textview_ingredient.setBackgroundResource(R.drawable.roundingbox_blue);
                         break;
                     case 2:
-                        textview_ingredient.setTextColor(Color.parseColor("#FF0000"));
+                        textview_ingredient.setTextColor(Color.parseColor("#FFFFFF"));
+                        textview_ingredient.setBackgroundResource(R.drawable.roundingbox_red);
                         break;
                 }
             }

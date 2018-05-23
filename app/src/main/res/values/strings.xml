@@ -19,7 +19,18 @@
     <string name="auth_code_fmt">Auth Code: %s</string>
     <string name="id_token_fmt">ID Token: %s</string>
 
+    <color name="color_bg">#C0C0C0</color>
+
     <string name="title_text">Google Sign-In</string>
+
+    <!-- 메뉴 버튼 관련 문자열 -->
+    <string name="recipe_search">레시피 검색</string>
+    <string name="recipe_add">레시피 추가</string>
+    <string name="freeboard">자유게시판</string>
+    <string name="login">로그인</string>
+    <string name="communicate">커뮤니케이트</string>
+    <string name="share">공유</string>
+    <string name="send">전송</string>
 
     <!-- Sign-in status messages -->
     <string name="signed_in_fmt">Signed in as: %s</string>
