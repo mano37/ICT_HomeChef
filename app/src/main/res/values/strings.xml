@@ -29,6 +29,13 @@
     <string name="signed_in_err">"Error: please check logs."</string>
     <string name="error_null_person"></string>
 
+    <!-- activity_search.xml의 모든 string -->
+    <string name="enter_ingredient">재료 입력</string>
+    <string name="add_ingredient">추가</string>
+    <string name="added_ingredient">추가된 재료</string>
+    <string name="search">검색</string>
+    <string name="recent_ingredient">최근 사용한 재료</string>
+
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
         from https://console.developers.google.com/ -->
     <string name="server_client_id">402607815992-03l5p8sqib3ev083pl78dq1vuk62vj2g.apps.googleusercontent.com</string>
