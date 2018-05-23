@@ -45,6 +45,14 @@ public class SearchActivity extends AppCompatActivity
             public void onClick(View v) {
 
                 Intent intent = new Intent(SearchActivity.this, RecipeListActivity.class);
+                for(int i = 0; i < ingredientNum; i++)
+                {
+                    String[] data = new String[2];
+                    data[0] = ingredientSet[i].getName();
+                    data[1] = String.valueOf(ingredientSet[i].getSearchMode());
+                    intent.putExtra("ingredientNum", ingredientNum);
+                    intent.putExtra(String.valueOf(i), data);
+                }
                 startActivity(intent);
             }
         });
@@ -166,15 +174,6 @@ public class SearchActivity extends AppCompatActivity
         ll.addView(textview_ingredient);
 
         textview_ingredient.setBackgroundResource(R.drawable.roundingbox_green);
-        /*android:id="@+id/tbResultItemCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:textColor="#ffffff"
-        android:textSize="32px"
-        android:layout_marginBottom="35px"
-        android:layout_marginLeft="60px"
-        android:layout_marginRight="120px"*/
 
         //재료 목록 배열에 저장
         ingredientSet[ingredientNum] = dummy;
@@ -194,11 +193,11 @@ public class SearchActivity extends AppCompatActivity
                         textview_ingredient.setBackgroundResource(R.drawable.roundingbox_green);
                         break;
                     case 1:
-                        textview_ingredient.setTextColor(Color.parseColor("#FFFFFF"));
+                        textview_ingredient.setTextColor(Color.parseColor("#000000"));
                         textview_ingredient.setBackgroundResource(R.drawable.roundingbox_blue);
                         break;
                     case 2:
-                        textview_ingredient.setTextColor(Color.parseColor("#FFFFFF"));
+                        textview_ingredient.setTextColor(Color.parseColor("#000000"));
                         textview_ingredient.setBackgroundResource(R.drawable.roundingbox_red);
                         break;
                 }

@@ -19,7 +19,7 @@
     <string name="auth_code_fmt">Auth Code: %s</string>
     <string name="id_token_fmt">ID Token: %s</string>
 
-    <color name="color_bg">#C0C0C0</color>
+    <color name="color_bg">#F0F0F0</color>
 
     <string name="title_text">Google Sign-In</string>
 
