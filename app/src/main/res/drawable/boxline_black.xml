@@ -4,15 +4,8 @@
         android:color="#FFFFFF" />
 
     <stroke
-        android:width="2dp"
-        android:color="#000000" />
+        android:width="1px"
+        android:color="#808080" />
 
-    <padding
-        android:left="45px"
-        android:top="15px"
-        android:right="45px"
-        android:bottom="15px" />
 
-    <corners
-        android:radius="45px" />
 </shape>

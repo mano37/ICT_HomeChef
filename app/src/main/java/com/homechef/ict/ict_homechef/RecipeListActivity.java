@@ -18,6 +18,7 @@ public class RecipeListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipelist);
 
+        //변수 선언
         Intent intent = getIntent();
         int ingredientNum;
 
@@ -25,6 +26,7 @@ public class RecipeListActivity extends AppCompatActivity {
         searchlist[0] = null;
         searchlist[1] = null;
 
+        //레이아웃 선언
         final LinearLayout llRecipeList = findViewById(R.id.ll_recipelist);
 
         final LinearLayout ll_Status = new LinearLayout(RecipeListActivity.this);
@@ -81,13 +83,13 @@ public class RecipeListActivity extends AppCompatActivity {
         //Thumnail의 틀 레이아웃
         final LinearLayout ll_thumnail = new LinearLayout(RecipeListActivity.this);
         ll_thumnail.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300));
-        ll_thumnail.setBackgroundResource(R.drawable.marginbox_white);
-        ll_thumnail.setPadding(20, 20, 20, 20);
+        ll_thumnail.setBackgroundResource(R.drawable.boxline_gradientwhite);
+
+        //Thumnail의 위아래 여백
 
         //Thumnail 내의 이미지 틀 레이아웃
         final LinearLayout ll_image = new LinearLayout(RecipeListActivity.this);
-        ll_image.setLayoutParams(new LinearLayout.LayoutParams(260, 260));
-        ll_image.setPadding(20, 20, 20, 20);
+        ll_image.setLayoutParams(new LinearLayout.LayoutParams(350, 300));
         ll_image.setBackgroundResource(R.drawable.boxline_black);
 
         //Thumnail 내의 메인 이미지
@@ -96,12 +98,12 @@ public class RecipeListActivity extends AppCompatActivity {
         final LinearLayout ll_content = new LinearLayout(RecipeListActivity.this);
         ll_content.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         ll_content.setOrientation(LinearLayout.VERTICAL);
-        ll_content.setPadding(20, 20, 20, 20);
+        ll_content.setPadding(10, 10, 10, 10);
 
         final TextView tv_recipeName = new TextView(RecipeListActivity.this);
         tv_recipeName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         tv_recipeName.setTextColor(Color.parseColor("#000000"));
-        tv_recipeName.setPadding(20, 20, 20, 20);
+        tv_recipeName.setPadding(10, 10, 10, 10);
         tv_recipeName.setTextSize(15);
         tv_recipeName.setText(recipeName);
         tv_recipeName.setSingleLine();
@@ -109,7 +111,7 @@ public class RecipeListActivity extends AppCompatActivity {
         final TextView tv_writerName = new TextView(RecipeListActivity.this);
         tv_writerName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         tv_writerName.setTextColor(Color.parseColor("#000000"));
-        tv_writerName.setPadding(20, 20, 20, 20);
+        tv_writerName.setPadding(10, 10, 10, 10);
         tv_writerName.setTextSize(12);
         tv_writerName.setText(writerName);
         tv_writerName.setSingleLine();
