@@ -2,6 +2,7 @@ package com.homechef.ict.ict_homechef;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,8 +49,14 @@ public class Ingredient {
         name = s;
     }
 
-    public void addIngredientView(LinearLayout ll, Context viewClass)
+    public void addIngredientView(final LinearLayout ll, Context viewClass)
     {
+
+        final LinearLayout ll_outline = new LinearLayout(viewClass);
+        ll_outline.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        ll_outline.setGravity(Gravity.CENTER);
+        ll_outline.setBackgroundResource(R.drawable.roundingbox_green);
+        ll.addView(ll_outline);
 
         //동적 textview 생성
         final TextView textview_ingredient = new TextView(viewClass);
@@ -58,11 +65,21 @@ public class Ingredient {
 
         textview_ingredient.setTextColor(Color.parseColor("#000000"));
         textview_ingredient.setTextSize(16);
-        textview_ingredient.setText(Ingredient.this.getName());
+        textview_ingredient.setText(Ingredient.this.getName() + ' ');
         textview_ingredient.setSingleLine();
-        ll.addView(textview_ingredient);
+        ll_outline.addView(textview_ingredient);
 
-        textview_ingredient.setBackgroundResource(R.drawable.roundingbox_green);
+        final TextView textview_delete = new TextView(viewClass);
+        textview_delete.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        textview_delete.setBackgroundColor(Color.parseColor("#00FFFFFF"));
+
+        textview_delete.setTextColor(Color.parseColor("#A0A0A0"));
+        textview_delete.setTextSize(10);
+        textview_delete.setText(" X");
+        textview_delete.setSingleLine();
+        ll_outline.addView(textview_delete);
+
+
 
 
         //버튼화
@@ -75,18 +92,24 @@ public class Ingredient {
                 switch (Ingredient.this.getSearchMode())
                 {
                     case 0:
-                        textview_ingredient.setTextColor(Color.parseColor("#000000"));
-                        textview_ingredient.setBackgroundResource(R.drawable.roundingbox_green);
+                        ll_outline.setBackgroundResource(R.drawable.roundingbox_green);
                         break;
                     case 1:
-                        textview_ingredient.setTextColor(Color.parseColor("#000000"));
-                        textview_ingredient.setBackgroundResource(R.drawable.roundingbox_blue);
+                        ll_outline.setBackgroundResource(R.drawable.roundingbox_blue);
                         break;
                     case 2:
-                        textview_ingredient.setTextColor(Color.parseColor("#000000"));
-                        textview_ingredient.setBackgroundResource(R.drawable.roundingbox_red);
+                        ll_outline.setBackgroundResource(R.drawable.roundingbox_red);
                         break;
                 }
+            }
+        });
+
+        textview_delete.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                ll.removeView(ll_outline);
             }
         });
 
