@@ -2,13 +2,16 @@ package com.homechef.ict.ict_homechef;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -19,6 +22,9 @@ public class SearchActivity extends AppCompatActivity {
     int ingredientNum = 0;
     int[] lineSize = {0, 0, 0, 0};
     Ingredient[] ingredientSet = new Ingredient[MAXINGREDIENT];
+    final LinearLayout[] llNowIngredient = new LinearLayout[4];
+    final LinearLayout[] llRecentIngredient = new LinearLayout[4];
+
     String temp;
 
 
@@ -27,12 +33,18 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        llNowIngredient[0] = findViewById(R.id.ll_nowingredient1);
+        llNowIngredient[1] = findViewById(R.id.ll_nowingredient2);
+        llNowIngredient[2] = findViewById(R.id.ll_nowingredient3);
+        llNowIngredient[3] = findViewById(R.id.ll_nowingredient4);
+        llRecentIngredient[0] = findViewById(R.id.ll_recentingredient1);
+        llRecentIngredient[1] = findViewById(R.id.ll_recentingredient2);
+        llRecentIngredient[2] = findViewById(R.id.ll_recentingredient3);
+        llRecentIngredient[3] = findViewById(R.id.ll_recentingredient4);
 
-        final LinearLayout llNowIngredient1 = findViewById(R.id.ll_nowingredient1);
-        final LinearLayout llNowIngredient2 = findViewById(R.id.ll_nowingredient2);
-        final LinearLayout llNowIngredient3 = findViewById(R.id.ll_nowingredient3);
-        final LinearLayout llNowIngredient4 = findViewById(R.id.ll_nowingredient4);
-        final LinearLayout llRecentIngredient = findViewById(R.id.ll_recentingredient1);
+        final DynamicLayout dlNowIngredient = new DynamicLayout(llNowIngredient, MAXLAYOUTSIZE);
+        final DynamicLayout dlRecentIngredient = new DynamicLayout(llRecentIngredient, MAXLAYOUTSIZE);
+
         final EditText edtAddIngredient = findViewById(R.id.edt_ingredientadd);
         Button btnAddIngredient = findViewById(R.id.btn_ingredientadd);
         Button btnSearch = findViewById(R.id.btn_search);
@@ -66,30 +78,11 @@ public class SearchActivity extends AppCompatActivity {
                 edtAddIngredient.setText(null);
                 if (temp.length() > 0) {
 
-                    if(addIngredient(temp, ingredientNum))
+                    if(ingredientCheck(temp, ingredientNum))
                     {
-                        if (lineSize[0] + temp.length() <= MAXLAYOUTSIZE) {
-                            ingredientSet[ingredientNum].addIngredientView(llNowIngredient1, SearchActivity.this);
-                            lineSize[0] += temp.length();
-                            lineSize[0] += MARGINSIZE;
-                        } else if (lineSize[1] + temp.length() <= MAXLAYOUTSIZE) {
-                            ingredientSet[ingredientNum].addIngredientView(llNowIngredient2, SearchActivity.this);
-                            lineSize[1] += temp.length();
-                            lineSize[1] += MARGINSIZE;
-                        } else if (lineSize[2] + temp.length() <= MAXLAYOUTSIZE) {
-                            ingredientSet[ingredientNum].addIngredientView(llNowIngredient3, SearchActivity.this);
-                            lineSize[2] += temp.length();
-                            lineSize[2] += MARGINSIZE;
-                        } else if (lineSize[3] + temp.length() <= MAXLAYOUTSIZE) {
-                            ingredientSet[ingredientNum].addIngredientView(llNowIngredient4, SearchActivity.this);
-                            lineSize[3] += temp.length();
-                            lineSize[3] += MARGINSIZE;
-                        }
-
+                        addIngredient(temp, ingredientNum, dlNowIngredient);
                         ingredientNum++;
                     }
-
-
                 }
             }
         });
@@ -101,26 +94,9 @@ public class SearchActivity extends AppCompatActivity {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     temp = edtAddIngredient.getText().toString();
                     edtAddIngredient.setText(null);
-                    if(addIngredient(temp, ingredientNum))
+                    if(ingredientCheck(temp, ingredientNum))
                     {
-                        if (lineSize[0] + temp.length() <= MAXLAYOUTSIZE) {
-                            ingredientSet[ingredientNum].addIngredientView(llNowIngredient1, SearchActivity.this);
-                            lineSize[0] += temp.length();
-                            lineSize[0] += MARGINSIZE;
-                        } else if (lineSize[1] + temp.length() <= MAXLAYOUTSIZE) {
-                            ingredientSet[ingredientNum].addIngredientView(llNowIngredient2, SearchActivity.this);
-                            lineSize[1] += temp.length();
-                            lineSize[1] += MARGINSIZE;
-                        } else if (lineSize[2] + temp.length() <= MAXLAYOUTSIZE) {
-                            ingredientSet[ingredientNum].addIngredientView(llNowIngredient3, SearchActivity.this);
-                            lineSize[2] += temp.length();
-                            lineSize[2] += MARGINSIZE;
-                        } else if (lineSize[3] + temp.length() <= MAXLAYOUTSIZE) {
-                            ingredientSet[ingredientNum].addIngredientView(llNowIngredient4, SearchActivity.this);
-                            lineSize[3] += temp.length();
-                            lineSize[3] += MARGINSIZE;
-                        }
-
+                        addIngredient(temp, ingredientNum, dlNowIngredient);
                         ingredientNum++;
                     }
                     return true;
@@ -132,7 +108,8 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    private boolean addIngredient(String s, int num) {
+    private boolean ingredientCheck(String s, final int num)
+    {
         if (ingredientNum == MAXINGREDIENT) {
             Toast.makeText(SearchActivity.this, "더 이상 재료를 추가할 수 없습니다", Toast.LENGTH_SHORT).show();
             return false;
@@ -144,7 +121,90 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         }
-        ingredientSet[num].setName(s);
         return true;
+    }
+
+
+    private void addIngredient(String s, final int ingredientNum, final DynamicLayout dl) {
+
+        ingredientSet[ingredientNum].setName(s);
+        final int nameSize = s.length();
+        final int addedLayoutNum = dl.selectLayout(nameSize + MARGINSIZE);
+        final LinearLayout[] addedLayout = dl.getLayout();
+
+        final LinearLayout llIngredientOutline = new LinearLayout(SearchActivity.this);
+        llIngredientOutline.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        llIngredientOutline.setGravity(Gravity.CENTER);
+        llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_green);
+        addedLayout[addedLayoutNum].addView(llIngredientOutline);
+
+        //동적 textview 생성
+        final TextView textview_ingredient = new TextView(SearchActivity.this);
+        textview_ingredient.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        textview_ingredient.setBackgroundColor(Color.parseColor("#00FFFFFF"));
+
+        textview_ingredient.setTextColor(Color.parseColor("#000000"));
+        textview_ingredient.setTextSize(16);
+        textview_ingredient.setText(ingredientSet[ingredientNum].getName() + ' ');
+        textview_ingredient.setSingleLine();
+        llIngredientOutline.addView(textview_ingredient);
+
+        final TextView textview_delete = new TextView(SearchActivity.this);
+        textview_delete.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        textview_delete.setBackgroundColor(Color.parseColor("#00FFFFFF"));
+
+        textview_delete.setTextColor(Color.parseColor("#A0A0A0"));
+        textview_delete.setTextSize(10);
+        textview_delete.setText(" X");
+        textview_delete.setSingleLine();
+        llIngredientOutline.addView(textview_delete);
+
+
+
+
+        //버튼화
+        textview_ingredient.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //재료의 검색 모드 변환
+                ingredientSet[ingredientNum].cycleSearchMode();
+                switch (ingredientSet[ingredientNum].getSearchMode())
+                {
+                    case 0:
+                        llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_green);
+                        break;
+                    case 1:
+                        llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_blue);
+                        break;
+                    case 2:
+                        llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_red);
+                        break;
+                }
+            }
+        });
+
+        //재료 삭제 버튼
+        textview_delete.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //추가된 재료 갯수 확인, 재료 리스트에서 정보 지우기
+                if(SearchActivity.this.ingredientNum - 1 == ingredientNum)
+                {
+                    ingredientSet[ingredientNum].setName(null);
+                }
+                else
+                {
+                    ingredientSet[ingredientNum].setName(ingredientSet[SearchActivity.this.ingredientNum -1].getName());
+                    ingredientSet[ingredientNum].setSearchMode(ingredientSet[SearchActivity.this.ingredientNum -1].getSearchMode());
+                }
+                SearchActivity.this.ingredientNum--;
+                dl.calLayoutSize(-nameSize, addedLayoutNum);
+                addedLayout[addedLayoutNum].removeView(llIngredientOutline);
+            }
+        });
     }
 }
