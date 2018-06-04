@@ -74,7 +74,7 @@ public class SearchActivity extends AppCompatActivity {
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                temp = edtAddIngredient.getText().toString();
+                temp = edtAddIngredient.getText().toString().replace(" ", "");
                 edtAddIngredient.setText(null);
                 if (temp.length() > 0) {
 
@@ -92,7 +92,7 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 //Enter key Action
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    temp = edtAddIngredient.getText().toString();
+                    temp = edtAddIngredient.getText().toString().replace(" ", "");
                     edtAddIngredient.setText(null);
                     if(ingredientCheck(temp, ingredientNum))
                     {
