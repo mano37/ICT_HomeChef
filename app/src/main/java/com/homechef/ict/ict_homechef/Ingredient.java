@@ -34,13 +34,13 @@ public class Ingredient {
 
     public void cycleSearchMode()
     {
-        if(search_mode == 2)
+        if(search_mode == 1)
         {
             search_mode = 0;
         }
         else
         {
-            search_mode++;
+            search_mode = 1;
         }
     }
 

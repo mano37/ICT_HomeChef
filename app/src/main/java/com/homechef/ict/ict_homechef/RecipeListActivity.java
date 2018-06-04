@@ -22,9 +22,6 @@ public class RecipeListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int ingredientNum;
 
-        String[] searchlist = new String[2];
-        searchlist[0] = null;
-        searchlist[1] = null;
 
         //레이아웃 선언
         final LinearLayout llRecipeList = findViewById(R.id.ll_recipelist);
@@ -41,19 +38,23 @@ public class RecipeListActivity extends AppCompatActivity {
 
         llRecipeList.addView(ll_Status);
         ingredientNum = intent.getIntExtra("ingredientNum", 0);
+
+        String[] searchList = new String[ingredientNum];
+        String[] searchModeList = new String[ingredientNum];
+
         for(int i = 0; i < ingredientNum; i++)
         {
-            searchlist = intent.getStringArrayExtra(String.valueOf(i));
+            searchList[i] = intent.getStringArrayExtra(String.valueOf(i))[0];
             final TextView tv_SearchInfo = new TextView(RecipeListActivity.this);
             tv_SearchInfo.setTextSize(15);
             tv_SearchInfo.setTextColor(Color.parseColor("#000000"));
             if(i == 0)
             {
-                tv_SearchInfo.setText("'" + searchlist[0] + "'");
+                tv_SearchInfo.setText("'" + searchList[0] + "'");
             }
             else
             {
-                tv_SearchInfo.setText(", '" + searchlist[0] + "'");
+                tv_SearchInfo.setText(", '" + searchList[i] + "'");
             }
             ll_Status.addView(tv_SearchInfo);
         }
@@ -68,7 +69,8 @@ public class RecipeListActivity extends AppCompatActivity {
 
         for(int i = 0; i < 20; i++)
         {
-            showRecipeThumnail("Test " + String.valueOf(i), "sinwindis", llRecipeList);
+            ThumnailInfo thumnailinfo = new ThumnailInfo(i, "test " + i, searchList,"sinwindis", 20160044, 0);
+            showRecipeThumnail(thumnailinfo, llRecipeList);
         }
 
     }
@@ -78,7 +80,7 @@ public class RecipeListActivity extends AppCompatActivity {
         return null;
     }
 
-    private void showRecipeThumnail(String recipeName, String writerName, LinearLayout ll)
+    private void showRecipeThumnail(ThumnailInfo ti, LinearLayout ll)
     {
         //Thumnail의 틀 레이아웃
         final LinearLayout ll_thumnail = new LinearLayout(RecipeListActivity.this);
@@ -105,15 +107,36 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_recipeName.setTextColor(Color.parseColor("#000000"));
         tv_recipeName.setPadding(10, 10, 10, 10);
         tv_recipeName.setTextSize(15);
-        tv_recipeName.setText(recipeName);
+        tv_recipeName.setText(ti.getRecipeName());
         tv_recipeName.setSingleLine();
+
+        final TextView tv_ingredientList = new TextView(RecipeListActivity.this);
+        tv_ingredientList.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        tv_ingredientList.setTextColor(Color.parseColor("#000000"));
+        tv_ingredientList.setPadding(10, 10, 10, 10);
+        tv_ingredientList.setTextSize(12);
+        String recipeList = "재료: ";
+        for(int i = 0; i < ti.getIngredientList().length; i++)
+        {
+            recipeList += ti.getIngredientList()[i] + " ";
+        }
+        tv_ingredientList.setText(recipeList);
+        tv_ingredientList.setSingleLine();
+
+        final TextView tv_recommendCount = new TextView(RecipeListActivity.this);
+        tv_recommendCount.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        tv_recommendCount.setTextColor(Color.parseColor("#000000"));
+        tv_recommendCount.setPadding(10, 10, 10, 10);
+        tv_recommendCount.setTextSize(10);
+        tv_recommendCount.setText("추천수 " + ti.getRecommendCount());
+        tv_recommendCount.setSingleLine();
 
         final TextView tv_writerName = new TextView(RecipeListActivity.this);
         tv_writerName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         tv_writerName.setTextColor(Color.parseColor("#000000"));
         tv_writerName.setPadding(10, 10, 10, 10);
         tv_writerName.setTextSize(12);
-        tv_writerName.setText(writerName);
+        tv_writerName.setText("by " + ti.getWriterName());
         tv_writerName.setSingleLine();
 
         //완성된 썸네일 레이아웃을 레이아웃에 표출
@@ -122,8 +145,12 @@ public class RecipeListActivity extends AppCompatActivity {
         //썸네일 레이아웃에 내용 표출
         ll_thumnail.addView(ll_image);
         ll_thumnail.addView(ll_content);
+
         ll_image.addView(image_thumnail);
+
         ll_content.addView(tv_recipeName);
+        ll_content.addView(tv_ingredientList);
+        ll_content.addView(tv_recommendCount);
         ll_content.addView(tv_writerName);
 
         ll_thumnail.setOnClickListener(new View.OnClickListener()
