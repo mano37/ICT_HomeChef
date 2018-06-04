@@ -8,13 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -27,6 +30,8 @@ public class SignInActivity extends AppCompatActivity implements
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
+    private static final int RC_GET_AUTH_CODE = 9003;
+    private static final int RC_GET_TOKEN = 9002;
 
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
@@ -44,10 +49,17 @@ public class SignInActivity extends AppCompatActivity implements
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.disconnect_button).setOnClickListener(this);
 
+        //check SERVERCLIENT ID
+        validateServerClientID();
+
         // [START configure_signin]
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        String serverClientId = getString(R.string.server_client_id);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
+                .requestServerAuthCode(serverClientId)
                 .requestEmail()
                 .build();
         // [END configure_signin]
@@ -89,6 +101,64 @@ public class SignInActivity extends AppCompatActivity implements
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
+
+        if (requestCode == RC_GET_AUTH_CODE) {
+            // [START get_auth_code]
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                String authCode = account.getServerAuthCode();
+
+                String message = "RC_GET_AUTH_CODE SUCCESS";
+
+                Log.w(TAG, message);
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+                // Show signed-un UI
+                updateUI(account);
+
+                // TODO(developer): send code to server and exchange for access/refresh/ID tokens
+
+                String sArr[] = {authCode, "google"};
+
+                HttpUtil httpUtil =
+                        new HttpUtil(getString(R.string.login_url),
+                        new JsonUtil(getString(R.string.login_url), sArr).getJson(),
+                                new HttpUtil.HttpUtilCallback() {
+                    @Override
+                    public void onSuccess(String result) {
+
+                        //JsonUtil(getString(R.string.login_url), result);
+                        System.out.println("SuccessFull!!!!! @@@@@@@ The result : ");
+                     //   Toast.makeText(SignInActivity.this, result, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        System.out.println("Fail nnnnnnnnnnnnnnn");
+                        Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                httpUtil.execute();
+
+
+            } catch (ApiException e) {
+                Log.w(TAG, "Sign-in failed", e);
+                updateUI(null);
+            }
+            // [END get_auth_code]
+        }
+
+        if (requestCode == RC_GET_TOKEN) {
+            // [START get_id_token]
+            // This task is always completed immediately, there is no need to attach an
+            // asynchronous listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+            // [END get_id_token]
+        }
+
     }
     // [END onActivityResult]
 
@@ -111,7 +181,7 @@ public class SignInActivity extends AppCompatActivity implements
     // [START signIn]
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, RC_GET_AUTH_CODE);
     }
     // [END signIn]
 
@@ -145,7 +215,9 @@ public class SignInActivity extends AppCompatActivity implements
 
     private void updateUI(@Nullable GoogleSignInAccount account) {
         if (account != null) {
-            mStatusTextView.setText(getString(R.string.signed_in_fmt, account.getDisplayName()));
+            mStatusTextView.setText(getString(R.string.signed_in_fmt, account.getServerAuthCode()));
+
+            System.out.println("authCode : " + account.getServerAuthCode());
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
@@ -154,6 +226,17 @@ public class SignInActivity extends AppCompatActivity implements
 
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+        }
+    }
+
+    private void validateServerClientID() {
+        String serverClientId = getString(R.string.server_client_id);
+        String suffix = ".apps.googleusercontent.com";
+        if (!serverClientId.trim().endsWith(suffix)) {
+            String message = "Invalid server client ID in strings.xml, must end with " + suffix;
+
+            Log.w(TAG, message);
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         }
     }
 

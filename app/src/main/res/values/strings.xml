@@ -47,7 +47,17 @@
     <string name="search">검색</string>
     <string name="recent_ingredient">최근 사용한 재료</string>
 
+
+
+    <!-- URL String 관리 -->
+    <string name="login_url">:80/auth/login</string>
+    <string name="session_url">:80/auth/sessions</string>
+    <string name="recipe_url">:80/api/recipes</string>
+
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
         from https://console.developers.google.com/ -->
-    <string name="server_client_id">402607815992-03l5p8sqib3ev083pl78dq1vuk62vj2g.apps.googleusercontent.com</string>
+    <string name="server_client_id">712533371602-bha720n5fmejb3tn7531m2fl5s2ug37c.apps.googleusercontent.com</string>
+
+    <!-- 712533371602-bha720n5fmejb3tn7531m2fl5s2ug37c.apps.googleusercontent.com -->
+
 </resources>
