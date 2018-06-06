@@ -22,6 +22,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonObject;
 import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
+import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
+
+import java.util.HashMap;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
@@ -37,6 +40,10 @@ public class SignInActivity extends AppCompatActivity implements
 
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
+
+    String resultStr;
+    JsonObject json;
+
     Intent sendResult = new Intent();
 
     ConnectUtil connectUtil;
@@ -124,7 +131,7 @@ public class SignInActivity extends AppCompatActivity implements
 
                 // TODO(developer): send code to server and exchange for access/refresh/ID tokens
 
-                /*
+
                 HashMap<String , String> loginPara = new HashMap<String , String>();
 
                 loginPara.put("auth_code", authCode);
@@ -143,10 +150,11 @@ public class SignInActivity extends AppCompatActivity implements
                             @Override
                             public void onSuccess(int code, Object receivedData) {
 
-                                LoginGet data = (LoginGet) receivedData;
-                                System.out.println("Response Get@@@@@ : " + data.user_id );
-                                System.out.println(data.jwt_token);
-                                System.out.println(data.email);
+                                String data = (String) receivedData;
+                                System.out.println("Response Get@@@@@ : " + data );
+                                sendResult.putExtra("user_info", data);
+                                setResult(1, sendResult);
+                                finish();
 
                             }
 
@@ -158,8 +166,9 @@ public class SignInActivity extends AppCompatActivity implements
 
                             }
                         });
-                        */
 
+
+                /*
                 String[] sArr = {authCode, "google"};
 
                 HttpUtil httpUtil =
@@ -185,6 +194,7 @@ public class SignInActivity extends AppCompatActivity implements
                 });
 
                 httpUtil.execute();
+                */
 
 
 

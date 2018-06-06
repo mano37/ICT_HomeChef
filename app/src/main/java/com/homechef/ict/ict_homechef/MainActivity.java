@@ -23,7 +23,10 @@ public class MainActivity extends AppCompatActivity
 
     private String userInfo;
     private JsonParser parser = new JsonParser();
+
+    // user 정보
     private JsonObject userJson;
+
     TextView textView;
 
     @Override

@@ -2,15 +2,66 @@ package com.homechef.ict.ict_homechef.ConnectUtil;
 
 import android.content.Context;
 
-import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.LoginGet;
+import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.LoginPut;
+import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 
+import java.io.IOException;
 import java.util.HashMap;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+/*
+ConnectUtil 사용법
+실제 사용되는 코드에 주석만 넣은것
+
+1. HashMap으로 서버에 보낼 신호를 작성한다.
+    이때 작성되는 key의 이름들은 API Docs 또는 RequestBody 폴더를 참고한다.
+
+ HashMap<String , String> loginPara = new HashMap<String , String>();
+
+                loginPara.put("auth_code", authCode);
+                loginPara.put("auth_type", "google");
+
+2. 아래와 같이 ConnectUtil 생성한다
+
+                ConnectUtil connectUtil;
+
+                // 언제나 똑같음
+                connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+
+                // 원하는 함수 ConnectUtil 폴더 안의 HttpApi에서 찾기
+                // ex) /auth/login같은 경우 postLogin 함수
+
+                connectUtil.postLogin(loginPara, new HttpCallback() {
+                            @Override
+                            public void onError(Throwable t) {
+                            // 내부적 에러 발생할 경우
+                            }
+                            @Override
+                            public void onSuccess(int code, Object receivedData) {
+                            // 성공적으로 완료한 경우
+
+3. 성공하는 경우의 결과값의 종류와 처리는 HttpApi 를 참고한다.
+
+                                String data = (String) receivedData;
+
+                            }
+
+                            @Override
+                            public void onFailure(int code) {
+                            // 통신에 실패한 경우
+                            // 결과값이 없다거나, 서버에서 오류를 리턴했거나
+                            // 또는 ResponseBody 안의 key 값이 이상하거나
+                            }
+                        });
+
+
+ */
 
 public class ConnectUtil {
 
@@ -50,19 +101,50 @@ public class ConnectUtil {
         return retrofit.create(service);
     }
 
-    public void postLogin(HashMap<String, String> parameters, final HttpCallback callback) {
-        apiService.postLogin(parameters).enqueue(new Callback<LoginGet>() {
+    public void getRecipe(String id, final HttpCallback callback){
+        apiService.getRecipe(id).enqueue(new Callback<RecipeGet>() {
             @Override
-            public void onResponse(Call<LoginGet> call, Response<LoginGet> response) {
+            public void onResponse(Call<RecipeGet> call, Response<RecipeGet> response) {
+                System.out.println("onResponse@@@@@@ ON Connect UITL getRecipe@@@@@@@@");
                 if (response.isSuccessful()) {
+                    System.out.println("onResponse OK and Success on getRecipe @@@@@@@@");
                     callback.onSuccess(response.code(), response.body());
                 } else {
+                    System.out.println("onResponse OK But Failure on getRecipe @@@@@@@@@@@@");
                     callback.onFailure(response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<LoginGet> call, Throwable t) {
+            public void onFailure(Call<RecipeGet> call, Throwable t) {
+                System.out.println("onFailure@@@@@@ ON Connect UITL @@@@@@@@");
+                callback.onError(t);
+            }
+        });
+    }
+
+
+    public void postLogin(HashMap<String, String> parameters, final HttpCallback callback) {
+        apiService.postLogin(new LoginPut(parameters)).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println("onResponse@@@@@@ ON Connect UITL postLogin@@@@@@@@");
+                if (response.isSuccessful()) {
+                    System.out.println("onResponse OK and Success on postLogin @@@@@@@@");
+                    try {
+                        callback.onSuccess(response.code(), response.body().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("onResponse OK But Failure on postLogin @@@@@@@@@@@@");
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                System.out.println("onFailure@@@@@@ ON Connect UITL postLogin@@@@@@@@");
                 callback.onError(t);
             }
         });
