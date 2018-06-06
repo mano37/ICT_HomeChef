@@ -1,24 +1,26 @@
 package com.homechef.ict.ict_homechef;
 
+import java.util.ArrayList;
+
 public class ThumnailInfo {
 
     private int recipeId;
     private String recipeName;
     //private String mainImgAddress;
-    private String[] ingredientList;
+    ArrayList<String> ingredientList;
     private String writerName;
     private int createdTime;
-    private int recommendCount = 0;
+    private int count = 0;
 
-    ThumnailInfo(int id, String name, /*String img,*/ String[] ingredient, String writer, int time, int count)
+    ThumnailInfo(int id, String title, /*String img,*/ ArrayList<String> ingredient, String authorName, int createdAt, int recommendedCount)
     {
         recipeId = id;
-        recipeName = name;
+        recipeName = title;
         //mainImgAddress = img;
         ingredientList = ingredient;
-        writerName = writer;
-        createdTime = time;
-        recommendCount = count;
+        writerName = authorName;
+        createdTime = createdAt;
+        count = recommendedCount;
     }
 
     public int getRecipeId() { return recipeId; }
@@ -30,14 +32,14 @@ public class ThumnailInfo {
     {
         return mainImgAddress;
     }*/
-    public String[] getIngredientList()
+    public ArrayList<String> getIngredientList()
     {
         return ingredientList;
     }
     public String getWriterName() { return writerName; }
     public int getCreatedTime() { return createdTime; }
-    public int getRecommendCount()
+    public int getCount()
     {
-        return recommendCount;
+        return count;
     }
 }
