@@ -113,8 +113,8 @@ public class RecipeListActivity extends AppCompatActivity {
 
             authorName = jsonObject.getString("author_name");
             createdAt = jsonObject.getString("created_at");
-            createdAt.replace("_", "");
-            createdAt = createdAt.substring(0, 7);
+            /*createdAt.replace("_", "");
+            createdAt = createdAt.substring(0, 7);*/
             recommendedCount = jsonObject.getInt("recommended_count");
 
             ThumnailInfo temp = new ThumnailInfo(id, title, ingredient, authorName, Integer.parseInt(createdAt), recommendedCount);
@@ -205,7 +205,10 @@ public class RecipeListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+
                 Intent intent = new Intent(RecipeListActivity.this, RecipeInfoActivity.class);
+
+                intent.putExtra("id", 0);
                 startActivity(intent);
             }
         });

@@ -285,9 +285,9 @@ public class SearchActivity extends AppCompatActivity {
                 //클릭시 검색에 추가
                 else
                 {
-                    if(ingredientCheck(temp, dlNowIngredient))
+                    if(ingredientCheck(dlRecentIngredient.getIngredientSet()[ingredientNum].getName(), dlNowIngredient))
                     {
-                        addIngredientButton(temp, dlNowIngredient, 0);
+                        addIngredientButton(dlRecentIngredient.getIngredientSet()[ingredientNum].getName(), dlNowIngredient, 0);
                         dlNowIngredient.setNowNum(dlNowIngredient.getNowNum()+1);
                     }
                 }
@@ -307,8 +307,8 @@ public class SearchActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    dl.getIngredientSet()[dl.getNowNum()].setName(dl.getIngredientSet()[dl.getNowNum() -1].getName());
-                    dl.getIngredientSet()[dl.getNowNum()].setSearchMode(dl.getIngredientSet()[dl.getNowNum() -1].getSearchMode());
+                    dl.getIngredientSet()[ingredientNum].setName(dl.getIngredientSet()[dl.getNowNum() -1].getName());
+                    dl.getIngredientSet()[ingredientNum].setSearchMode(dl.getIngredientSet()[dl.getNowNum() -1].getSearchMode());
                 }
                 dl.setNowNum(dl.getNowNum()-1);
                 dl.calLayoutSize(-nameSize, addedLayoutNum);
