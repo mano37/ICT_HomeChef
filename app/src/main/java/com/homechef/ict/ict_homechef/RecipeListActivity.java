@@ -10,6 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 
 public class RecipeListActivity extends AppCompatActivity {
 
@@ -39,22 +45,23 @@ public class RecipeListActivity extends AppCompatActivity {
         llRecipeList.addView(ll_Status);
         ingredientNum = intent.getIntExtra("ingredientNum", 0);
 
-        String[] searchList = new String[ingredientNum];
+        ArrayList<String> searchList = new ArrayList<>();
+
         String[] searchModeList = new String[ingredientNum];
 
         for(int i = 0; i < ingredientNum; i++)
         {
-            searchList[i] = intent.getStringArrayExtra(String.valueOf(i))[0];
+            searchList.add(intent.getStringArrayExtra(String.valueOf(i))[0]);
             final TextView tv_SearchInfo = new TextView(RecipeListActivity.this);
             tv_SearchInfo.setTextSize(15);
             tv_SearchInfo.setTextColor(Color.parseColor("#000000"));
             if(i == 0)
             {
-                tv_SearchInfo.setText("'" + searchList[0] + "'");
+                tv_SearchInfo.setText("'" + searchList.get(0) + "'");
             }
             else
             {
-                tv_SearchInfo.setText(", '" + searchList[i] + "'");
+                tv_SearchInfo.setText(", '" + searchList.get(i) + "'");
             }
             ll_Status.addView(tv_SearchInfo);
         }
@@ -75,9 +82,49 @@ public class RecipeListActivity extends AppCompatActivity {
 
     }
 
-    private String getRecipe()
+    private JSONObject[] getRecipe()
     {
         return null;
+    }
+
+    private void parse(JSONObject jsonObject, ThumnailInfo thumnailInfo)
+    {
+        int id;
+        String title;
+        String img;
+        ArrayList<String> ingredient = new ArrayList<>();
+        String authorName;
+        String createdAt;
+        int recommendedCount;
+
+        int ingreNum;
+
+
+
+        try {
+            id = jsonObject.getInt("id");
+            title = jsonObject.getString("title");
+
+            ingreNum = jsonObject.getJSONArray("Ingredients").length();
+            for(int i=0; i<ingreNum; i++) {
+
+                ingredient.add(jsonObject.getString("ingre_count").toString());
+            }
+
+            authorName = jsonObject.getString("author_name");
+            createdAt = jsonObject.getString("created_at");
+            /*createdAt.replace("_", "");
+            createdAt = createdAt.substring(0, 7);*/
+            recommendedCount = jsonObject.getInt("recommended_count");
+
+            ThumnailInfo temp = new ThumnailInfo(id, title, ingredient, authorName, Integer.parseInt(createdAt), recommendedCount);
+            thumnailInfo = temp;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void showRecipeThumnail(ThumnailInfo ti, LinearLayout ll)
@@ -116,9 +163,9 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_ingredientList.setPadding(10, 10, 10, 10);
         tv_ingredientList.setTextSize(12);
         String recipeList = "재료: ";
-        for(int i = 0; i < ti.getIngredientList().length; i++)
+        for(int i = 0; i < ti.getIngredientList().size(); i++)
         {
-            recipeList += ti.getIngredientList()[i] + " ";
+            recipeList += ti.getIngredientList().get(i) + " ";
         }
         tv_ingredientList.setText(recipeList);
         tv_ingredientList.setSingleLine();
@@ -128,7 +175,7 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_recommendCount.setTextColor(Color.parseColor("#000000"));
         tv_recommendCount.setPadding(10, 10, 10, 10);
         tv_recommendCount.setTextSize(10);
-        tv_recommendCount.setText("추천수 " + ti.getRecommendCount());
+        tv_recommendCount.setText("추천수 " + ti.getCount());
         tv_recommendCount.setSingleLine();
 
         final TextView tv_writerName = new TextView(RecipeListActivity.this);
@@ -158,7 +205,10 @@ public class RecipeListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+
                 Intent intent = new Intent(RecipeListActivity.this, RecipeInfoActivity.class);
+
+                intent.putExtra("id", 0);
                 startActivity(intent);
             }
         });
