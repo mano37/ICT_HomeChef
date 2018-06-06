@@ -10,7 +10,7 @@
     <padding
         android:left="45px"
         android:top="15px"
-        android:right="45px"
+        android:right="35px"
         android:bottom="15px" />
 
     <corners
