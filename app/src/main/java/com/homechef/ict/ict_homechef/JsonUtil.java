@@ -23,16 +23,15 @@ public class JsonUtil {
     private JSONObject json;
     private JSONObject stoj;
     private String[] sArr;
+    private String jStr;
 
-    public JsonUtil(Context ctx) {
-        this.ctx = ctx;
-    }
+
 
     public JsonUtil(String type,String[] sArr){
 
         json = new JSONObject();
 
-        if(type.equals(ctx.getString(R.string.login_url))) {
+        if(type.equals(":80/auth/login")) {
 
             try {
                 json.put("auth_code", sArr[0]);
@@ -43,9 +42,9 @@ public class JsonUtil {
         }
     }
 
-    public JSONObject getJson() {
-        System.out.println("TestCode0@@@@@ : " + json.toString());
-        return json;
+    public String getJsonStr() {
+        jStr = json.toString().replace("\\","");
+        return jStr;
     }
 
     public String[] getsArr(String type,String s){

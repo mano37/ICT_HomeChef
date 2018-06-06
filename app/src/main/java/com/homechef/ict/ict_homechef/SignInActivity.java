@@ -20,6 +20,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.JsonObject;
+import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
@@ -35,6 +37,9 @@ public class SignInActivity extends AppCompatActivity implements
 
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
+    Intent sendResult = new Intent();
+
+    ConnectUtil connectUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,34 +124,75 @@ public class SignInActivity extends AppCompatActivity implements
 
                 // TODO(developer): send code to server and exchange for access/refresh/ID tokens
 
-                String sArr[] = {authCode, "google"};
+                /*
+                HashMap<String , String> loginPara = new HashMap<String , String>();
+
+                loginPara.put("auth_code", authCode);
+                loginPara.put("auth_type", "google");
+
+                connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+                connectUtil.postLogin(loginPara, new HttpCallback() {
+                            @Override
+                            public void onError(Throwable t) {
+
+                                System.out.println("Error@@@@@");
+                                System.out.println("@@@@@@@@");
+
+                            }
+
+                            @Override
+                            public void onSuccess(int code, Object receivedData) {
+
+                                LoginGet data = (LoginGet) receivedData;
+                                System.out.println("Response Get@@@@@ : " + data.user_id );
+                                System.out.println(data.jwt_token);
+                                System.out.println(data.email);
+
+                            }
+
+                            @Override
+                            public void onFailure(int code) {
+
+                                System.out.println("Fail@@@@@@@@@@@@");
+                                System.out.println("@@@@@@@@@@@@@");
+
+                            }
+                        });
+                        */
+
+                String[] sArr = {authCode, "google"};
 
                 HttpUtil httpUtil =
                         new HttpUtil(getString(R.string.login_url),
-                        new JsonUtil(getString(R.string.login_url), sArr).getJson(),
+                        new JsonUtil(getString(R.string.login_url), sArr).getJsonStr(),
                                 new HttpUtil.HttpUtilCallback() {
                     @Override
                     public void onSuccess(String result) {
 
                         //JsonUtil(getString(R.string.login_url), result);
-                        System.out.println("SuccessFull!!!!! @@@@@@@ The result : ");
-                     //   Toast.makeText(SignInActivity.this, result, Toast.LENGTH_LONG).show();
+                        System.out.println("SuccessFull!!!!! @@@@@@@ The result : " + result);
+
+                        sendResult.putExtra("user_info", result);
+                        setResult(1, sendResult);
+                        finish();
+
                     }
 
                     @Override
                     public void onFailure(Exception e) {
                         System.out.println("Fail nnnnnnnnnnnnnnn");
-                        Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
 
                 httpUtil.execute();
 
 
+
             } catch (ApiException e) {
                 Log.w(TAG, "Sign-in failed", e);
                 updateUI(null);
             }
+
             // [END get_auth_code]
         }
 
@@ -254,4 +300,12 @@ public class SignInActivity extends AppCompatActivity implements
                 break;
         }
     }
+
+    public interface SignInActivityCallback{
+
+        void onSuccess(JsonObject json);
+        void onFailure(Exception e);
+
+    }
+
  }

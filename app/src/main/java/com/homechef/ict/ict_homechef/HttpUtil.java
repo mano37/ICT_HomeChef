@@ -23,13 +23,14 @@ public class HttpUtil extends AsyncTask<Void, Void, String> {
     private HttpUtilCallback mCallBack;
     private Exception mException;
     private String addUrl;
+    private String jsonStr;
     private JSONObject jsonObj;
 
-    public HttpUtil(String str, JSONObject json, HttpUtilCallback callback) {
+    public HttpUtil(String str, String jStr, HttpUtilCallback callback) {
 
         this.mCallBack = callback;
         this.addUrl = str;
-        this.jsonObj = json;
+        this.jsonStr = jStr;
 
     }
 
@@ -38,7 +39,7 @@ public class HttpUtil extends AsyncTask<Void, Void, String> {
 
         String result; // 요청 결과를 저장할 변수.
         RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-        result = requestHttpURLConnection.request(addUrl, jsonObj); // 해당 URL로 부터 결과물을 얻어온다.
+        result = requestHttpURLConnection.request(addUrl, jsonStr); // 해당 URL로 부터 결과물을 얻어온다.
 
         return result;
     }
@@ -61,14 +62,14 @@ public class HttpUtil extends AsyncTask<Void, Void, String> {
 
     private class RequestHttpURLConnection {
 
-        public String request(String _url, JSONObject job){
+        public String request(String _url, String jStr){
 
             // HttpURLConnection 변수.
             HttpURLConnection urlConn = null;
             OutputStream os = null;
             BufferedReader res = null;
             String line = null;
-            StringBuilder resJson = null;
+            StringBuffer resJson = new StringBuffer();
 
 
             String baseUrl = "http://13.124.27.141";
@@ -86,8 +87,8 @@ public class HttpUtil extends AsyncTask<Void, Void, String> {
 
                 // 서버에 보내기
                 os = urlConn.getOutputStream();
-                System.out.println("TestCode : job.toString() = "+job.toString());
-                os.write(job.toString().getBytes());
+                System.out.println("TestCode : job.toString() = "+ jStr);
+                os.write(jStr.getBytes());
                 os.flush();
 
 
@@ -96,16 +97,15 @@ public class HttpUtil extends AsyncTask<Void, Void, String> {
 
                 if(responseCode == HttpURLConnection.HTTP_OK) {
 
+                    System.out.println("TestCode2 Connect OK@@@@@@");
+
                     res = new BufferedReader(
                             new InputStreamReader(urlConn.getInputStream(), "UTF-8"));
-                    if(res.readLine() != null) {
-                        while ((line = res.readLine()) != null){
-                            resJson.append(line);
-                        }
+                    while ((line = res.readLine()) != null){
+                        resJson.append(line);
                     }
-                    else {
-                        System.out.println("TestCode The res.readLine is NULL @@@@@@@@@@");
-                    }
+
+                    System.out.println("the String is @@@@ " + resJson.toString());
                     urlConn.disconnect();
                     if(resJson != null) return resJson.toString();
                 }
@@ -121,6 +121,7 @@ public class HttpUtil extends AsyncTask<Void, Void, String> {
                     urlConn.disconnect();
             }
 
+            System.out.println("I am returning null@@@@@@@@@");
             return null;
 
         }
