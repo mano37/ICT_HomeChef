@@ -53,7 +53,7 @@ public class RecipeInfoActivity extends Activity {
 
         String token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ";
         makeHeader(token);
-        RecipeGet("1000");
+        RecipeGet(String.valueOf(recipeId));
 
 
 
@@ -91,7 +91,6 @@ public class RecipeInfoActivity extends Activity {
                 timeCost = recipeSpec.time_cost;
                 steps = recipeSpec.steps;
                 recommendedCount = recipeSpec.recommend_count;
-                System.out.println(recipeId);
                 System.out.println("RecipeGet onSuccess@@@@@@");
 
                 LinearLayout llingredientList = findViewById(R.id.ll_ingredientlist);

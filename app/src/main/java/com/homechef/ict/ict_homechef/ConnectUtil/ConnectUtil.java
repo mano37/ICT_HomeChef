@@ -118,7 +118,6 @@ public class ConnectUtil {
                 System.out.println("onResponse@@@@@@ ON Connect UITL getRecipeList @@@@@@@@");
                 if (response.isSuccessful()) {
                     System.out.println("onResponse OK and Success on getRecipeList @@@@@@@@");
-                    System.out.println(response.raw());
                     callback.onSuccess(response.code(), response.body());
                 } else {
                     System.out.println("onResponse OK But Failure on getRecipeList @@@@@@@@@@@@");
@@ -190,38 +189,5 @@ public class ConnectUtil {
 }
 
 /*
- public void recipeListGet(String contain,
-                              String offset,
-                              String limit,
-                              String except){
 
-
-
-        connectUtil.getRecipeList(header, contain,offset,limit,except, new HttpCallback() {
-            @Override
-            public void onError(Throwable t) {
-                // 내부적 에러 발생할 경우
-                System.out.println("RecipeListGet onError@@@@@@");
-            }
-            @Override
-            public void onSuccess(int code, Object receivedData) {
-                // 성공적으로 완료한 경우
-                List<RecipeListGet> data = (List<RecipeListGet>) receivedData;
-
-                System.out.println(receivedData);
-
-                System.out.println("RecipeListGet onSuccess@@@@@@");
-
-            }
-
-            @Override
-            public void onFailure(int code) {
-                // 통신에 실패한 경우
-                // 결과값이 없다거나, 서버에서 오류를 리턴했거나
-                // 또는 ResponseBody 안의 key 값이 이상하거나
-                System.out.println("RecipeLIstGet onFailure@@@@@@");
-            }
-        });
-
-    }
  */

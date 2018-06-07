@@ -35,6 +35,12 @@ public class RecipeListActivity extends AppCompatActivity {
     static int int_scrollViewPos;
     static int int_TextView_lines;
 
+    final ArrayList<String> searchList = new ArrayList<>();
+
+    int loadedThumnail = 0;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,33 +49,27 @@ public class RecipeListActivity extends AppCompatActivity {
         //변수 선언
         Intent intent = getIntent();
         int ingredientNum;
-
-
-
-
-        //레이아웃 선언
         final ScrollView svRecipeList = findViewById(R.id.sv_recipelist);
         final LinearLayout llRecipeList = findViewById(R.id.ll_recipelist);
 
 
+
+        //레이아웃 선언
+
+
         ingredientNum = intent.getIntExtra("ingredientNum", 0);
 
-        final ArrayList<String> searchList = new ArrayList<>();
+
 
         String[] searchModeList = new String[ingredientNum];
+
         makeHeader("eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ");
-        try {
-            recipeListGet(URLEncoder.encode("김치+치즈&except=양파&search_type=0&limit=100&offset=0", "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 
 
-        for(int i = 0; i < 20; i++)
-        {
-            ThumnailInfo thumnailinfo = new ThumnailInfo(i, "ex" + String.valueOf(i), searchList,"sinwindis", 20160044, 0);
-            showRecipeThumnail(thumnailinfo, llRecipeList);
-        }
+        recipeListGet("김치 치즈", "0", "10", "양파", llRecipeList);
+        loadedThumnail = 10;
+
+
 
         //화면 최하단 스크롤
 
@@ -84,11 +84,8 @@ public class RecipeListActivity extends AppCompatActivity {
                 if(int_TextView_lines == int_scrollViewPos){
                     //화면 최하단 스크롤시 이벤트
 
-                    for(int i = 0; i < 5; i++)
-                    {
-                        ThumnailInfo thumnailinfo = new ThumnailInfo(i, "ex" + String.valueOf(i), searchList,"sinwindis", 20160044, 0);
-                        showRecipeThumnail(thumnailinfo, llRecipeList);
-                    }
+                    recipeListGet("김치 치즈", String.valueOf(loadedThumnail), "5", "양파", llRecipeList);
+                    loadedThumnail += 5;
 
                 }
 
@@ -98,7 +95,7 @@ public class RecipeListActivity extends AppCompatActivity {
     }
 
 
-    private void showRecipeThumnail(ThumnailInfo ti, LinearLayout ll)
+    private void showRecipeThumnail(final ThumnailInfo ti, LinearLayout ll)
     {
         //Thumnail의 틀 레이아웃
         final LinearLayout ll_thumnail = new LinearLayout(RecipeListActivity.this);
@@ -178,8 +175,7 @@ public class RecipeListActivity extends AppCompatActivity {
             {
 
                 Intent intent = new Intent(RecipeListActivity.this, RecipeInfoActivity.class);
-
-                intent.putExtra("id", 0);
+                intent.putExtra("id", ti.getRecipeId());
                 startActivity(intent);
             }
         });
@@ -192,13 +188,9 @@ public class RecipeListActivity extends AppCompatActivity {
 
     }
 
+    public void recipeListGet(String contain, String offset, String limit, String except, final LinearLayout ll) {
 
-
-    public void recipeListGet(String query){
-
-
-
-        connectUtil.getRecipeList(header, query, new HttpCallback() {
+        connectUtil.getRecipeList(header, contain,offset,limit,except, new HttpCallback() {
             @Override
             public void onError(Throwable t) {
                 // 내부적 에러 발생할 경우
@@ -207,7 +199,15 @@ public class RecipeListActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
-                System.out.println(receivedData);
+                List<RecipeListGet> data = (List<RecipeListGet>) receivedData;
+                System.out.println(data);
+                for(int i = 0; i < data.size(); i++)
+                {
+                    //ingreCountList = (ArrayList<String>)data.get(i).ingre_count.keySet();
+                    ThumnailInfo thumnailinfo = new ThumnailInfo(data.get(i).id, data.get(i).title, searchList,data.get(i).author_name, data.get(i).created_at, data.get(i).recommend_count);
+                    showRecipeThumnail(thumnailinfo, ll);
+                }
+
 
                 System.out.println("RecipeListGet onSuccess@@@@@@");
 
