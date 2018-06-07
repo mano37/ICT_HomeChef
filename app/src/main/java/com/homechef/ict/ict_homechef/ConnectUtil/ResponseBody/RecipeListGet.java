@@ -2,8 +2,8 @@ package com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody;
 
 public class RecipeListGet {
 
-    String id;
-    String title;
+    public String id;
+    public String title;
     String ingre_count;
     String author_name;
     String created_at;
