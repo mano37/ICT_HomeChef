@@ -37,6 +37,8 @@ public class RecipeListActivity extends AppCompatActivity {
         int ingredientNum;
 
 
+
+
         //레이아웃 선언
         final LinearLayout llRecipeList = findViewById(R.id.ll_recipelist);
 
@@ -80,15 +82,25 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_ListGuidance2.setText(" (으)로 검색한 결과입니다.");
         ll_Status.addView(tv_ListGuidance2);
 
+        ///////////////데이터 받아오기 테스트
+        List<RecipeListGet> recipeList = new ArrayList<>();
+        recipeList = null;
+
+        String header = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ";
+        RecipeListGet(header, "?query=할라피뇨+장아찌&limit=5&offset=0", recipeList);
+
+        ///////////////
+
 
 
         for(int i = 0; i < 20; i++)
         {
-            ThumnailInfo thumnailinfo = new ThumnailInfo(i, "test " + i, searchList,"sinwindis", 20160044, 0);
+            ThumnailInfo thumnailinfo = new ThumnailInfo(i, "ex" + String.valueOf(i), searchList,"sinwindis", 20160044, 0);
             showRecipeThumnail(thumnailinfo, llRecipeList);
         }
 
     }
+
 
     private JSONObject[] getRecipe()
     {
@@ -222,7 +234,7 @@ public class RecipeListActivity extends AppCompatActivity {
         });
     }
 
-    public void RecipeListGet(String jwt_token, String query){
+    public void RecipeListGet(String jwt_token, String query, final List<RecipeListGet> recipelist){
 
         connectUtil = ConnectUtil.getInstance(this).createBaseApi();
 
@@ -238,6 +250,10 @@ public class RecipeListActivity extends AppCompatActivity {
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
                 List<RecipeListGet> RecipeData = (List<RecipeListGet>) receivedData;
+                for(int i = 0; i < 2; i++)
+                {
+                    System.out.println(RecipeData.get(i).id);
+                }
                 System.out.println("RecipeListGet onSuccess@@@@@@");
 
             }
