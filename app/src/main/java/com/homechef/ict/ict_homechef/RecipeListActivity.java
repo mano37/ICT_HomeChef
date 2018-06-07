@@ -20,14 +20,18 @@ import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class RecipeListActivity extends AppCompatActivity {
 
-    ConnectUtil connectUtil;
-    RecipeGet recipeData;
+    ConnectUtil connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+    Map<String,String> header = new HashMap<>();
     static int int_scrollViewPos;
     static int int_TextView_lines;
 
@@ -47,55 +51,18 @@ public class RecipeListActivity extends AppCompatActivity {
         final ScrollView svRecipeList = findViewById(R.id.sv_recipelist);
         final LinearLayout llRecipeList = findViewById(R.id.ll_recipelist);
 
-        final LinearLayout ll_Status = new LinearLayout(RecipeListActivity.this);
-        ll_Status.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        final TextView tv_ListGuidance1 = new TextView(RecipeListActivity.this);
-        tv_ListGuidance1.setTextSize(15);
-        tv_ListGuidance1.setTextColor(Color.parseColor("#000000"));
-        tv_ListGuidance1.setText("재료명 ");
-        ll_Status.addView(tv_ListGuidance1);
-
-
-        llRecipeList.addView(ll_Status);
         ingredientNum = intent.getIntExtra("ingredientNum", 0);
 
         final ArrayList<String> searchList = new ArrayList<>();
 
         String[] searchModeList = new String[ingredientNum];
-
-        for(int i = 0; i < ingredientNum; i++)
-        {
-            searchList.add(intent.getStringArrayExtra(String.valueOf(i))[0]);
-            final TextView tv_SearchInfo = new TextView(RecipeListActivity.this);
-            tv_SearchInfo.setTextSize(15);
-            tv_SearchInfo.setTextColor(Color.parseColor("#000000"));
-            if(i == 0)
-            {
-                tv_SearchInfo.setText("'" + searchList.get(0) + "'");
-            }
-            else
-            {
-                tv_SearchInfo.setText(", '" + searchList.get(i) + "'");
-            }
-            ll_Status.addView(tv_SearchInfo);
+        makeHeader("eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ");
+        try {
+            recipeListGet(URLEncoder.encode("김치+치즈&except=양파&search_type=0&limit=100&offset=0", "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
-
-        final TextView tv_ListGuidance2 = new TextView(RecipeListActivity.this);
-        tv_ListGuidance2.setTextSize(15);
-        tv_ListGuidance2.setTextColor(Color.parseColor("#000000"));
-        tv_ListGuidance2.setText(" (으)로 검색한 결과입니다.");
-        ll_Status.addView(tv_ListGuidance2);
-
-        ///////////////데이터 받아오기 테스트
-        List<RecipeListGet> recipeList = new ArrayList<>();
-        recipeList = null;
-
-        String header = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ";
-        RecipeListGet(header, "할라피뇨+장아찌&limit=5&offset=0", recipeList);
-
-        ///////////////
-
 
 
         for(int i = 0; i < 20; i++)
@@ -130,51 +97,6 @@ public class RecipeListActivity extends AppCompatActivity {
 
     }
 
-
-    private JSONObject[] getRecipe()
-    {
-        return null;
-    }
-
-    private void parse(JSONObject jsonObject, ThumnailInfo thumnailInfo)
-    {
-        int id;
-        String title;
-        String img;
-        ArrayList<String> ingredient = new ArrayList<>();
-        String authorName;
-        String createdAt;
-        int recommendedCount;
-
-        int ingreNum;
-
-
-
-        try {
-            id = jsonObject.getInt("id");
-            title = jsonObject.getString("title");
-
-            ingreNum = jsonObject.getJSONArray("Ingredients").length();
-            for(int i=0; i<ingreNum; i++) {
-
-                ingredient.add(jsonObject.getString("ingre_count").toString());
-            }
-
-            authorName = jsonObject.getString("author_name");
-            createdAt = jsonObject.getString("created_at");
-            /*createdAt.replace("_", "");
-            createdAt = createdAt.substring(0, 7);*/
-            recommendedCount = jsonObject.getInt("recommended_count");
-
-            ThumnailInfo temp = new ThumnailInfo(id, title, ingredient, authorName, Integer.parseInt(createdAt), recommendedCount);
-            thumnailInfo = temp;
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     private void showRecipeThumnail(ThumnailInfo ti, LinearLayout ll)
     {
@@ -263,13 +185,20 @@ public class RecipeListActivity extends AppCompatActivity {
         });
     }
 
-    public void RecipeListGet(String jwt_token, String query, final List<RecipeListGet> recipelist){
-
-        connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+    public void makeHeader(String jwt_token){
 
         String token = "Bearer " + jwt_token;
+        header.put("Authorization",token);
 
-        connectUtil.getRecipeList(token, query, new HttpCallback() {
+    }
+
+
+
+    public void recipeListGet(String query){
+
+
+
+        connectUtil.getRecipeList(header, query, new HttpCallback() {
             @Override
             public void onError(Throwable t) {
                 // 내부적 에러 발생할 경우
@@ -278,8 +207,6 @@ public class RecipeListActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
-                List<RecipeListGet> RecipeData = (List<RecipeListGet>) receivedData;
-
                 System.out.println(receivedData);
 
                 System.out.println("RecipeListGet onSuccess@@@@@@");
@@ -292,37 +219,6 @@ public class RecipeListActivity extends AppCompatActivity {
                 // 결과값이 없다거나, 서버에서 오류를 리턴했거나
                 // 또는 ResponseBody 안의 key 값이 이상하거나
                 System.out.println("RecipeLIstGet onFailure@@@@@@");
-            }
-        });
-
-    }
-
-    public void RecipeGet(String jwt_token, String id){
-
-        connectUtil = ConnectUtil.getInstance(this).createBaseApi();
-
-        String token = "Bearer " + jwt_token;
-
-        connectUtil.getRecipe(token, id, new HttpCallback() {
-            @Override
-            public void onError(Throwable t) {
-                // 내부적 에러 발생할 경우
-                System.out.println("RecipeGet onError@@@@@@");
-            }
-            @Override
-            public void onSuccess(int code, Object receivedData) {
-                // 성공적으로 완료한 경우
-                RecipeGet RecipeData = (RecipeGet) receivedData;
-                System.out.println("RecipeGet onSuccess@@@@@@");
-
-            }
-
-            @Override
-            public void onFailure(int code) {
-                // 통신에 실패한 경우
-                // 결과값이 없다거나, 서버에서 오류를 리턴했거나
-                // 또는 ResponseBody 안의 key 값이 이상하거나
-                System.out.println("RecipeGet onFailure@@@@@@");
             }
         });
 

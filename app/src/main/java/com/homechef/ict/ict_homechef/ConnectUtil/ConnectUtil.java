@@ -112,6 +112,7 @@ public class ConnectUtil {
                 System.out.println("onResponse@@@@@@ ON Connect UITL getRecipeList @@@@@@@@");
                 if (response.isSuccessful()) {
                     System.out.println("onResponse OK and Success on getRecipeList @@@@@@@@");
+                    System.out.println(response.raw());
                     callback.onSuccess(response.code(), response.body());
                 } else {
                     System.out.println("onResponse OK But Failure on getRecipeList @@@@@@@@@@@@");

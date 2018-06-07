@@ -16,7 +16,8 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RecipeInfoActivity extends Activity {
@@ -34,6 +35,7 @@ public class RecipeInfoActivity extends Activity {
     int recommendedCount;
 
     ConnectUtil connectUtil;
+    Map<String,String> header = new HashMap<>();
 
     int ingreNum;
 
@@ -46,21 +48,30 @@ public class RecipeInfoActivity extends Activity {
         recipeId = intent.getIntExtra("id", 1000);
         //id 이용해서 서버에서 데이터 받아오기
 
-        String header = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ";
-        RecipeGet(header, "1000");
+
+
+
+        String token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ";
+        makeHeader(token);
+        RecipeGet("1000");
 
 
 
 
     }
+    public void makeHeader(String jwt_token){
 
-    public void RecipeGet(String jwt_token, String id) {
+        String token = "Bearer " + jwt_token;
+        header.put("Authorization",token);
+
+    }
+
+    public void RecipeGet(String id) {
 
         connectUtil = ConnectUtil.getInstance(this).createBaseApi();
 
-        String token = "Bearer " + jwt_token;
 
-        connectUtil.getRecipe(token, id, new HttpCallback() {
+        connectUtil.getRecipe(header, id, new HttpCallback() {
             @Override
             public void onError(Throwable t) {
                 // 내부적 에러 발생할 경우
