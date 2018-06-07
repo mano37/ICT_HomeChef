@@ -82,8 +82,8 @@ public interface HttpApi {
     Call<RecipeGet> getRecipe(@Header("Authorization") String head, @Path("recipe_id") String id);
 
     @Headers("Authorization:Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ")
-    @GET("/api/recipes")
-    Call<List<RecipeListGet>> getRecipeList(@Header("Authorization") String head, @Query("query") String query);
+    @GET("/api/recipes?{query}")
+    Call<List<RecipeListGet>> getRecipeList(@Header("Authorization") String head, @Path("query") String query);
 
     // 예시들
 
