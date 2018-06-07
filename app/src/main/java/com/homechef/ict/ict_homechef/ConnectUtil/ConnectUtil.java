@@ -101,8 +101,8 @@ public class ConnectUtil {
         return retrofit.create(service);
     }
 
-    public void getRecipe(String id, final HttpCallback callback){
-        apiService.getRecipe(id).enqueue(new Callback<RecipeGet>() {
+    public void getRecipe(String header, String id, final HttpCallback callback){
+        apiService.getRecipe(header, id).enqueue(new Callback<RecipeGet>() {
             @Override
             public void onResponse(Call<RecipeGet> call, Response<RecipeGet> response) {
                 System.out.println("onResponse@@@@@@ ON Connect UITL getRecipe@@@@@@@@");
@@ -111,8 +111,10 @@ public class ConnectUtil {
                     callback.onSuccess(response.code(), response.body());
                 } else {
                     System.out.println("onResponse OK But Failure on getRecipe @@@@@@@@@@@@");
+                    System.out.println(String.valueOf(response.code()));
                     callback.onFailure(response.code());
                 }
+                System.out.println("test");
             }
 
             @Override
