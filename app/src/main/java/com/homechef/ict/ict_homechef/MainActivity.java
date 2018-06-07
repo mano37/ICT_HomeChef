@@ -21,6 +21,9 @@ import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
 import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -63,7 +66,10 @@ public class MainActivity extends AppCompatActivity
         String token = "Bearer " + jwt_token;
         System.out.println("Token :" + token);
 
-        connectUtil.getRecipe(token,"1000", new HttpCallback() {
+        Map<String,String> header = new HashMap<>();
+        header.put("Authorization", token);
+
+        connectUtil.getRecipe(header,"1000", new HttpCallback() {
             @Override
             public void onError(Throwable t) {
                 // 내부적 에러 발생할 경우
