@@ -6,8 +6,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
@@ -26,6 +28,8 @@ public class RecipeListActivity extends AppCompatActivity {
 
     ConnectUtil connectUtil;
     RecipeGet recipeData;
+    static int int_scrollViewPos;
+    static int int_TextView_lines;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
 
         //레이아웃 선언
+        final ScrollView svRecipeList = findViewById(R.id.sv_recipelist);
         final LinearLayout llRecipeList = findViewById(R.id.ll_recipelist);
 
         final LinearLayout ll_Status = new LinearLayout(RecipeListActivity.this);
@@ -55,7 +60,7 @@ public class RecipeListActivity extends AppCompatActivity {
         llRecipeList.addView(ll_Status);
         ingredientNum = intent.getIntExtra("ingredientNum", 0);
 
-        ArrayList<String> searchList = new ArrayList<>();
+        final ArrayList<String> searchList = new ArrayList<>();
 
         String[] searchModeList = new String[ingredientNum];
 
@@ -87,7 +92,7 @@ public class RecipeListActivity extends AppCompatActivity {
         recipeList = null;
 
         String header = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ";
-        RecipeListGet(header, "?query=할라피뇨+장아찌&limit=5&offset=0", recipeList);
+        RecipeListGet(header, "할라피뇨+장아찌&limit=5&offset=0", recipeList);
 
         ///////////////
 
@@ -98,6 +103,30 @@ public class RecipeListActivity extends AppCompatActivity {
             ThumnailInfo thumnailinfo = new ThumnailInfo(i, "ex" + String.valueOf(i), searchList,"sinwindis", 20160044, 0);
             showRecipeThumnail(thumnailinfo, llRecipeList);
         }
+
+        //화면 최하단 스크롤
+
+
+        //Detect Bottom ScrollView
+        svRecipeList.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int_scrollViewPos = svRecipeList.getScrollY();
+                int_TextView_lines = svRecipeList.getChildAt(0).getBottom() - svRecipeList.getHeight();
+
+                if(int_TextView_lines == int_scrollViewPos){
+                    //화면 최하단 스크롤시 이벤트
+
+                    for(int i = 0; i < 5; i++)
+                    {
+                        ThumnailInfo thumnailinfo = new ThumnailInfo(i, "ex" + String.valueOf(i), searchList,"sinwindis", 20160044, 0);
+                        showRecipeThumnail(thumnailinfo, llRecipeList);
+                    }
+
+                }
+
+            }
+        });
 
     }
 
@@ -250,10 +279,9 @@ public class RecipeListActivity extends AppCompatActivity {
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
                 List<RecipeListGet> RecipeData = (List<RecipeListGet>) receivedData;
-                for(int i = 0; i < 2; i++)
-                {
-                    System.out.println(RecipeData.get(i).id);
-                }
+
+                System.out.println(receivedData);
+
                 System.out.println("RecipeListGet onSuccess@@@@@@");
 
             }
