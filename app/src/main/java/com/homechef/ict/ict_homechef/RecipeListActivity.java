@@ -253,13 +253,13 @@ public class RecipeListActivity extends AppCompatActivity {
 
     }
 
-    public void RecipeGet(String jwt_token, String ID){
+    public void RecipeGet(String jwt_token, String id){
 
         connectUtil = ConnectUtil.getInstance(this).createBaseApi();
 
         String token = "Bearer " + jwt_token;
 
-        connectUtil.getRecipe(token, ID, new HttpCallback() {
+        connectUtil.getRecipe(token, id, new HttpCallback() {
             @Override
             public void onError(Throwable t) {
                 // 내부적 에러 발생할 경우

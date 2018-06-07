@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
+import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
+import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +56,35 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ConnectUtil connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+
+        String jwt_token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ";
+        String token = "Bearer " + jwt_token;
+        System.out.println("Token :" + token);
+
+        connectUtil.getRecipe(token,"1000", new HttpCallback() {
+            @Override
+            public void onError(Throwable t) {
+                // 내부적 에러 발생할 경우
+                System.out.println("RecipeGet onError@@@@@@");
+            }
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                // 성공적으로 완료한 경우
+                RecipeGet data = (RecipeGet) receivedData;
+                System.out.println("RecipeGet onSuccess@@@@@@");
+                System.out.println("@@@@Title : " + data.title);
+            }
+
+            @Override
+            public void onFailure(int code) {
+                // 통신에 실패한 경우
+                // 결과값이 없다거나, 서버에서 오류를 리턴했거나
+                // 또는 ResponseBody 안의 key 값이 이상하거나
+                System.out.println("RecipeGet onFailure@@@@@@");
+            }
+        });
 
 
 

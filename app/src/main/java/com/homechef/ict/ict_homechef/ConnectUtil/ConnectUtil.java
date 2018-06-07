@@ -2,6 +2,7 @@ package com.homechef.ict.ict_homechef.ConnectUtil;
 
 import android.content.Context;
 
+import com.homechef.ict.ict_homechef.ConnectUtil.ErrorBody.APIError;
 import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.LoginPut;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
@@ -136,6 +137,8 @@ public class ConnectUtil {
                     callback.onSuccess(response.code(), response.body());
                 } else {
                     System.out.println("onResponse OK But Failure on getRecipe @@@@@@@@@@@@");
+                    APIError error = ErrorUtil.parseError(response);
+                    System.out.println("Error message : " + error.message());
                     callback.onFailure(response.code());
                 }
             }
