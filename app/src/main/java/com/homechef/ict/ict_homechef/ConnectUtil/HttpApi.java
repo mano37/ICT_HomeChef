@@ -81,7 +81,12 @@ public interface HttpApi {
     Call<RecipeGet> getRecipe(@HeaderMap Map<String, String> headers, @Path("recipe_id") String id);
 
     @GET("/api/recipes")
-    Call<List<RecipeListGet>> getRecipeList(@HeaderMap Map<String, String> headers, @Query("contain") String query);
+    Call<List<RecipeListGet>> getRecipeList(@HeaderMap Map<String, String> headers,
+                                            @Query("contain") String contain,
+                                            @Query("offset") String offset,
+                                            @Query("limit") String limit,
+                                            @Query("except") String except
+                                            );
 
     // 예시들
 
