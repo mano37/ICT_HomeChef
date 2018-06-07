@@ -10,6 +10,7 @@ import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -104,7 +105,7 @@ public class ConnectUtil {
         return retrofit.create(service);
     }
 
-    public void getRecipeList(String header, String query, final HttpCallback callback){
+    public void getRecipeList(Map<String, String> header, String query, final HttpCallback callback){
         apiService.getRecipeList(header, query).enqueue(new Callback<List<RecipeListGet>>() {
             @Override
             public void onResponse(Call<List<RecipeListGet>> call, Response<List<RecipeListGet>> response) {
@@ -127,7 +128,7 @@ public class ConnectUtil {
 
     }
 
-    public void getRecipe(String header, String id, final HttpCallback callback){
+    public void getRecipe(Map<String,String> header, String id, final HttpCallback callback){
         apiService.getRecipe(header, id).enqueue(new Callback<RecipeGet>() {
             @Override
             public void onResponse(Call<RecipeGet> call, Response<RecipeGet> response) {

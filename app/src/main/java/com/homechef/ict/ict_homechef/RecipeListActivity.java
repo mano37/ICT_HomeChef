@@ -21,12 +21,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class RecipeListActivity extends AppCompatActivity {
 
-    ConnectUtil connectUtil;
+    ConnectUtil connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+    Map<String,String> header = new HashMap<>();
     RecipeGet recipeData;
     static int int_scrollViewPos;
     static int int_TextView_lines;
@@ -87,14 +90,7 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_ListGuidance2.setText(" (으)로 검색한 결과입니다.");
         ll_Status.addView(tv_ListGuidance2);
 
-        ///////////////데이터 받아오기 테스트
-        List<RecipeListGet> recipeList = new ArrayList<>();
-        recipeList = null;
 
-        String header = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ";
-        RecipeListGet(header, "할라피뇨+장아찌&limit=5&offset=0", recipeList);
-
-        ///////////////
 
 
 
@@ -263,13 +259,18 @@ public class RecipeListActivity extends AppCompatActivity {
         });
     }
 
-    public void RecipeListGet(String jwt_token, String query, final List<RecipeListGet> recipelist){
-
-        connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+    public void makeHeader(String jwt_token){
 
         String token = "Bearer " + jwt_token;
+        header.put("Authorization",token);
 
-        connectUtil.getRecipeList(token, query, new HttpCallback() {
+    }
+
+    public void recipeListGet(String query, final List<RecipeListGet> recipelist){
+
+
+
+        connectUtil.getRecipeList(header, query, new HttpCallback() {
             @Override
             public void onError(Throwable t) {
                 // 내부적 에러 발생할 경우
@@ -278,7 +279,7 @@ public class RecipeListActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
-                List<RecipeListGet> RecipeData = (List<RecipeListGet>) receivedData;
+                List<RecipeListGet> data = (List<RecipeListGet>) receivedData;
 
                 System.out.println(receivedData);
 
@@ -297,13 +298,9 @@ public class RecipeListActivity extends AppCompatActivity {
 
     }
 
-    public void RecipeGet(String jwt_token, String id){
+    public void recipeGet(String id){
 
-        connectUtil = ConnectUtil.getInstance(this).createBaseApi();
-
-        String token = "Bearer " + jwt_token;
-
-        connectUtil.getRecipe(token, id, new HttpCallback() {
+        connectUtil.getRecipe(header, id, new HttpCallback() {
             @Override
             public void onError(Throwable t) {
                 // 내부적 에러 발생할 경우
@@ -312,7 +309,7 @@ public class RecipeListActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
-                RecipeGet RecipeData = (RecipeGet) receivedData;
+                RecipeGet data = (RecipeGet) receivedData;
                 System.out.println("RecipeGet onSuccess@@@@@@");
 
             }
