@@ -4,6 +4,7 @@ import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.LoginPut;
 import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.RecipePut;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.PostRecipe;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
+import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
 
 import java.util.List;
 
@@ -14,7 +15,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -74,11 +74,16 @@ public interface HttpApi {
     Call<ResponseBody> postLogin(@Body LoginPut parameters);
 
 
+    // 제작중
+
+    @GET("/api/recipes/{recipe_id}")
+    Call<RecipeGet> getRecipe(@Header("Authorization") String head, @Path("recipe_id") String id);
+
+    @GET("/api/recipes")
+    Call<List<RecipeListGet>> getRecipeList(@Header("Authorization") String head, @Query("query") String query);
 
     // 예시들
 
-    @GET("/api/recipes/{recipe_id}")
-    Call<RecipeGet> getRecipe(@Header("Authorization") String authorization, @Path("recipe_id") String id);
 
     @GET("/posts")
     Call<List<ResponseGet>> getSecond(@Query("userId") String id);
