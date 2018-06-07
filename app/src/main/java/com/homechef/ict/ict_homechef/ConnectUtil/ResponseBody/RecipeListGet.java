@@ -1,23 +1,31 @@
 package com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RecipeListGet {
 
-    public String id;
+    public int id;
     public String title;
-    String ingre_count;
-    String author_name;
-    String created_at;
-    String recommend_count;
+    public String image_url;
+    public Map<String,String> ingre_count = new HashMap<>();
+    public String created_at;
+    public String recommend_count;
+    public String author_name;
+    public int author_id;
 
-    public RecipeListGet(String id, String title, String ingre_count, String author_name,
-                         String created_at, String recommend_count){
+    public RecipeListGet(int id, String title, String image_url, Map<String,String> ingre_count,
+                         String created_at, String recommend_count, String author_name,
+                         int author_id){
 
         this.id = id;
         this.title = title;
+        this.image_url = image_url;
         this.ingre_count = ingre_count;
-        this.author_name = author_name;
         this.created_at = created_at;
         this.recommend_count = recommend_count;
+        this.author_name = author_name;
+        this.author_id = author_id;
 
     }
 
