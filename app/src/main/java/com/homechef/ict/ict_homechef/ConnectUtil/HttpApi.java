@@ -80,8 +80,8 @@ public interface HttpApi {
     @GET("/api/recipes/{recipe_id}")
     Call<RecipeGet> getRecipe(@HeaderMap Map<String, String> headers, @Path("recipe_id") String id);
 
-    @GET("/api/recipes?{query}")
-    Call<List<RecipeListGet>> getRecipeList(@HeaderMap Map<String, String> headers, @Path("query") String query);
+    @GET("/api/recipes")
+    Call<List<RecipeListGet>> getRecipeList(@HeaderMap Map<String, String> headers, @Query("contain") String query);
 
     // 예시들
 
