@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.LoginPut;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
+import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -101,8 +103,31 @@ public class ConnectUtil {
         return retrofit.create(service);
     }
 
-    public void getRecipe(String id, final HttpCallback callback){
-        apiService.getRecipe(id).enqueue(new Callback<RecipeGet>() {
+    public void getRecipeList(String header, String query, final HttpCallback callback){
+        apiService.getRecipeList(header, query).enqueue(new Callback<List<RecipeListGet>>() {
+            @Override
+            public void onResponse(Call<List<RecipeListGet>> call, Response<List<RecipeListGet>> response) {
+                System.out.println("onResponse@@@@@@ ON Connect UITL getRecipeList @@@@@@@@");
+                if (response.isSuccessful()) {
+                    System.out.println("onResponse OK and Success on getRecipeList @@@@@@@@");
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    System.out.println("onResponse OK But Failure on getRecipeList @@@@@@@@@@@@");
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RecipeListGet>> call, Throwable t) {
+                System.out.println("onFailure@@@@@@ Connect UITL on getRecipeList @@@@@@@@");
+                callback.onError(t);
+            }
+        });
+
+    }
+
+    public void getRecipe(String header, String id, final HttpCallback callback){
+        apiService.getRecipe(header, id).enqueue(new Callback<RecipeGet>() {
             @Override
             public void onResponse(Call<RecipeGet> call, Response<RecipeGet> response) {
                 System.out.println("onResponse@@@@@@ ON Connect UITL getRecipe@@@@@@@@");
@@ -117,7 +142,7 @@ public class ConnectUtil {
 
             @Override
             public void onFailure(Call<RecipeGet> call, Throwable t) {
-                System.out.println("onFailure@@@@@@ ON Connect UITL @@@@@@@@");
+                System.out.println("onFailure@@@@@@ Connect UITL on getRecipe @@@@@@@@");
                 callback.onError(t);
             }
         });

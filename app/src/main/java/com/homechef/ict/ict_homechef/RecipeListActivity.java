@@ -10,14 +10,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
+import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
+import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
+import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class RecipeListActivity extends AppCompatActivity {
+
+    ConnectUtil connectUtil;
+    RecipeGet recipeData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,6 +220,68 @@ public class RecipeListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void RecipeListGet(String jwt_token, String query){
+
+        connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+
+        String token = "Bearer " + jwt_token;
+
+        connectUtil.getRecipeList(token, query, new HttpCallback() {
+            @Override
+            public void onError(Throwable t) {
+                // 내부적 에러 발생할 경우
+                System.out.println("RecipeListGet onError@@@@@@");
+            }
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                // 성공적으로 완료한 경우
+                List<RecipeListGet> RecipeData = (List<RecipeListGet>) receivedData;
+                System.out.println("RecipeListGet onSuccess@@@@@@");
+
+            }
+
+            @Override
+            public void onFailure(int code) {
+                // 통신에 실패한 경우
+                // 결과값이 없다거나, 서버에서 오류를 리턴했거나
+                // 또는 ResponseBody 안의 key 값이 이상하거나
+                System.out.println("RecipeLIstGet onFailure@@@@@@");
+            }
+        });
+
+    }
+
+    public void RecipeGet(String jwt_token, String ID){
+
+        connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+
+        String token = "Bearer " + jwt_token;
+
+        connectUtil.getRecipe(token, ID, new HttpCallback() {
+            @Override
+            public void onError(Throwable t) {
+                // 내부적 에러 발생할 경우
+                System.out.println("RecipeGet onError@@@@@@");
+            }
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                // 성공적으로 완료한 경우
+                RecipeGet RecipeData = (RecipeGet) receivedData;
+                System.out.println("RecipeGet onSuccess@@@@@@");
+
+            }
+
+            @Override
+            public void onFailure(int code) {
+                // 통신에 실패한 경우
+                // 결과값이 없다거나, 서버에서 오류를 리턴했거나
+                // 또는 ResponseBody 안의 key 값이 이상하거나
+                System.out.println("RecipeGet onFailure@@@@@@");
+            }
+        });
+
     }
 }
 
