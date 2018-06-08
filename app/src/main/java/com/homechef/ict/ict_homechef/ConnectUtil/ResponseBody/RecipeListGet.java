@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class RecipeListGet {
 
-    public int id;
+    public int recipe_id;
     public String title;
     public String image_url;
     public Map<String,String> ingre_count = new HashMap<>();
@@ -13,12 +13,12 @@ public class RecipeListGet {
     public String recommend_count;
     public String author_name;
     public int author_id;
-
-    public RecipeListGet(int id, String title, String image_url, Map<String,String> ingre_count,
+    
+    public RecipeListGet(int recipe_id, String title, String image_url, Map<String,String> ingre_count,
                          String created_at, String recommend_count, String author_name,
                          int author_id){
 
-        this.id = id;
+        this.recipe_id = recipe_id;
         this.title = title;
         this.image_url = image_url;
         this.ingre_count = ingre_count;
