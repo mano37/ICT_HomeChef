@@ -1,8 +1,12 @@
 package com.homechef.ict.ict_homechef;
 
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,7 +19,13 @@ import android.widget.TextView;
 import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
 import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
+import com.squareup.picasso.Picasso;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class    RecipeListActivity extends AppCompatActivity {
+public class RecipeListActivity extends AppCompatActivity {
 
     ConnectUtil connectUtil = ConnectUtil.getInstance(this).createBaseApi();
     Map<String,String> header = new HashMap<>();
@@ -105,6 +115,8 @@ public class    RecipeListActivity extends AppCompatActivity {
 
         //Thumnail 내의 메인 이미지
         ImageView image_thumnail = new ImageView(RecipeListActivity.this);
+        Picasso.get().load(ti.getImgUrl()).resize(350, 300).centerCrop().into(image_thumnail);
+
 
         final LinearLayout ll_content = new LinearLayout(RecipeListActivity.this);
         ll_content.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
@@ -203,7 +215,7 @@ public class    RecipeListActivity extends AppCompatActivity {
                         String keys = (String)ingreVal.next();
                         ingreList.add(keys);
                     }
-                    ThumnailInfo thumnailinfo = new ThumnailInfo(data.get(i).recipe_id, data.get(i).title, ingreList,data.get(i).author_name, data.get(i).created_at, data.get(i).recommend_count);
+                    ThumnailInfo thumnailinfo = new ThumnailInfo(data.get(i).recipe_id, data.get(i).title, data.get(i).image_url, ingreList,data.get(i).author_name, data.get(i).created_at, data.get(i).recommend_count);
                     showRecipeThumnail(thumnailinfo, ll);
                 }
 
