@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
 import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,6 +112,8 @@ public class RecipeInfoActivity extends Activity {
                 LinearLayout llIngredientList = findViewById(R.id.ll_ingredientlist);
                 LinearLayout llIngredientQuantity = findViewById(R.id.ll_ingredientquantity);
 
+                ImageView imgMain = findViewById(R.id.image);
+
                 TextView tvAuthorName = findViewById(R.id.tv_authorname);
                 TextView tvTitle = findViewById(R.id.tv_title);
                 TextView tvCreatedAt = findViewById(R.id.tv_createdat);
@@ -129,6 +133,8 @@ public class RecipeInfoActivity extends Activity {
                 tvTimeCost.setText(timeCost);
                 tvSteps.setText(steps);
 
+                Picasso.get().load(img).resize(imgMain.getMeasuredWidth(), imgMain.getMeasuredHeight()).centerCrop().into(imgMain);
+
                 for(int i = 0; i < recipeSpec.ingre_count.size(); i++)
                 {
                     TextView tv_IngredientName = new TextView(RecipeInfoActivity.this);
@@ -136,16 +142,21 @@ public class RecipeInfoActivity extends Activity {
                     tv_IngredientName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                     tv_IngredientName.setTextColor(Color.parseColor("#000000"));
                     tv_IngredientName.setPadding(10, 10, 10, 10);
-                    tv_IngredientName.setTextSize(10);
+                    tv_IngredientName.setTextSize(13);
                     tv_IngredientName.setText(ingreList.get(i));
                     tv_IngredientName.setSingleLine();
+
 
                     TextView tv_IngredientQuantity = new TextView(RecipeInfoActivity.this);
 
                     tv_IngredientQuantity.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                     tv_IngredientQuantity.setTextColor(Color.parseColor("#000000"));
                     tv_IngredientQuantity.setPadding(10, 10, 10, 10);
-                    tv_IngredientQuantity.setTextSize(10);
+                    tv_IngredientQuantity.setTextSize(13);
+                    if(ingreQuan.get(i).equals(" "))
+                    {
+                        ingreQuan.set(i, "-");
+                    }
                     tv_IngredientQuantity.setText(ingreQuan.get(i));
                     tv_IngredientQuantity.setSingleLine();
 
