@@ -5,6 +5,8 @@
     android:orientation="vertical"
     tools:context=".SearchActivity">
 
+
+
     <LinearLayout
         android:id="@+id/ll_recipeinfo"
         android:layout_width="match_parent"
@@ -12,11 +14,18 @@
         android:orientation="vertical"
         android:gravity="start">
 
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"/>
+
         <LinearLayout
             android:id="@+id/ll_authorname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="10dp">
 
 
             <TextView
@@ -27,8 +36,6 @@
                 android:textSize="24dp"/>
 
 
-
-
         </LinearLayout>
 
 
@@ -37,27 +44,32 @@
             android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TITLE"
-                android:textSize="32dp"/>
+                android:textSize="32dp"
+                android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="24dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll_createdat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -68,13 +80,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="작성일 : "
-                    android:textSize="20dp"/>
+                    android:textSize="13dp"/>
                 <TextView
                     android:id="@+id/tv_createdat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="date"
-                    android:textSize="20dp"/>
+                    android:textSize="13dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -86,13 +98,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="수정일 : "
-                    android:textSize="20dp"/>
+                    android:textSize="13dp"/>
                 <TextView
                     android:id="@+id/tv_updatedat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="date"
-                    android:textSize="20dp"/>
+                    android:textSize="13dp"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -102,7 +114,8 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:padding="10dp">
 
             <LinearLayout
                 android:id="@+id/ll_recommendcount"
@@ -139,6 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
                 android:gravity="center">
+
                 <TextView
                     android:id="@+id/tv_timecost"
                     android:layout_width="wrap_content"
@@ -156,15 +170,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ingre_count: "
-            android:textSize="24dp"/>
+            android:text="재료"
+            android:textSize="24dp"
+            android:layout_gravity="center" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:padding="10dp">
 
 
             <LinearLayout
@@ -179,7 +195,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ingredient_list"
+                    android:text="이름"
                     android:textSize="16dp"/>
 
 
@@ -200,7 +216,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ingredient_quantity"
+                    android:text="양"
                     android:textSize="16dp"/>
 
 
@@ -214,19 +230,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="steps: "
+                android:text="요리 방법"
                 android:textSize="24dp"/>
             <TextView
                 android:id="@+id/tv_steps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="steps..."
-                android:textSize="24dp"/>
+                android:textSize="15dp"/>
 
         </LinearLayout>
 
