@@ -24,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -173,7 +174,6 @@ public class RecipeListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-
                 Intent intent = new Intent(RecipeListActivity.this, RecipeInfoActivity.class);
                 intent.putExtra("id", ti.getRecipeId());
                 startActivity(intent);
@@ -200,11 +200,17 @@ public class RecipeListActivity extends AppCompatActivity {
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
                 List<RecipeListGet> data = (List<RecipeListGet>) receivedData;
-                System.out.println(data);
                 for(int i = 0; i < data.size(); i++)
                 {
-                    //ingreCountList = (ArrayList<String>)data.get(i).ingre_count.keySet();
-                    ThumnailInfo thumnailinfo = new ThumnailInfo(data.get(i).id, data.get(i).title, searchList,data.get(i).author_name, data.get(i).created_at, data.get(i).recommend_count);
+                    Iterator<String> ingreVal = data.get(i).ingre_count.keySet().iterator();
+                    int j = 0;
+                    ArrayList<String> ingreList = new ArrayList<>();
+                    while(ingreVal.hasNext())
+                    {
+                        String keys = (String)ingreVal.next();
+                        ingreList.add(keys);
+                    }
+                    ThumnailInfo thumnailinfo = new ThumnailInfo(data.get(i).recipe_id, data.get(i).title, ingreList,data.get(i).author_name, data.get(i).created_at, data.get(i).recommend_count);
                     showRecipeThumnail(thumnailinfo, ll);
                 }
 
