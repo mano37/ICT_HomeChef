@@ -10,7 +10,6 @@ public class DynamicLayout {
     private int layoutSize;
     private int maxNum = 0;
     private int nowNum = 0;
-    private Ingredient[] ingredientSet;
 
 
     DynamicLayout(LinearLayout[] linearLayouts, int maxLayoutSize, int maxViewNum)
@@ -20,7 +19,6 @@ public class DynamicLayout {
         layoutNum = linearLayouts.length;
         currentTemp = new int[layoutNum];
         maxNum = maxViewNum;
-        ingredientSet = new Ingredient[maxViewNum];
     }
 
     public int selectLayout(int addSize)
@@ -51,10 +49,6 @@ public class DynamicLayout {
     public int getNowNum()
     {
         return nowNum;
-    }
-    public Ingredient[] getIngredientSet()
-    {
-        return ingredientSet;
     }
     public void setNowNum(int num)
     {

@@ -26,15 +26,27 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class SearchActivity extends AppCompatActivity {
+
     final int MAXINGREDIENT = 10;
     final int MAXLAYOUTSIZE = 20;
     final int MARGINSIZE = 2;
     int[] lineSize = {0, 0, 0, 0};
     final LinearLayout[] llNowIngredient = new LinearLayout[4];
     final LinearLayout[] llRecentIngredient = new LinearLayout[4];
+
+
+    Map<String , String> nowIngredientSet = new HashMap<String , String>();
+    //final ArrayList<String> nowIngredientSet = new ArrayList<>();
+    //final ArrayList<Integer> nowSearchSet = new ArrayList<>();
+    final ArrayList<String> recentIngredientSet = new ArrayList<>();
+
 
     final DynamicLayout dlNowIngredient = new DynamicLayout(llNowIngredient, MAXLAYOUTSIZE, MAXINGREDIENT);
     final DynamicLayout dlRecentIngredient = new DynamicLayout(llRecentIngredient, MAXLAYOUTSIZE, MAXINGREDIENT);
@@ -45,6 +57,8 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        /*
+
 
         llNowIngredient[0] = findViewById(R.id.ll_nowingredient1);
         llNowIngredient[1] = findViewById(R.id.ll_nowingredient2);
@@ -61,12 +75,6 @@ public class SearchActivity extends AppCompatActivity {
         Button btnAddIngredient = findViewById(R.id.btn_ingredientadd);
         Button btnSearch = findViewById(R.id.btn_search);
 
-        //검색 재료 초기화
-        for(int i = 0; i < MAXINGREDIENT; i++)
-        {
-            dlNowIngredient.getIngredientSet()[i] = new Ingredient(null, 0);
-            dlRecentIngredient.getIngredientSet()[i] = new Ingredient(null, 0);
-        }
 
         dataRead(dlRecentIngredient);
 
@@ -75,14 +83,28 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //RecipeListActivity에 데이터 전달
+                String[] data = new String[2];
                 Intent intent = new Intent(SearchActivity.this, RecipeListActivity.class);
-                for (int i = 0; i < dlNowIngredient.getNowNum(); i++) {
-                    String[] data = new String[2];
-                    data[0] = dlNowIngredient.getIngredientSet()[i].getName();
-                    data[1] = String.valueOf(dlNowIngredient.getIngredientSet()[i].getSearchMode());
-                    intent.putExtra("ingredientNum", dlNowIngredient.getNowNum());
-                    intent.putExtra(String.valueOf(i), data);
+                if(nowIngredientSet.size() >= 1)
+                {
+                    Iterator<String> ingreVal = nowIngredientSet.keySet().iterator();
+                    int j = 0;
+                    ArrayList<String> ingreList = new ArrayList<>();
+                    while(ingreVal.hasNext())
+                    {
+                        String keys = (String)ingreVal.next();
+                        ingreList.add(keys);
+                    }
+
+                    data[nowSearchSet.get(0)] = nowIngredientSet.get(0);
+                    for (int i = 1; i < nowIngredientSet.size(); i++) {
+                        data[nowSearchSet.get(i)] += " " + nowIngredientSet.get(i);
+                        intent.putExtra(String.valueOf(i), data);
+                    }
+                    intent.putExtra("contain", data[0]);
+                    intent.putExtra("except", data[1]);
                 }
+
                 startActivity(intent);
             }
         });
@@ -135,11 +157,11 @@ public class SearchActivity extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        });*/
     }
 
-    private boolean ingredientCheck(String s, DynamicLayout dl)
-    {
+    private boolean ingredientCheck(String s, ArrayList<String> ingredientSet)
+    {/*
         if (dl.getMaxNum() == dl.getNowNum()) {
             if(dl == dlNowIngredient)
             {
@@ -156,7 +178,7 @@ public class SearchActivity extends AppCompatActivity {
                 }
                 return false;
             }
-        }
+        }*/
         return true;
     }
 
@@ -185,9 +207,6 @@ public class SearchActivity extends AppCompatActivity {
         }*/
     }
 
-    {
-
-    }
     private void dataRead(DynamicLayout dl)
     {
 
@@ -215,7 +234,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
     private void addIngredientButton(String s, final DynamicLayout dl, final int buttonMode) {
-
+/*
         final int ingredientNum = dl.getNowNum();
         dl.getIngredientSet()[dl.getNowNum()].setName(s);
         final int nameSize = s.length();
@@ -315,5 +334,6 @@ public class SearchActivity extends AppCompatActivity {
                 addedLayout[addedLayoutNum].removeView(llIngredientOutline);
             }
         });
+        */
     }
 }

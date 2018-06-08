@@ -54,10 +54,7 @@ public class RecipeListActivity extends AppCompatActivity {
         final LinearLayout llRecipeList = findViewById(R.id.ll_recipelist);
 
 
-
-        //레이아웃 선언
-
-
+        //intent받기
         ingredientNum = intent.getIntExtra("ingredientNum", 0);
 
 

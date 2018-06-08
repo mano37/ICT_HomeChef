@@ -13,10 +13,6 @@ public class Ingredient {
     private String name;
     private int search_mode = 0;
 
-    Ingredient(String s)
-    {
-        name = s;
-    }
     Ingredient(String s, int mode)
     {
         name = s;
