@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -115,15 +116,12 @@ public class RecipeListActivity extends AppCompatActivity {
 
         //Thumnail 내의 메인 이미지
         ImageView image_thumnail = new ImageView(RecipeListActivity.this);
+
         if(!ti.getImgUrl().isEmpty())
         {
             Picasso.get().load(ti.getImgUrl()).resize(350, 300).centerCrop().into(image_thumnail);
         }
-        if(null!=image_thumnail.getDrawable()) {
-        }else{
-            Picasso.get().load("https://cdn.studentbeans.com/offer_service/companies/logos/000/008/194/legacy/HomeChef.png").resize(350, 300).centerCrop().into(image_thumnail);
-        }
-
+        image_thumnail.setImageResource(R.drawable.thumnail);
 
         final LinearLayout ll_content = new LinearLayout(RecipeListActivity.this);
         ll_content.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
