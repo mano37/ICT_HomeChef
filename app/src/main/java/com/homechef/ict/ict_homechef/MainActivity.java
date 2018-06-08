@@ -15,11 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,6 +31,11 @@ public class MainActivity extends AppCompatActivity
     private String userInfo;
     private JsonParser parser = new JsonParser();
 
+    String userNameStr;
+    String userEmailStr;
+    String userPictureStr;
+
+
     // SharedPreferences
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -36,6 +43,8 @@ public class MainActivity extends AppCompatActivity
 
 
     TextView textView;
+    ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +53,9 @@ public class MainActivity extends AppCompatActivity
         Intent startIntent = getIntent();
         userInfo = startIntent.getExtras().getString("user_info");
         userJson = (JsonObject) parser.parse(userInfo);
-        String userNameStr = userJson.get("name").getAsString();
+        userNameStr = userJson.get("name").getAsString();
+        userEmailStr = userJson.get("email").getAsString();
+        userPictureStr = userJson.get("picture").getAsString();
 
 
         String startStr = userNameStr +"님 " + "환영합니다.";
@@ -73,6 +84,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View nav_header_view = navigationView.getHeaderView(0);
+        textView = (TextView) nav_header_view.findViewById(R.id.Navigation_profile_name);
+        textView.setText(userNameStr);
+        textView = (TextView) nav_header_view.findViewById(R.id.Navigation_profile_email);
+        textView.setText(userEmailStr);
+        imageView = (ImageView) nav_header_view.findViewById(R.id.Navigation_profile_image);
+        Picasso.get().load(userPictureStr)
+                .into(imageView);
+
+
         textView = (TextView)findViewById(R.id.text1);
         textView.setText(userNameStr);
 
@@ -87,6 +108,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
             super.onBackPressed();
         }
