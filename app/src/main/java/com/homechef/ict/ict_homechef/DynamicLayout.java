@@ -9,7 +9,6 @@ public class DynamicLayout {
     private int layoutNum;
     private int layoutSize;
     private int maxNum = 0;
-    private int nowNum = 0;
 
 
     DynamicLayout(LinearLayout[] linearLayouts, int maxLayoutSize, int maxViewNum)
@@ -45,13 +44,5 @@ public class DynamicLayout {
     public int getMaxNum()
     {
         return maxNum;
-    }
-    public int getNowNum()
-    {
-        return nowNum;
-    }
-    public void setNowNum(int num)
-    {
-        nowNum = num;
     }
 }

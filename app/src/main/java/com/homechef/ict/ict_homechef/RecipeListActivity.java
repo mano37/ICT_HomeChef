@@ -56,6 +56,8 @@ public class RecipeListActivity extends AppCompatActivity {
 
         //intent받기
         ingredientNum = intent.getIntExtra("ingredientNum", 0);
+        final String contain = intent.getStringExtra("contain");
+        final String except = intent.getStringExtra("except");;
 
 
 
@@ -64,7 +66,7 @@ public class RecipeListActivity extends AppCompatActivity {
         makeHeader("eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ");
 
 
-        recipeListGet("김치 치즈", "0", "10", "양파", llRecipeList);
+        recipeListGet(contain, "0", "10", except, llRecipeList);
         loadedThumnail = 10;
 
 
@@ -82,7 +84,7 @@ public class RecipeListActivity extends AppCompatActivity {
                 if(int_TextView_lines == int_scrollViewPos){
                     //화면 최하단 스크롤시 이벤트
 
-                    recipeListGet("김치 치즈", String.valueOf(loadedThumnail), "5", "양파", llRecipeList);
+                    recipeListGet(contain, String.valueOf(loadedThumnail), "5", except, llRecipeList);
                     loadedThumnail += 5;
 
                 }

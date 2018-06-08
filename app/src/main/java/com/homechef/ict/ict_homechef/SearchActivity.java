@@ -42,10 +42,10 @@ public class SearchActivity extends AppCompatActivity {
     final LinearLayout[] llRecentIngredient = new LinearLayout[4];
 
 
-    Map<String , String> nowIngredientSet = new HashMap<String , String>();
+    Map<String , Integer> nowIngredientSet = new HashMap<String , Integer>();
+    Map<String , Integer> recentIngredientSet = new HashMap<String , Integer>();
     //final ArrayList<String> nowIngredientSet = new ArrayList<>();
     //final ArrayList<Integer> nowSearchSet = new ArrayList<>();
-    final ArrayList<String> recentIngredientSet = new ArrayList<>();
 
 
     final DynamicLayout dlNowIngredient = new DynamicLayout(llNowIngredient, MAXLAYOUTSIZE, MAXINGREDIENT);
@@ -57,7 +57,6 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        /*
 
 
         llNowIngredient[0] = findViewById(R.id.ll_nowingredient1);
@@ -84,23 +83,30 @@ public class SearchActivity extends AppCompatActivity {
 
                 //RecipeListActivity에 데이터 전달
                 String[] data = new String[2];
+                data[0] = "";
+                data[1] = "";
                 Intent intent = new Intent(SearchActivity.this, RecipeListActivity.class);
                 if(nowIngredientSet.size() >= 1)
                 {
                     Iterator<String> ingreVal = nowIngredientSet.keySet().iterator();
                     int j = 0;
-                    ArrayList<String> ingreList = new ArrayList<>();
                     while(ingreVal.hasNext())
                     {
+                        int searchType;
                         String keys = (String)ingreVal.next();
-                        ingreList.add(keys);
+                        searchType = nowIngredientSet.get(keys);
+                        if(data[searchType].length() == 0)
+                        {
+                            data[searchType] = keys;
+                        }
+                        else
+                        {
+                            data[searchType] += " " + keys;
+                        }
+
+
                     }
 
-                    data[nowSearchSet.get(0)] = nowIngredientSet.get(0);
-                    for (int i = 1; i < nowIngredientSet.size(); i++) {
-                        data[nowSearchSet.get(i)] += " " + nowIngredientSet.get(i);
-                        intent.putExtra(String.valueOf(i), data);
-                    }
                     intent.putExtra("contain", data[0]);
                     intent.putExtra("except", data[1]);
                 }
@@ -116,15 +122,13 @@ public class SearchActivity extends AppCompatActivity {
                 edtAddIngredient.setText(null);
                 if (temp.length() > 0) {
 
-                    if(ingredientCheck(temp, dlNowIngredient))
+                    if(ingredientCheck(temp, nowIngredientSet, dlNowIngredient))
                     {
                         dataSave(temp);
-                        addIngredientButton(temp, dlNowIngredient, 0);
-                        dlNowIngredient.setNowNum(dlNowIngredient.getNowNum()+1);
-                        if(ingredientCheck(temp, dlRecentIngredient))
+                        addIngredientButton(temp, nowIngredientSet, dlNowIngredient);
+                        if(ingredientCheck(temp, recentIngredientSet, dlRecentIngredient))
                         {
-                            addIngredientButton(temp, dlRecentIngredient, 1);
-                            dlRecentIngredient.setNowNum(dlRecentIngredient.getNowNum()+1);
+                            addIngredientButton(temp, recentIngredientSet, dlRecentIngredient);
                         }
                     }
                 }
@@ -141,15 +145,13 @@ public class SearchActivity extends AppCompatActivity {
                     edtAddIngredient.setText(null);
                     if (temp.length() > 0) {
 
-                        if(ingredientCheck(temp, dlNowIngredient))
+                        if(ingredientCheck(temp, nowIngredientSet, dlNowIngredient))
                         {
                             dataSave(temp);
-                            addIngredientButton(temp, dlNowIngredient, 0);
-                            dlNowIngredient.setNowNum(dlNowIngredient.getNowNum()+1);
-                            if(ingredientCheck(temp, dlRecentIngredient))
+                            addIngredientButton(temp, nowIngredientSet, dlNowIngredient);
+                            if(ingredientCheck(temp, recentIngredientSet, dlRecentIngredient))
                             {
-                                addIngredientButton(temp, dlRecentIngredient, 1);
-                                dlRecentIngredient.setNowNum(dlRecentIngredient.getNowNum()+1);
+                                addIngredientButton(temp, recentIngredientSet, dlRecentIngredient);
                             }
                         }
                     }
@@ -157,28 +159,25 @@ public class SearchActivity extends AppCompatActivity {
                 }
                 return false;
             }
-        });*/
+        });
     }
 
-    private boolean ingredientCheck(String s, ArrayList<String> ingredientSet)
-    {/*
-        if (dl.getMaxNum() == dl.getNowNum()) {
+    private boolean ingredientCheck(String s, Map<String, Integer> ingredientSet, DynamicLayout dl)
+    {
+        if (dl.getMaxNum() == ingredientSet.size()) {
             if(dl == dlNowIngredient)
             {
                 Toast.makeText(SearchActivity.this, "더 이상 재료를 추가할 수 없습니다", Toast.LENGTH_SHORT).show();
             }
             return false;
         }
-
-        for (int i = 0; i < dl.getNowNum(); i++) {
-            if (dl.getIngredientSet()[i].getName().equals(s)) {
-                if(dl == dlNowIngredient)
-                {
-                    Toast.makeText(SearchActivity.this, "이미 추가된 재료입니다", Toast.LENGTH_SHORT).show();
-                }
-                return false;
+        if (ingredientSet.keySet().contains(s)) {
+            if(dl == dlNowIngredient)
+            {
+                Toast.makeText(SearchActivity.this, "이미 추가된 재료입니다", Toast.LENGTH_SHORT).show();
             }
-        }*/
+            return false;
+        }
         return true;
     }
 
@@ -233,10 +232,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    private void addIngredientButton(String s, final DynamicLayout dl, final int buttonMode) {
-/*
-        final int ingredientNum = dl.getNowNum();
-        dl.getIngredientSet()[dl.getNowNum()].setName(s);
+    private void addIngredientButton(final String s, final Map<String, Integer> ingredientSet, final DynamicLayout dl) {
+
+        ingredientSet.put(s, 0);
         final int nameSize = s.length();
         final int addedLayoutNum = dl.selectLayout(nameSize + MARGINSIZE);
         final LinearLayout[] addedLayout = dl.getLayout();
@@ -244,15 +242,15 @@ public class SearchActivity extends AppCompatActivity {
         final LinearLayout llIngredientOutline = new LinearLayout(SearchActivity.this);
         llIngredientOutline.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         llIngredientOutline.setGravity(Gravity.CENTER);
-        switch (buttonMode)
+        if(dl == dlNowIngredient)
         {
-            case 0:
-                llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_green);
-                break;
-            case 1:
-                llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_gray);
-                break;
+            llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_green);
         }
+        else
+        {
+            llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_gray);
+        }
+
         addedLayout[addedLayoutNum].addView(llIngredientOutline);
 
         //동적 textview 생성
@@ -262,7 +260,7 @@ public class SearchActivity extends AppCompatActivity {
 
         textview_ingredient.setTextColor(Color.parseColor("#000000"));
         textview_ingredient.setTextSize(16);
-        textview_ingredient.setText(dl.getIngredientSet()[dl.getNowNum()].getName() + ' ');
+        textview_ingredient.setText(s + ' ');
         textview_ingredient.setSingleLine();
         llIngredientOutline.addView(textview_ingredient);
 
@@ -288,26 +286,32 @@ public class SearchActivity extends AppCompatActivity {
 
 
                 //재료의 검색 모드 변환
-                if(buttonMode == 0)
+                if(dl == dlNowIngredient)
                 {
-                    dl.getIngredientSet()[dl.getNowNum()].cycleSearchMode();
-                    switch (dl.getIngredientSet()[dl.getNowNum()].getSearchMode())
+                    if(ingredientSet.get(s) == 0)
+                    {
+                        ingredientSet.put(s, 1);
+                    }
+                    else
+                    {
+                        ingredientSet.put(s, 0);
+                    }
+                    switch (ingredientSet.get(s))
                     {
                         case 0:
                             llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_green);
                             break;
                         case 1:
-                            llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_blue);
+                            llIngredientOutline.setBackgroundResource(R.drawable.roundingbox_red);
                             break;
                     }
                 }
                 //클릭시 검색에 추가
                 else
                 {
-                    if(ingredientCheck(dlRecentIngredient.getIngredientSet()[ingredientNum].getName(), dlNowIngredient))
+                    if(ingredientCheck(s, nowIngredientSet,dlNowIngredient))
                     {
-                        addIngredientButton(dlRecentIngredient.getIngredientSet()[ingredientNum].getName(), dlNowIngredient, 0);
-                        dlNowIngredient.setNowNum(dlNowIngredient.getNowNum()+1);
+                        addIngredientButton(s, nowIngredientSet, dlNowIngredient);
                     }
                 }
             }
@@ -320,20 +324,11 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 //추가된 재료 갯수 확인, 재료 리스트에서 정보 지우기
-                if(ingredientNum == dl.getNowNum() - 1)
-                {
-                    dl.getIngredientSet()[dl.getNowNum()].setName(null);
-                }
-                else
-                {
-                    dl.getIngredientSet()[ingredientNum].setName(dl.getIngredientSet()[dl.getNowNum() -1].getName());
-                    dl.getIngredientSet()[ingredientNum].setSearchMode(dl.getIngredientSet()[dl.getNowNum() -1].getSearchMode());
-                }
-                dl.setNowNum(dl.getNowNum()-1);
+                ingredientSet.remove(s);
                 dl.calLayoutSize(-nameSize, addedLayoutNum);
                 addedLayout[addedLayoutNum].removeView(llIngredientOutline);
             }
         });
-        */
+
     }
 }
