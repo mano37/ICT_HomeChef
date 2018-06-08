@@ -41,6 +41,8 @@ public class SearchActivity extends AppCompatActivity {
     final LinearLayout[] llNowIngredient = new LinearLayout[4];
     final LinearLayout[] llRecentIngredient = new LinearLayout[4];
 
+    final String fileName = "cacheIngredients.txt";
+
 
     Map<String , Integer> nowIngredientSet = new HashMap<String , Integer>();
     Map<String , Integer> recentIngredientSet = new HashMap<String , Integer>();
@@ -50,15 +52,33 @@ public class SearchActivity extends AppCompatActivity {
 
     final DynamicLayout dlNowIngredient = new DynamicLayout(llNowIngredient, MAXLAYOUTSIZE, MAXINGREDIENT);
     final DynamicLayout dlRecentIngredient = new DynamicLayout(llRecentIngredient, MAXLAYOUTSIZE, MAXINGREDIENT);
+    String savedIngredients = "";
+    String[] loadIngredients;
     String temp;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        //캐쉬유틸 선언
+        final CacheUtil cacheUtil = new CacheUtil(SearchActivity.this);
 
+        //로컬에 저장된 최근 검색어 불러오기
+        try {
+            savedIngredients = cacheUtil.Read(fileName);
+            System.out.println("불러온 캐쉬 데이터 :" + savedIngredients);
+        } catch (IOException e) {
+            System.out.println("cacheRead Fail!");
+            e.printStackTrace();
+        }
+
+        //불러온 최근 검색어로 최근 검색어 버튼 생성하기
+        loadIngredients = savedIngredients.split(" ", 10);
+
+
+        //레이아웃 초기화
         llNowIngredient[0] = findViewById(R.id.ll_nowingredient1);
         llNowIngredient[1] = findViewById(R.id.ll_nowingredient2);
         llNowIngredient[2] = findViewById(R.id.ll_nowingredient3);
@@ -74,9 +94,13 @@ public class SearchActivity extends AppCompatActivity {
         Button btnAddIngredient = findViewById(R.id.btn_ingredientadd);
         Button btnSearch = findViewById(R.id.btn_search);
 
-
-        dataRead(dlRecentIngredient);
-
+        for(int i = 0; i < loadIngredients.length; i++)
+        {
+            if(loadIngredients[i].length() != 0)
+            {
+                addIngredientButton(loadIngredients[i], recentIngredientSet, dlRecentIngredient);
+            }
+        }
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +119,11 @@ public class SearchActivity extends AppCompatActivity {
                         int searchType;
                         String keys = (String)ingreVal.next();
                         searchType = nowIngredientSet.get(keys);
+
+                        ////////
+                        recentIngredientSet.put(keys, 0);
+                        ////////
+
                         if(data[searchType].length() == 0)
                         {
                             data[searchType] = keys;
@@ -105,6 +134,33 @@ public class SearchActivity extends AppCompatActivity {
                         }
 
 
+                    }
+
+                    //검색한 목록 캐쉬에 저장
+//////////////////
+                    Iterator<String> saveIngre = recentIngredientSet.keySet().iterator();
+                    int k = 0;
+
+                    savedIngredients = "";
+                    while(saveIngre.hasNext())
+                    {
+                        int searchType;
+                        String keys = (String)saveIngre.next();
+                        if(savedIngredients.length() == 0)
+                        {
+                            savedIngredients = keys;
+                        }
+                        else
+                        {
+                            savedIngredients += " " + keys;
+                        }
+                    }
+                    /////////////////////////
+                    try {
+                        cacheUtil.Write(savedIngredients, fileName);
+                    } catch (IOException e) {
+                        System.out.println("cacheWrite Fail!");
+                        e.printStackTrace();
                     }
 
                     intent.putExtra("contain", data[0]);
@@ -124,7 +180,6 @@ public class SearchActivity extends AppCompatActivity {
 
                     if(ingredientCheck(temp, nowIngredientSet, dlNowIngredient))
                     {
-                        dataSave(temp);
                         addIngredientButton(temp, nowIngredientSet, dlNowIngredient);
                         if(ingredientCheck(temp, recentIngredientSet, dlRecentIngredient))
                         {
@@ -147,7 +202,6 @@ public class SearchActivity extends AppCompatActivity {
 
                         if(ingredientCheck(temp, nowIngredientSet, dlNowIngredient))
                         {
-                            dataSave(temp);
                             addIngredientButton(temp, nowIngredientSet, dlNowIngredient);
                             if(ingredientCheck(temp, recentIngredientSet, dlRecentIngredient))
                             {
@@ -180,57 +234,6 @@ public class SearchActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
-    private void dataSave(String name)
-    {
-                /*String fileName = "DATA.dat";
-        File savefile = new File(getFilesDir() + fileName);
-        if(!savefile.exists())
-        {
-            if(!savefile.mkdir())
-            {
-                return;
-            }
-        }
-        try {
-            FileWriter fw = new FileWriter(getFilesDir() + fileName, true);
-            BufferedWriter bfw = new BufferedWriter(fw);
-            bfw.write(name);
-            bfw.write("\n");
-            bfw.close();
-            fw.close();
-        } catch(IOException e)
-        {
-            e.printStackTrace();
-        }*/
-    }
-
-    private void dataRead(DynamicLayout dl)
-    {
-
-        /*String fileName = "DATA.dat";
-        int data ;
-        int i = 0;
-
-        try {
-            // open file.
-            FileReader fr = new FileReader(getFilesDir() + fileName) ;
-            BufferedReader bufrd = new BufferedReader(fr) ;
-
-            // read file.
-            while ((data = fr.read()) != -1 && dl.getNowNum() < MAXINGREDIENT) {
-                dl.getIngredientSet()[dl.getNowNum()].setName(bufrd.readLine());
-                addIngredientButton(dl.getIngredientSet()[dl.getNowNum()].getName(), dl, 1);
-                dl.setNowNum(dl.getNowNum()+1);
-            }
-            bufrd.close();
-            fr.close();
-        } catch (Exception e) {
-            e.printStackTrace() ;
-        }*/
-    }
-
 
     private void addIngredientButton(final String s, final Map<String, Integer> ingredientSet, final DynamicLayout dl) {
 
