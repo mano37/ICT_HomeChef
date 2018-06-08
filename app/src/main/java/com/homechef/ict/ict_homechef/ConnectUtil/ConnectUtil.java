@@ -5,6 +5,7 @@ import android.content.Context;
 import com.homechef.ict.ict_homechef.ConnectUtil.ErrorBody.APIError;
 import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.LoginPut;
 import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.RecipePut;
+import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.SessionPut;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.PostRecipeGet;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
@@ -128,6 +129,31 @@ public class ConnectUtil {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 System.out.println("onFailure@@@@@@ ON ConnectUtil postLogin@@@@@@@@");
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void postSession(String jwt_token, final HttpCallback callback) {
+        apiService.postSession(new SessionPut(jwt_token)).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println("onResponse@@@@@@ ON Connect UITL postSession@@@@@@@@");
+                if (response.isSuccessful()) {
+                    System.out.println("onResponse OK and Success on postSession @@@@@@@@");
+                    try {
+                        callback.onSuccess(response.code(), response.body().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("onResponse OK But Failure on postSession @@@@@@@@@@@@");
+                    callback.onFailure(response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                System.out.println("onFailure@@@@@@ ON ConnectUtil postSession@@@@@@@@");
                 callback.onError(t);
             }
         });

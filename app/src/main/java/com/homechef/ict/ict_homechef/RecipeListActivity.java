@@ -14,14 +14,8 @@ import android.widget.TextView;
 
 import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
 import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
-import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class RecipeListActivity extends AppCompatActivity {
+public class    RecipeListActivity extends AppCompatActivity {
 
     ConnectUtil connectUtil = ConnectUtil.getInstance(this).createBaseApi();
     Map<String,String> header = new HashMap<>();

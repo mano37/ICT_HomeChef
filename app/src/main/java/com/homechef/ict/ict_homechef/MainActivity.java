@@ -1,7 +1,9 @@
 package com.homechef.ict.ict_homechef;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -22,11 +24,16 @@ import com.google.gson.JsonParser;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    // For UserInfo
+    private JsonObject userJson;
     private String userInfo;
     private JsonParser parser = new JsonParser();
 
-    // user 정보
-    private JsonObject userJson;
+    // SharedPreferences
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    String tokenKeyName = "jwt_token";
+
 
     TextView textView;
 
@@ -69,6 +76,10 @@ public class MainActivity extends AppCompatActivity
         textView = (TextView)findViewById(R.id.text1);
         textView.setText(userNameStr);
 
+
+        // Make SharedPreference
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = pref.edit();
     }
 
     @Override
@@ -139,11 +150,26 @@ public class MainActivity extends AppCompatActivity
 
         if(requestCode == 4444){
             if(resultCode == 1){
+                System.out.println("ResultCode 1 by login");
                 userInfo = data.getStringExtra("user_info");
                 userJson = (JsonObject) parser.parse(userInfo);
                 String str = userJson.get("name").toString();
                 textView = (TextView)findViewById(R.id.text1);
                 textView.setText(str);
+
+                editor.putString(tokenKeyName, userJson.get(tokenKeyName).toString());
+                editor.commit();
+            }
+            if(resultCode == 2){
+                System.out.println("ResultCode 2 by Session");
+                userInfo = data.getStringExtra("user_info");
+                userJson = (JsonObject) parser.parse(userInfo);
+                String str = userJson.get("name").toString();
+                textView = (TextView)findViewById(R.id.text1);
+                textView.setText(str);
+
+                editor.putString(tokenKeyName, userJson.get(tokenKeyName).toString());
+                editor.commit();
             }
         }
 
