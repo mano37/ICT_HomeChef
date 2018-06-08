@@ -5,18 +5,18 @@ import java.util.Map;
 
 public class RecipeGet {
 
-    public final int recipe_id;
-    public final String title;
-    public final String serve;
+    public int recipe_id;
+    public String title;
+    public String serve;
     public Map<String, String> ingre_count = new HashMap<>();
-    public final String steps;
-    public final String time_cost;
-    public final String image_url;
-    public final int author_id;
-    public final int recommend_count;
-    public final String created_at;
-    public final String updated_at;
-    public final String author_name;
+    public String steps;
+    public String time_cost;
+    public String image_url;
+    public int author_id;
+    public int recommend_count;
+    public String created_at;
+    public String updated_at;
+    public String author_name;
 
     public RecipeGet(int recipe_id, String title, String serve, Map<String, String> ingre_count,
                       String steps, String time_cost, String image_url, int author_id,

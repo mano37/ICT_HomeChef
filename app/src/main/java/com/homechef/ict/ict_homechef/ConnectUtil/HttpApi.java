@@ -86,7 +86,7 @@ public interface HttpApi {
                                             @Query("offset") String offset,
                                             @Query("limit") String limit,
                                             @Query("except") String except
-                                            );
+    );
 
     // 예시들
 
