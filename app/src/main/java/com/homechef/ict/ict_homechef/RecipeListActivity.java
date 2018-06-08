@@ -115,7 +115,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
         //Thumnail 내의 메인 이미지
         ImageView image_thumnail = new ImageView(RecipeListActivity.this);
-        Picasso.get().load(ti.getImgUrl()).into(image_thumnail);
+        Picasso.get().load(ti.getImgUrl()).resize(350, 300).centerCrop().into(image_thumnail);
 
 
         final LinearLayout ll_content = new LinearLayout(RecipeListActivity.this);
