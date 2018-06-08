@@ -115,7 +115,14 @@ public class RecipeListActivity extends AppCompatActivity {
 
         //Thumnail 내의 메인 이미지
         ImageView image_thumnail = new ImageView(RecipeListActivity.this);
-        Picasso.get().load(ti.getImgUrl()).resize(350, 300).centerCrop().into(image_thumnail);
+        if(!ti.getImgUrl().isEmpty())
+        {
+            Picasso.get().load(ti.getImgUrl()).resize(350, 300).centerCrop().into(image_thumnail);
+        }
+        if(null!=image_thumnail.getDrawable()) {
+        }else{
+            Picasso.get().load("https://cdn.studentbeans.com/offer_service/companies/logos/000/008/194/legacy/HomeChef.png").resize(350, 300).centerCrop().into(image_thumnail);
+        }
 
 
         final LinearLayout ll_content = new LinearLayout(RecipeListActivity.this);

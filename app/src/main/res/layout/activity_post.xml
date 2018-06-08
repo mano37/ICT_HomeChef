@@ -6,7 +6,7 @@
     tools:context=".SearchActivity">
 
     <LinearLayout
-        android:id="@+id/post_ll_post"
+        android:id="@+id/post_ll_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -147,6 +147,13 @@
                     android:hint="예) 300g"
                     android:layout_weight="0.5"/>
 
+                <Button
+                    android:id="@+id/post_btn_delingredient1"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="X"
+                    android:layout_gravity="center"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -169,6 +176,14 @@
                     android:hint="예) 1/2개"
                     android:layout_weight="0.5"/>
 
+                <Button
+                    android:id="@+id/post_btn_delingredient2"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="X"
+                    android:layout_gravity="center"/>
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -190,6 +205,13 @@
                     android:layout_height="wrap_content"
                     android:hint="예) 1.5T"
                     android:layout_weight="0.5"/>
+
+                <Button
+                    android:id="@+id/post_btn_delingredient3"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="X"
+                    android:layout_gravity="center"/>
 
             </LinearLayout>
 
@@ -234,7 +256,15 @@
                     android:id="@+id/post_edt_step1"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:hint="예) 소고기는 기름기를 떼어내고 적당한 크기로 잘라주세요"/>
+                    android:hint="예) 소고기는 기름기를 떼어내고 적당한 크기로 잘라주세요"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/post_btn_delstep1"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:text="X"
+                    android:layout_gravity="center"/>
 
 
             </LinearLayout>
@@ -249,7 +279,15 @@
                     android:id="@+id/post_edt_step2"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:hint="예) 준비된 양념으로 먼저 고기를 조물조물 재워 둡니다."/>
+                    android:hint="예) 준비된 양념으로 먼저 고기를 조물조물 재워 둡니다."
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/post_btn_delstep2"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:text="X"
+                    android:layout_gravity="center"/>
 
             </LinearLayout>
 
@@ -263,13 +301,29 @@
                     android:id="@+id/post_edt_step3"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:hint="예) 그 사이 양파와 버섯, 대파도 썰어 준비하세요"/>
+                    android:hint="예) 그 사이 양파와 버섯, 대파도 썰어 준비하세요"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/post_btn_delstep3"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:text="X"
+                    android:layout_gravity="center"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/post_btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="등록"/>
+
     </LinearLayout>
+
+
 
 
 

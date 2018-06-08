@@ -30,7 +30,6 @@ public class RecipeInfoActivity extends Activity {
     String title;
     String img;
     String serve;
-    ArrayList<String> ingredient = new ArrayList<>();
     String authorName;
     String createdAt;
     String updatedAt;
@@ -40,8 +39,6 @@ public class RecipeInfoActivity extends Activity {
 
     ConnectUtil connectUtil;
     Map<String,String> header = new HashMap<>();
-
-    int ingreNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +131,11 @@ public class RecipeInfoActivity extends Activity {
                 tvTimeCost.setText(timeCost);
                 tvSteps.setText(steps);
 
-                Picasso.get().load(img).resize(imgMain.getMeasuredWidth(), imgMain.getMeasuredHeight()).centerCrop().into(imgMain);
+                if(!img.isEmpty())
+                {
+                    Picasso.get().load(img).resize(imgMain.getMeasuredWidth(), imgMain.getMeasuredHeight()).centerCrop().into(imgMain);
+                }
+
 
                 for(int i = 0; i < recipeSpec.ingre_count.size(); i++)
                 {

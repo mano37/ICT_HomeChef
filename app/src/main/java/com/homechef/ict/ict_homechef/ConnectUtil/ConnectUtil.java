@@ -285,28 +285,3 @@ public class ConnectUtil {
 
 
 }
-
-/*
-
-public void recipePost(RecipePut parameter) {
-
-        connectUtil.postRecipe(header, parameter, new HttpCallback() {
-            @Override
-            public void onError(Throwable t) {
-                // 내부적 에러 발생할 경우
-            }
-            @Override
-            public void onSuccess(int code, Object receivedData) {
-                // 성공적으로 완료한 경우
-
-            }
-
-            @Override
-            public void onFailure(int code) {
-                // 통신에 실패한 경우
-                // 결과값이 없다거나, 서버에서 오류를 리턴했거나
-                // 또는 ResponseBody 안의 key 값이 이상하거나
-            }
-        });
-}
- */
