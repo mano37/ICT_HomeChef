@@ -121,10 +121,12 @@ public class SignInActivity extends AppCompatActivity implements
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 String authCode = account.getServerAuthCode();
 
+                /*
                 String message = "RC_GET_AUTH_CODE SUCCESS";
 
                 Log.w(TAG, message);
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                */
 
                 // Show signed-un UI
                 updateUI(account);

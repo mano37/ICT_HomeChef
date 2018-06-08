@@ -9,7 +9,7 @@ import static java.lang.Boolean.FALSE;
 public class SplashActivity extends Activity{
 
     boolean login = FALSE;
-    String json;
+    String userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,16 +18,33 @@ public class SplashActivity extends Activity{
 
         try {
             Thread.sleep(1000);
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("user_info", json);
-        startActivity(intent);
+        Intent signInActivityIntent = new Intent(this, SignInActivity.class);
+        startActivityForResult(signInActivityIntent, 4444);
 
-        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 4444){
+            if(resultCode == 1){
+                System.out.println("ready @@@@@ for Start MainActivity");
+                userInfo = data.getStringExtra("user_info");
+
+                Intent mainActivityIntent = new Intent(this, MainActivity.class);
+                mainActivityIntent.putExtra("user_info", userInfo);
+                startActivity(mainActivityIntent);
+
+                finish();
+
+            }
+        }
+
     }
 
 }
