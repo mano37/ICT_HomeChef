@@ -1,6 +1,6 @@
 package com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody;
 
-public class PostRecipe {
+public class PostRecipeGet {
 
     public final int recipe_id;
     public final String title;
@@ -14,7 +14,7 @@ public class PostRecipe {
     public final String created_at;
     public final String updated_at;
 
-    public PostRecipe(int recipe_id, String title, String serve, String ingre_count,
+    public PostRecipeGet(int recipe_id, String title, String serve, String ingre_count,
                       String steps, String time_cost, String image_url, int author_id,
                       int recommend_count, String created_at, String updated_at){
 
