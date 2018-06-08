@@ -133,9 +133,9 @@ public class ConnectUtil {
         });
     }
 
-    public void postRecipe(Map<String, String> header, Map<String,String> parameter, final HttpCallback callback){
+    public void postRecipe(Map<String, String> header, RecipePut parameter, final HttpCallback callback){
 
-        apiService.postRecipe(header, new RecipePut(parameter)).enqueue(new Callback<PostRecipeGet>() {
+        apiService.postRecipe(header, parameter).enqueue(new Callback<PostRecipeGet>() {
             @Override
             public void onResponse(Call<PostRecipeGet> call, Response<PostRecipeGet> response) {
                 if (response.isSuccessful()) {
@@ -216,9 +216,9 @@ public class ConnectUtil {
 
 /*
 
-public void recipePost(Map<String,String> parameter) {
+public void recipePost(RecipePut parameter) {
 
-        connectUtil.postRecipe(header, new RecipePut(parameter), new HttpCallback() {
+        connectUtil.postRecipe(header, parameter, new HttpCallback() {
             @Override
             public void onError(Throwable t) {
                 // 내부적 에러 발생할 경우

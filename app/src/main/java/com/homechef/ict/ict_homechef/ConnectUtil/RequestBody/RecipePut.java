@@ -7,18 +7,18 @@ public class RecipePut {
     public final String title;
     public final String serve;
     public final String time_cost;
-    public final String ingre_count;
+    public final Map<String,String> ingre_count;
     public final String steps;
     public final String image_url;
 
-    public RecipePut(Map<String,String> parameters) {
+    public RecipePut(RecipePut parameters) {
 
-        this.title = parameters.get("title");
-        this.serve = parameters.get("serve");
-        this.time_cost = parameters.get("time_cost");
-        this.ingre_count = parameters.get("ingre_count");
-        this.steps = parameters.get("steps");
-        this.image_url = parameters.get("image_url");
+        this.title = parameters.title;
+        this.serve = parameters.serve;
+        this.time_cost = parameters.time_cost;
+        this.ingre_count = parameters.ingre_count;
+        this.steps = parameters.steps;
+        this.image_url = parameters.image_url;
 
     }
 }
