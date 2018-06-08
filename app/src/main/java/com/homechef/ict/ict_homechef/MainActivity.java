@@ -115,6 +115,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_gallery) {
+            //레시피 추가 버튼 누를 시 레시피 추가 창으로 이동
+            Intent intent = new Intent(this, PostActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {
 
