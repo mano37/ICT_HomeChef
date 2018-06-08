@@ -94,6 +94,7 @@ public class RecipeInfoActivity extends Activity {
                 updatedAt = recipeSpec.updated_at;
                 timeCost = recipeSpec.time_cost;
                 steps = recipeSpec.steps;
+                serve = recipeSpec.serve;
                 recommendedCount = recipeSpec.recommend_count;
 
                 ArrayList<String> ingreList = new ArrayList<>();
@@ -128,7 +129,7 @@ public class RecipeInfoActivity extends Activity {
                 tvTitle.setText(title);
                 tvCreatedAt.setText(createdAt);
                 tvUpdatedAt.setText(updatedAt);
-                tvRecommendCount.setText("추천 " + String.valueOf(recommendedCount));
+                tvRecommendCount.setText(String.valueOf(recommendedCount));
                 tvServe.setText(serve);
                 tvTimeCost.setText(timeCost);
                 tvSteps.setText(steps);

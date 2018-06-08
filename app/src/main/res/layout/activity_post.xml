@@ -6,14 +6,13 @@
     tools:context=".SearchActivity">
 
     <LinearLayout
-        android:id="@+id/ll_post"
+        android:id="@+id/post_ll_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_recipetitle"
+            android:id="@+id/post_ll_recipetitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -26,9 +25,247 @@
                 android:textSize="20dp"/>
 
             <EditText
-                android:id="@+id/edt_recipetitle"
+                android:id="@+id/post_edt_recipetitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="예) 돼지고기 밥 뚞닥 ㄹㅇㅋㅋ"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/post_ll_recipeinfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="레시피 정보"
+                android:textSize="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="인원"
+                    android:layout_weight="0.5"
+                    android:textSize="18dp"/>
+
+                <EditText
+                    android:id="@+id/post_edt_serve"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="예) 2인분"
+                    android:layout_weight="0.5"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="소요시간"
+                    android:layout_weight="0.5"
+                    android:textSize="18dp"/>
+
+                <EditText
+                    android:id="@+id/post_edt_timecost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="예) 30분 이내"
+                    android:layout_weight="0.5"/>
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/post_ll_ingredientlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="재료"
+                    android:textSize="20dp"
+                    android:layout_weight="0.25"/>
+
+                <Button
+                    android:id="@+id/post_btn_addingredient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:text="재료 추가" />
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/post_edt_ingre1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="예) 소고기"
+                    android:layout_weight="0.5"/>
+
+                <EditText
+                    android:id="@+id/post_edt_quan1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="예) 300g"
+                    android:layout_weight="0.5"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/post_edt_ingre2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="예) 당근"
+                    android:layout_weight="0.5"/>
+
+                <EditText
+                    android:id="@+id/post_edt_quan2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="예) 1/2개"
+                    android:layout_weight="0.5"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/post_edt_ingre3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="예) 간장"
+                    android:layout_weight="0.5"/>
+
+                <EditText
+                    android:id="@+id/post_edt_quan3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="예) 1.5T"
+                    android:layout_weight="0.5"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/post_ll_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="조리 순서"
+                    android:textSize="20dp"
+                    android:layout_weight="0.25"/>
+
+                <Button
+                    android:id="@+id/post_btn_addsteps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:text="순서 추가" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/post_edt_step1"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:hint="예) 소고기는 기름기를 떼어내고 적당한 크기로 잘라주세요"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/post_edt_step2"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:hint="예) 준비된 양념으로 먼저 고기를 조물조물 재워 둡니다."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/post_edt_step3"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:hint="예) 그 사이 양파와 버섯, 대파도 썰어 준비하세요"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
