@@ -24,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -53,11 +54,10 @@ public class RecipeListActivity extends AppCompatActivity {
         final LinearLayout llRecipeList = findViewById(R.id.ll_recipelist);
 
 
-
-        //레이아웃 선언
-
-
+        //intent받기
         ingredientNum = intent.getIntExtra("ingredientNum", 0);
+        final String contain = intent.getStringExtra("contain");
+        final String except = intent.getStringExtra("except");;
 
 
 
@@ -66,7 +66,7 @@ public class RecipeListActivity extends AppCompatActivity {
         makeHeader("eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ");
 
 
-        recipeListGet("김치 치즈", "0", "10", "양파", llRecipeList);
+        recipeListGet(contain, "0", "10", except, llRecipeList);
         loadedThumnail = 10;
 
 
@@ -84,7 +84,7 @@ public class RecipeListActivity extends AppCompatActivity {
                 if(int_TextView_lines == int_scrollViewPos){
                     //화면 최하단 스크롤시 이벤트
 
-                    recipeListGet("김치 치즈", String.valueOf(loadedThumnail), "5", "양파", llRecipeList);
+                    recipeListGet(contain, String.valueOf(loadedThumnail), "5", except, llRecipeList);
                     loadedThumnail += 5;
 
                 }
@@ -173,7 +173,6 @@ public class RecipeListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-
                 Intent intent = new Intent(RecipeListActivity.this, RecipeInfoActivity.class);
                 intent.putExtra("id", ti.getRecipeId());
                 startActivity(intent);
@@ -200,11 +199,17 @@ public class RecipeListActivity extends AppCompatActivity {
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
                 List<RecipeListGet> data = (List<RecipeListGet>) receivedData;
-                System.out.println(data);
                 for(int i = 0; i < data.size(); i++)
                 {
-                    //ingreCountList = (ArrayList<String>)data.get(i).ingre_count.keySet();
-                    ThumnailInfo thumnailinfo = new ThumnailInfo(data.get(i).id, data.get(i).title, searchList,data.get(i).author_name, data.get(i).created_at, data.get(i).recommend_count);
+                    Iterator<String> ingreVal = data.get(i).ingre_count.keySet().iterator();
+                    int j = 0;
+                    ArrayList<String> ingreList = new ArrayList<>();
+                    while(ingreVal.hasNext())
+                    {
+                        String keys = (String)ingreVal.next();
+                        ingreList.add(keys);
+                    }
+                    ThumnailInfo thumnailinfo = new ThumnailInfo(data.get(i).recipe_id, data.get(i).title, ingreList,data.get(i).author_name, data.get(i).created_at, data.get(i).recommend_count);
                     showRecipeThumnail(thumnailinfo, ll);
                 }
 

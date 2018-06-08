@@ -2,6 +2,7 @@ package com.homechef.ict.ict_homechef;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -45,7 +47,7 @@ public class RecipeInfoActivity extends Activity {
         setContentView(R.layout.activity_recipeinfo);
 
         Intent intent = getIntent();
-        recipeId = intent.getIntExtra("id", 1000);
+        recipeId = intent.getIntExtra("id", 0);
         //id 이용해서 서버에서 데이터 받아오기
 
 
@@ -91,14 +93,27 @@ public class RecipeInfoActivity extends Activity {
                 timeCost = recipeSpec.time_cost;
                 steps = recipeSpec.steps;
                 recommendedCount = recipeSpec.recommend_count;
+
+                ArrayList<String> ingreList = new ArrayList<>();
+                ArrayList<String> ingreQuan = new ArrayList<>();
+                Iterator<String> ingreVal = recipeSpec.ingre_count.keySet().iterator();
+                int j = 0;
+                while(ingreVal.hasNext())
+                {
+                    String keys = (String)ingreVal.next();
+                    ingreList.add(keys);
+                    ingreQuan.add(recipeSpec.ingre_count.get(keys));
+                }
+
                 System.out.println("RecipeGet onSuccess@@@@@@");
 
-                LinearLayout llingredientList = findViewById(R.id.ll_ingredientlist);
+                LinearLayout llIngredientList = findViewById(R.id.ll_ingredientlist);
                 LinearLayout llIngredientQuantity = findViewById(R.id.ll_ingredientquantity);
 
                 TextView tvAuthorName = findViewById(R.id.tv_authorname);
                 TextView tvTitle = findViewById(R.id.tv_title);
                 TextView tvCreatedAt = findViewById(R.id.tv_createdat);
+                TextView tvUpdatedAt = findViewById(R.id.tv_updatedat);
                 TextView tvRecommendCount = findViewById(R.id.tv_recommendcount);
                 TextView tvServe = findViewById(R.id.tv_serve);
                 TextView tvTimeCost = findViewById(R.id.tv_timecost);
@@ -108,10 +123,35 @@ public class RecipeInfoActivity extends Activity {
                 tvAuthorName.setText(authorName);
                 tvTitle.setText(title);
                 tvCreatedAt.setText(createdAt);
-                tvRecommendCount.setText(String.valueOf(recommendedCount));
+                tvUpdatedAt.setText(updatedAt);
+                tvRecommendCount.setText("추천 " + String.valueOf(recommendedCount));
                 tvServe.setText(serve);
                 tvTimeCost.setText(timeCost);
                 tvSteps.setText(steps);
+
+                for(int i = 0; i < recipeSpec.ingre_count.size(); i++)
+                {
+                    TextView tv_IngredientName = new TextView(RecipeInfoActivity.this);
+
+                    tv_IngredientName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    tv_IngredientName.setTextColor(Color.parseColor("#000000"));
+                    tv_IngredientName.setPadding(10, 10, 10, 10);
+                    tv_IngredientName.setTextSize(10);
+                    tv_IngredientName.setText(ingreList.get(i));
+                    tv_IngredientName.setSingleLine();
+
+                    TextView tv_IngredientQuantity = new TextView(RecipeInfoActivity.this);
+
+                    tv_IngredientQuantity.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    tv_IngredientQuantity.setTextColor(Color.parseColor("#000000"));
+                    tv_IngredientQuantity.setPadding(10, 10, 10, 10);
+                    tv_IngredientQuantity.setTextSize(10);
+                    tv_IngredientQuantity.setText(ingreQuan.get(i));
+                    tv_IngredientQuantity.setSingleLine();
+
+                    llIngredientList.addView(tv_IngredientName);
+                    llIngredientQuantity.addView(tv_IngredientQuantity);
+                }
 
             }
 
@@ -123,13 +163,6 @@ public class RecipeInfoActivity extends Activity {
                 System.out.println("RecipeGet onFailure@@@@@@");
             }
         });
-
-    }
-
-    private void recipeInfoParse(RecipeGet data)
-    {
-
-
 
     }
 }
