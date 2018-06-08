@@ -6,17 +6,17 @@ public class ThumnailInfo {
 
     private int recipeId;
     private String recipeName;
-    //private String mainImgAddress;
+    private String mainImgAddress;
     ArrayList<String> ingredientList;
     private String writerName;
     private String createdTime;
     private String count = "0";
 
-    ThumnailInfo(int id, String title, /*String img,*/ ArrayList<String> ingredient, String authorName, String createdAt, String recommendedCount)
+    ThumnailInfo(int id, String title, String img, ArrayList<String> ingredient, String authorName, String createdAt, String recommendedCount)
     {
         recipeId = id;
         recipeName = title;
-        //mainImgAddress = img;
+        mainImgAddress = img;
         ingredientList = ingredient;
         writerName = authorName;
         createdTime = createdAt;
@@ -42,4 +42,5 @@ public class ThumnailInfo {
     {
         return count;
     }
+    public String getImgUrl() { return mainImgAddress; }
 }
