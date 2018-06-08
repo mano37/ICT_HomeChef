@@ -1,5 +1,7 @@
 package com.homechef.ict.ict_homechef.ConnectUtil.RequestBody;
 
+import java.util.Map;
+
 public class RecipePut {
 
     public final String title;
@@ -9,15 +11,14 @@ public class RecipePut {
     public final String steps;
     public final String image_url;
 
-    public RecipePut(String title, String serve, String time_cost,
-                     String ingre_count, String steps, String image_url) {
+    public RecipePut(Map<String,String> parameters) {
 
-        this.title = title;
-        this.serve = serve;
-        this.time_cost = time_cost;
-        this.ingre_count = ingre_count;
-        this.steps = steps;
-        this.image_url = image_url;
+        this.title = parameters.get("title");
+        this.serve = parameters.get("serve");
+        this.time_cost = parameters.get("time_cost");
+        this.ingre_count = parameters.get("ingre_count");
+        this.steps = parameters.get("steps");
+        this.image_url = parameters.get("image_url");
 
     }
 }

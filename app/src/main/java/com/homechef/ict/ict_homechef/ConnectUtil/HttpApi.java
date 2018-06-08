@@ -2,7 +2,7 @@ package com.homechef.ict.ict_homechef.ConnectUtil;
 
 import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.LoginPut;
 import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.RecipePut;
-import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.PostRecipe;
+import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.PostRecipeGet;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
 
@@ -68,18 +68,19 @@ public interface HttpApi {
 
     // 제작완료
 
+    // 레시피 등록
     @POST("/api/recipes")
-    Call<PostRecipe> postRecipe(@Body RecipePut parameters);
+    Call<PostRecipeGet> postRecipe(@HeaderMap Map<String,String> headers, @Body RecipePut parameters);
 
+    // 로그인
     @POST("/auth/login")
     Call<ResponseBody> postLogin(@Body LoginPut parameters);
 
-
-    // 제작중
-
+    // 레시피 id로 얻기
     @GET("/api/recipes/{recipe_id}")
     Call<RecipeGet> getRecipe(@HeaderMap Map<String, String> headers, @Path("recipe_id") String id);
 
+    // 레시피 리스트 query로 얻기
     @GET("/api/recipes")
     Call<List<RecipeListGet>> getRecipeList(@HeaderMap Map<String, String> headers,
                                             @Query("contain") String contain,
