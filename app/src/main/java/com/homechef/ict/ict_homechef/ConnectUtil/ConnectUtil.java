@@ -235,7 +235,53 @@ public class ConnectUtil {
     }
 
 
+    public void putRecipe(Map<String,String> header, String id, final HttpCallback callback){
 
+        apiService.putRecipe(header, id).enqueue(new Callback<RecipeGet>() {
+            @Override
+            public void onResponse(Call<RecipeGet> call, Response<RecipeGet> response) {
+                System.out.println("onResponse@@@@@@ ON ConnectUtil putRecipe@@@@@@@@");
+                if (response.isSuccessful()) {
+                    System.out.println("onResponse OK and Success on putRecipe @@@@@@@@");
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    System.out.println("onResponse OK But Failure on putRecipe @@@@@@@@@@@@");
+                    APIError error = ErrorUtil.parseError(response);
+                    System.out.println("Error message : " + error.message());
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RecipeGet> call, Throwable t) {
+                System.out.println("onFailure@@@@@@ ConnectUtil on putRecipe @@@@@@@@");
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void deleteRecipe(Map<String,String> header, String id, final HttpCallback callback){
+
+        apiService.deleteRecipe(header, id).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("onResponse OK and Delete Complete @@@@@@@@");
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    System.out.println("onResponse OK But Failure on Delete @@@@@@@@@@@@");
+                    APIError error = ErrorUtil.parseError(response);
+                    System.out.println("Error message : " + error.message());
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 
 
 }

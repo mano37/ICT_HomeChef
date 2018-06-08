@@ -13,6 +13,7 @@ import java.util.Map;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -77,6 +78,10 @@ public interface HttpApi {
     @POST("/auth/login")
     Call<ResponseBody> postLogin(@Body LoginPut parameters);
 
+    // token 갱신
+    @POST("/auth/sessions")
+    Call<ResponseBody> postSession(@Body SessionPut jwt_token);
+
     // 레시피 id로 얻기
     @GET("/api/recipes/{recipe_id}")
     Call<RecipeGet> getRecipe(@HeaderMap Map<String, String> headers, @Path("recipe_id") String id);
@@ -87,11 +92,15 @@ public interface HttpApi {
                                             @Query("contain") String contain,
                                             @Query("offset") String offset,
                                             @Query("limit") String limit,
-                                            @Query("except") String except
-    );
+                                            @Query("except") String except);
 
-    @POST("/auth/sessions")
-    Call<ResponseBody> postSession(@Body SessionPut jwt_token);
+    @PUT("/api/recipes/{recipe_id}")
+    Call<RecipeGet> putRecipe(@HeaderMap Map<String,String> headers, @Path("recipe_id") String id);
+
+
+    @DELETE("/api/recipes/{recipe_id}")
+    Call<ResponseBody> deleteRecipe(@HeaderMap Map<String,String> headers, @Path("recipe_id") String id);
+
 
     // 예시들
 
