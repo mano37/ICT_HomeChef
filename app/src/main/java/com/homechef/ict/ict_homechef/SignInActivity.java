@@ -1,6 +1,7 @@
 package com.homechef.ict.ict_homechef;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -43,8 +44,11 @@ public class SignInActivity extends AppCompatActivity implements
 
     String resultStr;
     JsonObject json;
+    String tokenKeyName = "jwt_token";
 
     Intent sendResult = new Intent();
+
+    SharedPreferences pref;
 
     ConnectUtil connectUtil;
 
@@ -87,17 +91,77 @@ public class SignInActivity extends AppCompatActivity implements
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setColorScheme(SignInButton.COLOR_LIGHT);
         // [END customize_button]
+
+
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
+        signOut();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        updateUI(account);
+        /*
+        // Make Shared preference
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+
         // [START on_start_sign_in]
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        updateUI(account);
+
+        // if already signed in
+        if(account != null){
+            String tokenCalled = pref.getString(tokenKeyName, "0");
+
+            // if there is no jwt_token
+            if(tokenCalled.equals("0")){
+                System.out.println("onStart @@@@@ on not null and equals 0");
+                signOut();
+                signIn();
+            }
+            //
+            else{
+                System.out.println("onStart @@@@@ on not null but else");
+                connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+                connectUtil.postSession(tokenCalled, new HttpCallback() {
+                    @Override
+                    public void onError(Throwable t) {
+
+                        System.out.println("postSession Error SignInActivity@@@@@");
+
+                    }
+
+                    @Override
+                    public void onSuccess(int code, Object receivedData) {
+
+                        String data = (String) receivedData;
+                        System.out.println("postSession Response Get SignInActivity @@@@@ : " + data );
+                        sendResult.putExtra("user_info", data);
+                        setResult(2, sendResult);
+                        finish();
+
+                    }
+
+                    @Override
+                    public void onFailure(int code) {
+
+                        System.out.println("postSession onFailure SigninActivity @@@@@");
+                        signOut();
+                        signIn();
+
+                    }
+                });
+            }
+
+        }
+
+        // if not signed in
+        else{
+            signIn();
+        }*/
         // [END on_start_sign_in]
     }
 
@@ -105,14 +169,6 @@ public class SignInActivity extends AppCompatActivity implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
 
         if (requestCode == RC_GET_AUTH_CODE) {
             // [START get_auth_code]
@@ -128,11 +184,7 @@ public class SignInActivity extends AppCompatActivity implements
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 */
 
-                // Show signed-un UI
-                updateUI(account);
-
                 // TODO(developer): send code to server and exchange for access/refresh/ID tokens
-
 
                 HashMap<String , String> loginPara = new HashMap<String , String>();
 
@@ -144,8 +196,7 @@ public class SignInActivity extends AppCompatActivity implements
                             @Override
                             public void onError(Throwable t) {
 
-                                System.out.println("Error@@@@@");
-                                System.out.println("@@@@@@@@");
+                                System.out.println("postLogin Error@@@@@");
 
                             }
 
@@ -153,7 +204,7 @@ public class SignInActivity extends AppCompatActivity implements
                             public void onSuccess(int code, Object receivedData) {
 
                                 String data = (String) receivedData;
-                                System.out.println("Response Get@@@@@ : " + data );
+                                System.out.println("postLogin Response Get@@@@@ : " + data );
                                 sendResult.putExtra("user_info", data);
                                 setResult(1, sendResult);
                                 finish();
@@ -163,42 +214,10 @@ public class SignInActivity extends AppCompatActivity implements
                             @Override
                             public void onFailure(int code) {
 
-                                System.out.println("Fail@@@@@@@@@@@@");
-                                System.out.println("@@@@@@@@@@@@@");
+                                System.out.println("postLogin Fail@@@@@@@@@@@@");
 
                             }
                         });
-
-
-                /*
-                String[] sArr = {authCode, "google"};
-
-                HttpUtil httpUtil =
-                        new HttpUtil(getString(R.string.login_url),
-                        new JsonUtil(getString(R.string.login_url), sArr).getJsonStr(),
-                                new HttpUtil.HttpUtilCallback() {
-                    @Override
-                    public void onSuccess(String result) {
-
-                        //JsonUtil(getString(R.string.login_url), result);
-                        System.out.println("SuccessFull!!!!! @@@@@@@ The result : " + result);
-
-                        sendResult.putExtra("user_info", result);
-                        setResult(1, sendResult);
-                        finish();
-
-                    }
-
-                    @Override
-                    public void onFailure(Exception e) {
-                        System.out.println("Fail nnnnnnnnnnnnnnn");
-                    }
-                });
-
-                httpUtil.execute();
-                */
-
-
 
             } catch (ApiException e) {
                 Log.w(TAG, "Sign-in failed", e);
@@ -273,7 +292,7 @@ public class SignInActivity extends AppCompatActivity implements
 
     private void updateUI(@Nullable GoogleSignInAccount account) {
         if (account != null) {
-            mStatusTextView.setText(getString(R.string.signed_in_fmt, account.getServerAuthCode()));
+            mStatusTextView.setText(getString(R.string.signed_in_fmt, account.getDisplayName()));
 
             System.out.println("authCode : " + account.getServerAuthCode());
 
@@ -311,13 +330,6 @@ public class SignInActivity extends AppCompatActivity implements
                 revokeAccess();
                 break;
         }
-    }
-
-    public interface SignInActivityCallback{
-
-        void onSuccess(JsonObject json);
-        void onFailure(Exception e);
-
     }
 
  }

@@ -2,6 +2,7 @@ package com.homechef.ict.ict_homechef.ConnectUtil;
 
 import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.LoginPut;
 import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.RecipePut;
+import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.SessionPut;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.PostRecipeGet;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
@@ -88,6 +89,9 @@ public interface HttpApi {
                                             @Query("limit") String limit,
                                             @Query("except") String except
     );
+
+    @POST("/auth/sessions")
+    Call<ResponseBody> postSession(@Body SessionPut jwt_token);
 
     // 예시들
 
