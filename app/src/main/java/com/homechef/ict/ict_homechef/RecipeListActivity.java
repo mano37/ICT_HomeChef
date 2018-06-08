@@ -157,7 +157,7 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_writerName.setTextColor(Color.parseColor("#000000"));
         tv_writerName.setPadding(10, 10, 10, 10);
         tv_writerName.setTextSize(12);
-        tv_writerName.setText("by " + ti.getWriterName());
+        tv_writerName.setText(ti.getWriterName());
         tv_writerName.setSingleLine();
 
         //완성된 썸네일 레이아웃을 레이아웃에 표출

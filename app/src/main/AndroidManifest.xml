@@ -56,6 +56,11 @@
             android:label="recipeinfo_activity"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity">
         </activity>
+        <activity
+        android:name=".PostActivity"
+        android:label="post_activity"
+        android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+    </activity>
 
     </application>
 
