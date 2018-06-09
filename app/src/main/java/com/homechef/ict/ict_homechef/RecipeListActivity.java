@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -227,8 +228,10 @@ public class RecipeListActivity extends AppCompatActivity {
                     ThumnailInfo thumnailinfo = new ThumnailInfo(data.get(i).recipe_id, data.get(i).title, data.get(i).image_url, ingreList,data.get(i).author_name, data.get(i).created_at, data.get(i).recommend_count);
                     showRecipeThumnail(thumnailinfo, ll);
                 }
-
-
+                if(data.size() == 0)
+                {
+                    Toast.makeText(RecipeListActivity.this, "더 이상 로드할 레시피가 없습니다.", Toast.LENGTH_SHORT).show();
+                }
                 System.out.println("RecipeListGet onSuccess@@@@@@");
 
             }
