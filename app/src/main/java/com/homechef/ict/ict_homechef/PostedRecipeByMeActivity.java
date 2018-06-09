@@ -120,7 +120,7 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
         });
         System.out.println("@@@@@@@@ PostedRecipeByMe searchIndex : " + searchIndex);
         if (savedPostedRecipeByID.equals("") || savedPostedRecipeByID.equals(" ")) {
-            Toast.makeText(PostedRecipeByMeActivity.this, "내가 본 레시피가 없습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PostedRecipeByMeActivity.this, "내가 작성한 레시피가 없습니다.", Toast.LENGTH_SHORT).show();
         }
 
     }
