@@ -32,7 +32,6 @@ import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Beta 버전에서는 지원되지 않습니다", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
