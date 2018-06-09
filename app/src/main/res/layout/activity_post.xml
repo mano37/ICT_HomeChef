@@ -171,12 +171,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/post_btn_delingredient"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:text="X"
-                        android:layout_gravity="center"/>
 
                 </LinearLayout>
 
@@ -239,11 +233,7 @@
                         android:hint="예) 소고기를 다져주세요"
                         android:layout_weight="1"/>
 
-                    <Button
-                        android:id="@+id/post_btn_delstep"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:text="X"/>
+
 
                 </LinearLayout>
 
