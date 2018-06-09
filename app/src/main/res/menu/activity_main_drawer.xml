@@ -5,22 +5,23 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_searchRecipe"
             android:icon="@drawable/icon_recipe_search"
             android:title="@string/recipe_search" />
         <item
+            android:id="@+id/nav_recipeShown"
             android:icon="@drawable/icon_recipe_shown"
             android:title="내가 본 레시피"/>
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_postRecipe"
             android:icon="@drawable/icon_recipe_put"
             android:title="@string/recipe_add" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_recipePosted"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="내가 작성한 레시피" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_logout"
             android:icon="@drawable/icon_logout"
             android:title="@string/logout" />
     </group>
