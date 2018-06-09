@@ -1,6 +1,7 @@
 package com.homechef.ict.ict_homechef;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
 import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
 import com.homechef.ict.ict_homechef.ConnectUtil.RequestBody.RecipePut;
@@ -23,8 +26,19 @@ import java.util.Map;
 
 public class PostActivity extends AppCompatActivity {
 
+    // connectUtil
     ConnectUtil connectUtil;
     Map<String,String> header = new HashMap<>();
+
+    // user 정보
+    private JsonObject userJson;
+    private String userInfo;
+    private JsonParser parser = new JsonParser();
+    String jwt;
+    int userID;
+
+    String savedPostedRecipeByID;
+    String filePostedRecipeByID;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -32,6 +46,15 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
 
         connectUtil = ConnectUtil.getInstance(this).createBaseApi();
+
+        // get userInfo
+        Intent startIntent = getIntent();
+        userInfo = startIntent.getExtras().getString("user_info");
+        userJson = (JsonObject) parser.parse(userInfo);
+        jwt = userJson.get("jwt_token").getAsString();
+        userID = userJson.get("user_id").getAsInt();
+
+        filePostedRecipeByID = "PostedRecipeBy" + String.valueOf(userID);
 
 
         /////////////////////////////////////////////////////////뷰 선언
@@ -74,7 +97,6 @@ public class PostActivity extends AppCompatActivity {
         Button btn_register = findViewById(R.id.post_btn_register);
         ///////////////////////////////////////////////////////////////////////////////
 
-        String jwt = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ";
         makeHeader(jwt);
 
 
@@ -148,11 +170,20 @@ public class PostActivity extends AppCompatActivity {
                 // 성공적으로 완료한 경우
                 CacheUtil cacheUtil = new CacheUtil(PostActivity.this);
                 try {
-                    cacheUtil.Write(String.valueOf(((PostRecipeGet)receivedData).recipe_id), "uploadedID.txt");
+                    savedPostedRecipeByID = cacheUtil.Read(filePostedRecipeByID);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
+                String writeString =
+                        String.valueOf(((PostRecipeGet)receivedData).recipe_id)
+                                + " "
+                                + savedPostedRecipeByID;
+                try {
+                    cacheUtil.Write(writeString, filePostedRecipeByID);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
 

@@ -147,25 +147,39 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        //카메라 버튼 누를 시 검색 창으로 이동
-        if (id == R.id.nav_camera) {
+        // 레시피 검색으로 이동
+        if (id == R.id.nav_searchRecipe) {
             Intent intent = new Intent(this, SearchActivity.class);
+            intent.putExtra("userInfo",userInfo);
             startActivity(intent);
 
-        } else if (id == R.id.nav_gallery) {
-            //레시피 추가 버튼 누를 시 레시피 추가 창으로 이동
+        }
+        // 내가 봤던 레시피로 이동
+        else if (id == R.id.nav_recipeShown) {
+            Intent intent = new Intent(this, RecipeShownByMe.class);
+            intent.putExtra("userInfo", userInfo);
+            startActivity(intent);
+        }
+        // 레시피 추가로 이동
+        else if (id == R.id.nav_postRecipe) {
             Intent intent = new Intent(this, PostActivity.class);
+            intent.putExtra("userInfo", userInfo);
             startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+        }
+        // 내가 추가한 레시피로 이동
+        else if (id == R.id.nav_recipePosted) {
+            Intent intent = new Intent(this, PostedRecipeByMeActivity.class);
+            intent.putExtra("userInfo", userInfo);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_manage) {
+        }
+        // 로그아웃으로 이동
+        else if (id == R.id.nav_logout) {
             Intent intent = new Intent(this, SignInActivity.class);
             startActivityForResult(intent, 4444);
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        }  else if (id == R.id.nav_send) {
 
         }
 
