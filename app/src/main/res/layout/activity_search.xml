@@ -14,8 +14,10 @@
             android:id="@+id/edt_ingredientadd"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:inputType="textFilter"
-            android:hint="@string/enter_ingredient"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:hint="@string/enter_ingredient"
+            android:inputType="textFilter" />
 
         <Button
             android:id="@+id/btn_ingredientadd"
@@ -34,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.1"
+            android:textStyle="bold"
             android:text="@string/added_ingredient"
             android:gravity="center"
             android:textSize="15sp"/>
@@ -79,6 +82,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.1"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="@string/recent_ingredient"
             android:textSize="15sp"/>
         <LinearLayout
@@ -126,6 +130,7 @@
             android:id="@+id/btn_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/search"/>
+            android:background="#ffffff"
+            android:text="@string/search" />
     </LinearLayout>
 </LinearLayout>

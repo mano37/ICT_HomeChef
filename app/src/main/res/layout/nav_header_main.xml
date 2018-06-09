@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:textColor="#7eeef9"
             android:text="@string/nav_header_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="30dp"
@@ -50,7 +51,7 @@
             android:layout_weight="1"
             android:text="@string/nav_header_subtitle"
             android:textAllCaps="false"
-            android:textColor="#FFFFFFFF"
+            android:textColor="#7eeef9"
             android:textSize="13dp"
             android:textStyle="bold" />
 
