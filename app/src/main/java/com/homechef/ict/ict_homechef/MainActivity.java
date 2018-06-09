@@ -57,10 +57,13 @@ public class MainActivity extends AppCompatActivity
         userNameStr = userJson.get("name").getAsString();
         userEmailStr = userJson.get("email").getAsString();
         userPictureStr = userJson.get("picture").getAsString();
+        // userinfo 세팅 끝
 
 
+        // 환영 메세지
         String startStr = userNameStr +"님 " + "환영합니다.";
         Toast.makeText(getApplicationContext(), startStr, Toast.LENGTH_LONG).show();
+        // 환영 메세지 끝
 
 
         // 화면 생성
