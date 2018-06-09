@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -151,7 +152,7 @@ public class RecipeShownByMe extends AppCompatActivity {
         final LinearLayout ll_content = new LinearLayout(RecipeShownByMe.this);
         ll_content.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         ll_content.setOrientation(LinearLayout.VERTICAL);
-        ll_content.setPadding(10, 10, 10, 10);
+        ll_content.setPadding(20, 10, 20, 10);
 
         final TextView tv_recipeName = new TextView(RecipeShownByMe.this);
         tv_recipeName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -160,6 +161,7 @@ public class RecipeShownByMe extends AppCompatActivity {
         tv_recipeName.setTextSize(15);
         tv_recipeName.setText(ti.getRecipeName());
         tv_recipeName.setSingleLine();
+        tv_recipeName.setEllipsize(TextUtils.TruncateAt.END);
 
         final TextView tv_ingredientList = new TextView(RecipeShownByMe.this);
         tv_ingredientList.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -173,6 +175,7 @@ public class RecipeShownByMe extends AppCompatActivity {
         }
         tv_ingredientList.setText(recipeList);
         tv_ingredientList.setSingleLine();
+        tv_recipeName.setEllipsize(TextUtils.TruncateAt.END);
 
         final TextView tv_recommendCount = new TextView(RecipeShownByMe.this);
         tv_recommendCount.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));

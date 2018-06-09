@@ -101,7 +101,7 @@ public class PostActivity extends AppCompatActivity {
         btn_addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int instance = edt_ingredientName.size();
+                final int instance = edt_ingredientName.size();
 
                 edt_ingredientName.add(new EditText(PostActivity.this));
                 edt_ingredientQuantity.add(new EditText(PostActivity.this));
@@ -123,6 +123,18 @@ public class PostActivity extends AppCompatActivity {
                 btn_delIngredient.get(instance).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
                 ll_ingredientButton.addView(btn_delIngredient.get(instance));
+
+                btn_delIngredient.get(instance).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ll_ingredientName.removeView(edt_ingredientName.get(instance));
+                        ll_ingredientQuan.removeView(edt_ingredientQuantity.get(instance));
+                        ll_ingredientButton.removeView(btn_delIngredient.get(instance));
+                        edt_ingredientName.remove(instance);
+                        edt_ingredientQuantity.remove(instance);
+                        btn_delIngredient.remove(instance);
+                    }
+                });
             }
         });
 

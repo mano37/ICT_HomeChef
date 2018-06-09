@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity
 
         makeHeader(userJson.get("jwt_token").getAsString());
 
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 7; i++)
         {
             int id = (int) (Math.random() * (120000)) + 1;
             recipesGet(String.valueOf(id), llRecipeList);
@@ -166,8 +166,11 @@ public class MainActivity extends AppCompatActivity
 
                 if(int_TextView_lines == int_scrollViewPos){
                     //화면 최하단 스크롤시 이벤트
-                    int id = (int) (Math.random() * (120000)) + 1;
-                    recipesGet(String.valueOf(id), llRecipeList);
+                    for(int i = 0; i < 2; i++)
+                    {
+                        int id = (int) (Math.random() * (120000)) + 1;
+                        recipesGet(String.valueOf(id), llRecipeList);
+                    }
 
                 }
 
@@ -310,7 +313,7 @@ public class MainActivity extends AppCompatActivity
         final LinearLayout ll_content = new LinearLayout(MainActivity.this);
         ll_content.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         ll_content.setOrientation(LinearLayout.VERTICAL);
-        ll_content.setPadding(10, 10, 10, 10);
+        ll_content.setPadding(30, 20, 30, 15);
 
         final TextView tv_recipeName = new TextView(MainActivity.this);
         tv_recipeName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
