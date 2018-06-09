@@ -185,7 +185,11 @@ public class RecipeInfoActivity extends Activity {
                 Point size = new Point();
                 display.getSize(size);
                 int width = size.x;
-                Picasso.get().load(img).resize(width, 0).centerCrop().into(imgMain);
+                if(!img.isEmpty())
+                {
+
+                    Picasso.get().load(img).resize(width, 0).centerCrop().into(imgMain);
+                }
 
 
                 for(int i = 0; i < recipeSpec.ingre_count.size(); i++)

@@ -153,26 +153,24 @@ public class PostActivity extends AppCompatActivity {
                 Map<String, String> ingredientList = new HashMap<>();
                 for(int i = 0; i < edt_ingredientName.size(); i++)
                 {
-                    if(!edt_ingredientName.get(i).equals(""))
+                    if(!edt_ingredientName.get(i).getText().toString().equals(""))
                     {
                         ingredientList.put(edt_ingredientName.get(i).getText().toString(), edt_ingredientQuantity.get(i).getText().toString());
                     }
                 }
                 String steps = "";
                 String imgUrl = "";
-                for(int i = 0; i < edt_steps.size(); i++)
-                {
-                    if(edt_steps.get(i).getText().toString()==null)
-                    {
-                        edt_steps.remove(i);
-                        i--;
-                    }
-                }
 
+                int j = 1;
                 for(int i = 0; i < edt_steps.size(); i++)
                 {
-                    steps += "step" + i + '\n';
-                    steps += edt_steps.get(i).getText().toString() + '\n';
+
+                    if(!edt_steps.get(i).getText().toString().equals(""))
+                    {
+                        steps += "step" + j + '\n';
+                        steps += edt_steps.get(i).getText().toString() + '\n';
+                        j++;
+                    }
                 }
                 RecipePut recipeput = new RecipePut(title, serve, timeCost, ingredientList, steps, imgUrl);
                 if(title.isEmpty())
@@ -195,12 +193,11 @@ public class PostActivity extends AppCompatActivity {
                     Toast.makeText(PostActivity.this, "최소 한 개의 재료를 입력해주세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(steps.isEmpty())
+                if(steps.equals(""))
                 {
                     Toast.makeText(PostActivity.this, "최소 한 개의 요리방법을 적어주세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 recipePost(recipeput);
             }
         });
