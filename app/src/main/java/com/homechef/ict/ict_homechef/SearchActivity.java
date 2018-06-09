@@ -337,7 +337,7 @@ public class SearchActivity extends AppCompatActivity {
             {
                 //추가된 재료 갯수 확인, 재료 리스트에서 정보 지우기
                 ingredientSet.remove(s);
-                dl.calLayoutSize(-nameSize, addedLayoutNum);
+                dl.calLayoutSize(-(nameSize+MARGINSIZE), addedLayoutNum);
                 addedLayout[addedLayoutNum].removeView(llIngredientOutline);
             }
         });
