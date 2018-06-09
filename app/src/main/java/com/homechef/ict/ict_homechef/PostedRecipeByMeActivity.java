@@ -147,7 +147,7 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
         final LinearLayout ll_content = new LinearLayout(PostedRecipeByMeActivity.this);
         ll_content.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         ll_content.setOrientation(LinearLayout.VERTICAL);
-        ll_content.setPadding(10, 10, 10, 10);
+        ll_content.setPadding(20, 10, 20, 10);
 
         final TextView tv_recipeName = new TextView(PostedRecipeByMeActivity.this);
         tv_recipeName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));

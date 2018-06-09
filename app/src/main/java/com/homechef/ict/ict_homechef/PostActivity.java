@@ -84,14 +84,10 @@ public class PostActivity extends AppCompatActivity {
         final Button btn_addIngredient = findViewById(R.id.post_btn_addingredient);
         final Button btn_addsteps = findViewById(R.id.post_btn_addsteps);
 
-        final List<Button> btn_delIngredient = new ArrayList<>();
-        btn_delIngredient.add((Button)findViewById(R.id.post_btn_delingredient));
 
         final List<EditText> edt_steps = new ArrayList<>();
         edt_steps.add((EditText)findViewById(R.id.post_edt_step));
 
-        final List<Button> btn_delSteps = new ArrayList<>();
-        btn_delSteps.add((Button)findViewById(R.id.post_btn_delstep));
 
         Button btn_register = findViewById(R.id.post_btn_register);
         ///////////////////////////////////////////////////////////////////////////////
@@ -101,11 +97,10 @@ public class PostActivity extends AppCompatActivity {
         btn_addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int instance = edt_ingredientName.size();
+                final int instance = edt_ingredientName.size();
 
                 edt_ingredientName.add(new EditText(PostActivity.this));
                 edt_ingredientQuantity.add(new EditText(PostActivity.this));
-                btn_delIngredient.add(new Button(PostActivity.this));
 
 
                 edt_ingredientName.get(instance).setHint("재료 입력");
@@ -119,10 +114,6 @@ public class PostActivity extends AppCompatActivity {
                 ll_ingredientName.addView(edt_ingredientName.get(instance));
                 ll_ingredientQuan.addView(edt_ingredientQuantity.get(instance));
 
-                btn_delIngredient.get(instance).setText("X");
-                btn_delIngredient.get(instance).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-                ll_ingredientButton.addView(btn_delIngredient.get(instance));
             }
         });
 
@@ -138,20 +129,14 @@ public class PostActivity extends AppCompatActivity {
                 int instance = edt_steps.size();
 
                 edt_steps.add(new EditText(PostActivity.this));
-                btn_delSteps.add(new Button(PostActivity.this));
 
-
-                btn_delSteps.get(instance).setId(instance);
                 edt_steps.get(instance).setHint("조리 방법 입력");
                 RelativeLayout.LayoutParams rightButton = new RelativeLayout.LayoutParams(getDPSize(40f), ViewGroup.LayoutParams.WRAP_CONTENT);
                 RelativeLayout.LayoutParams leftEdt = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 rightButton.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 leftEdt.addRule(RelativeLayout.LEFT_OF, instance);
-                btn_delSteps.get(instance).setLayoutParams(rightButton);
-                btn_delSteps.get(instance).setText("X");
                 edt_steps.get(instance).setLayoutParams(leftEdt);
 
-                stepInstance.addView(btn_delSteps.get(instance));
                 stepInstance.addView(edt_steps.get(instance));
 
 
