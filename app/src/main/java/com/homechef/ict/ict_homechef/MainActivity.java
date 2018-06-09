@@ -3,6 +3,7 @@ package com.homechef.ict.ict_homechef;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -303,10 +305,14 @@ public class MainActivity extends AppCompatActivity
         ImageView image_thumnail = new ImageView(MainActivity.this);
         image_thumnail.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
         image_thumnail.setImageResource(R.drawable.thumnail);
         if(!ti.getImgUrl().isEmpty())
         {
-            Picasso.get().load(ti.getImgUrl()).resize(ll.getWidth(), 0).centerCrop().into(image_thumnail);
+            Picasso.get().load(ti.getImgUrl()).resize(width, 0).centerCrop().into(image_thumnail);
         }
 
 
