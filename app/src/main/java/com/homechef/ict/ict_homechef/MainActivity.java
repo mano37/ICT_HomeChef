@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // userinfo 세팅
         Intent startIntent = getIntent();
         userInfo = startIntent.getExtras().getString("user_info");
         userJson = (JsonObject) parser.parse(userInfo);
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(), startStr, Toast.LENGTH_LONG).show();
 
 
+        // 화면 생성
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -83,6 +85,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        // user info 표시
 
         View nav_header_view = navigationView.getHeaderView(0);
         textView = (TextView) nav_header_view.findViewById(R.id.Navigation_profile_name);

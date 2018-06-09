@@ -6,19 +6,22 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/icon_recipe_search"
             android:title="@string/recipe_search" />
         <item
+            android:icon="@drawable/icon_recipe_shown"
+            android:title="내가 본 레시피"/>
+        <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/icon_recipe_put"
             android:title="@string/recipe_add" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/freeboard" />
+            android:title="내가 작성한 레시피" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/icon_logout"
             android:title="@string/logout" />
     </group>
 
