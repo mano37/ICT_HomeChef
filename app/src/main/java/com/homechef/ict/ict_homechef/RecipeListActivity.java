@@ -117,11 +117,11 @@ public class RecipeListActivity extends AppCompatActivity {
         //Thumnail 내의 메인 이미지
         ImageView image_thumnail = new ImageView(RecipeListActivity.this);
 
+        image_thumnail.setImageResource(R.drawable.thumnail);
         if(!ti.getImgUrl().isEmpty())
         {
-            Picasso.get().load(ti.getImgUrl()).resize(350, 300).centerCrop().into(image_thumnail);
+            Picasso.get().load(ti.getImgUrl()).placeholder(R.drawable.thumnail).resize(350, 300).centerCrop().into(image_thumnail);
         }
-        image_thumnail.setImageResource(R.drawable.thumnail);
 
         final LinearLayout ll_content = new LinearLayout(RecipeListActivity.this);
         ll_content.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
