@@ -137,8 +137,11 @@ public class SearchActivity extends AppCompatActivity {
                         {
                             data[searchType] += " " + keys;
                         }
-
-
+                        if(data[0] == "")
+                        {
+                            Toast.makeText(SearchActivity.this, "최소 1개 이상의 재료를 포함해야 합니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     }
 
                     //검색한 목록 캐쉬에 저장
