@@ -79,6 +79,7 @@ public class RecipeShownByMe extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // 로컬에 저장된 id로 getRecipe 작업
         searchList = savedPostedRecipeByID.split(" ");
 
         for(int i = 0; (i < 10 && i < searchList.length); i++){

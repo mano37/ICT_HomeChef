@@ -10,12 +10,12 @@ public class RecipeListGet {
     public String image_url;
     public Map<String,String> ingre_count = new HashMap<>();
     public String created_at;
-    public String recommend_count;
+    public int recommend_count;
     public String author_name;
     public int author_id;
 
     public RecipeListGet(int recipe_id, String title, String image_url, Map<String,String> ingre_count,
-                         String created_at, String recommend_count, String author_name,
+                         String created_at, int recommend_count, String author_name,
                          int author_id){
 
         this.recipe_id = recipe_id;
