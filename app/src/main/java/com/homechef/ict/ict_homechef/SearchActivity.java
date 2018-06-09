@@ -1,10 +1,9 @@
 package com.homechef.ict.ict_homechef;
 
 
-import android.app.Application;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Environment;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -12,21 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -56,11 +47,25 @@ public class SearchActivity extends AppCompatActivity {
     String[] loadIngredients;
     String temp;
 
+    // user 정보
+    private JsonObject userJson;
+    private String userInfo;
+    private JsonParser parser = new JsonParser();
+    String jwt;
+    int userID;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        // get userInfo
+        Intent startIntent = getIntent();
+        userInfo = startIntent.getExtras().getString("user_info");
+        userJson = (JsonObject) parser.parse(userInfo);
+        jwt = userJson.get("jwt_token").getAsString();
+        userID = userJson.get("user_id").getAsInt();
 
         //캐쉬유틸 선언
         final CacheUtil cacheUtil = new CacheUtil(SearchActivity.this);
@@ -165,6 +170,7 @@ public class SearchActivity extends AppCompatActivity {
 
                     intent.putExtra("contain", data[0]);
                     intent.putExtra("except", data[1]);
+                    intent.putExtra("user_info", userInfo);
                 }
 
                 startActivity(intent);

@@ -150,27 +150,27 @@ public class MainActivity extends AppCompatActivity
         // 레시피 검색으로 이동
         if (id == R.id.nav_searchRecipe) {
             Intent intent = new Intent(this, SearchActivity.class);
-            intent.putExtra("userInfo",userInfo);
+            intent.putExtra("user_info",userInfo);
             startActivity(intent);
 
         }
         // 내가 봤던 레시피로 이동
         else if (id == R.id.nav_recipeShown) {
             Intent intent = new Intent(this, RecipeShownByMe.class);
-            intent.putExtra("userInfo", userInfo);
+            intent.putExtra("user_info", userInfo);
             startActivity(intent);
         }
         // 레시피 추가로 이동
         else if (id == R.id.nav_postRecipe) {
             Intent intent = new Intent(this, PostActivity.class);
-            intent.putExtra("userInfo", userInfo);
+            intent.putExtra("user_info", userInfo);
             startActivity(intent);
 
         }
         // 내가 추가한 레시피로 이동
         else if (id == R.id.nav_recipePosted) {
             Intent intent = new Intent(this, PostedRecipeByMeActivity.class);
-            intent.putExtra("userInfo", userInfo);
+            intent.putExtra("user_info", userInfo);
             startActivity(intent);
 
         }

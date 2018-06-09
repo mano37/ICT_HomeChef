@@ -10,9 +10,9 @@ public class ThumnailInfo {
     ArrayList<String> ingredientList;
     private String writerName;
     private String createdTime;
-    private String count = "0";
+    private int count = 0;
 
-    ThumnailInfo(int id, String title, String img, ArrayList<String> ingredient, String authorName, String createdAt, String recommendedCount)
+    ThumnailInfo(int id, String title, String img, ArrayList<String> ingredient, String authorName, String createdAt, int recommendedCount)
     {
         recipeId = id;
         recipeName = title;
@@ -38,7 +38,7 @@ public class ThumnailInfo {
     }
     public String getWriterName() { return writerName; }
     public String getCreatedTime() { return createdTime; }
-    public String getCount()
+    public int getCount()
     {
         return count;
     }

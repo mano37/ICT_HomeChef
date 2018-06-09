@@ -7,17 +7,15 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
 import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
 import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,6 +38,16 @@ public class RecipeInfoActivity extends Activity {
     ConnectUtil connectUtil;
     Map<String,String> header = new HashMap<>();
 
+    // user 정보
+    private JsonObject userJson;
+    private String userInfo;
+    private JsonParser parser = new JsonParser();
+    String jwt;
+    int userID;
+
+    String savedRecipeShownByID;
+    String fileRecipeShownByID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +55,23 @@ public class RecipeInfoActivity extends Activity {
 
         Intent intent = getIntent();
         recipeId = intent.getIntExtra("id", 0);
+
+        // get userInfo
+        Intent startIntent = getIntent();
+        userInfo = startIntent.getExtras().getString("user_info");
+        userJson = (JsonObject) parser.parse(userInfo);
+        jwt = userJson.get("jwt_token").getAsString();
+        userID = userJson.get("user_id").getAsInt();
+
         //id 이용해서 서버에서 데이터 받아오기
 
 
+        fileRecipeShownByID = "RecipeShownBy" + userID;
 
 
-        String token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtqaHdhbmlkQGdtYWlsLmNvbSIsImV4cCI6MTUyODczMDY3OSwianRpIjoiNSIsImlhdCI6MTUyODI5ODY3OSwiaXNzIjoiSG9tZWNoZWYtU2VydmVyIn0.okMQOfVNKtDATGX99Xo_Xt3K5V6I-dFG5FnILgMIBWoX07fQmp1nEq2yVXCfar2KrU54Yd3FHPmBWPpjHS8eFQ";
-        makeHeader(token);
+
+
+        makeHeader(jwt);
         RecipeGet(String.valueOf(recipeId));
 
 
@@ -67,7 +85,7 @@ public class RecipeInfoActivity extends Activity {
 
     }
 
-    public void RecipeGet(String id) {
+    public void RecipeGet(final String id) {
 
         connectUtil = ConnectUtil.getInstance(this).createBaseApi();
 
@@ -82,6 +100,35 @@ public class RecipeInfoActivity extends Activity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
+                CacheUtil cacheUtil = new CacheUtil(RecipeInfoActivity.this);
+                try {
+                    savedRecipeShownByID = cacheUtil.Read(fileRecipeShownByID);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String[] splitStr = savedRecipeShownByID.split(" ", 10);
+                String tmpString = "";
+                int tmpindex = 0;
+                for(int i=0; i < splitStr.length; i++){
+                    if(splitStr[i].equals(id)){
+                        splitStr[i] = null;
+                    }
+                    else{
+                        tmpindex++;
+                        if(tmpindex < 10) tmpString = tmpString + splitStr[i] + " ";
+
+                    }
+                }
+
+                String writeString = id + " " + tmpString;
+
+                try {
+                    cacheUtil.Write(writeString, fileRecipeShownByID);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 RecipeGet recipeSpec = ((RecipeGet) receivedData);
                 recipeId = recipeSpec.recipe_id;
                 title = recipeSpec.title;
@@ -133,7 +180,7 @@ public class RecipeInfoActivity extends Activity {
 
                 if(!img.isEmpty())
                 {
-                    Picasso.get().load(img).resize(imgMain.getMeasuredWidth(), imgMain.getMeasuredHeight()).centerCrop().into(imgMain);
+                    Picasso.get().load(img).resize(imgMain.getMeasuredWidth(), 0).centerCrop().into(imgMain);
                 }
 
 

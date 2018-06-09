@@ -60,8 +60,15 @@
         android:name=".PostActivity"
         android:label="post_activity"
         android:theme="@style/ThemeOverlay.MyNoTitleActivity">
-    </activity>
-
+        </activity>
+        <activity android:name=".PostedRecipeByMeActivity"
+            android:label="poastedRecipe_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
+        <activity android:name=".RecipeShownByMe"
+            android:label="poastedRecipe_activity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,5 @@
 package com.homechef.ict.ict_homechef;
 
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,24 +15,21 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.homechef.ict.ict_homechef.ConnectUtil.ConnectUtil;
 import com.homechef.ict.ict_homechef.ConnectUtil.HttpCallback;
-import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeListGet;
+import com.homechef.ict.ict_homechef.ConnectUtil.ResponseBody.RecipeGet;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-
-public class RecipeListActivity extends AppCompatActivity {
+public class PostedRecipeByMeActivity extends AppCompatActivity {
 
     ConnectUtil connectUtil = ConnectUtil.getInstance(this).createBaseApi();
     Map<String,String> header = new HashMap<>();
     static int int_scrollViewPos;
     static int int_TextView_lines;
-
-    final ArrayList<String> searchList = new ArrayList<>();
 
     int loadedThumnail = 0;
 
@@ -43,6 +39,13 @@ public class RecipeListActivity extends AppCompatActivity {
     private JsonParser parser = new JsonParser();
     String jwt;
     int userID;
+
+    final CacheUtil cacheUtil = new CacheUtil(PostedRecipeByMeActivity.this);
+    String savedPostedRecipeByID;
+    String filePostedRecipeByID;
+
+    String[] searchList;
+    int searchIndex;
 
 
     @Override
@@ -57,26 +60,34 @@ public class RecipeListActivity extends AppCompatActivity {
         final LinearLayout llRecipeList = findViewById(R.id.ll_recipelist);
 
 
-        //intent받기
-        ingredientNum = intent.getIntExtra("ingredientNum", 0);
-        final String contain = intent.getStringExtra("contain");
-        final String except = intent.getStringExtra("except");;
-
-        // get userInfo
+        // user 정보 얻기
         Intent startIntent = getIntent();
         userInfo = startIntent.getExtras().getString("user_info");
         userJson = (JsonObject) parser.parse(userInfo);
         jwt = userJson.get("jwt_token").getAsString();
         userID = userJson.get("user_id").getAsInt();
 
-
-        String[] searchModeList = new String[ingredientNum];
-
         makeHeader(jwt);
+        filePostedRecipeByID = "PostedRecipeBy" + String.valueOf(userID);
 
-        recipeListGet(contain, "0", "10", except, llRecipeList);
-        loadedThumnail = 10;
+        //로컬에 저장된 파일 불러오기
+        try {
+            savedPostedRecipeByID = cacheUtil.Read(filePostedRecipeByID);
+            System.out.println("불러온 캐쉬 데이터 :" + savedPostedRecipeByID);
+        } catch (IOException e) {
+            System.out.println("cacheRead Fail!");
+            e.printStackTrace();
+        }
 
+        searchList = savedPostedRecipeByID.split(" ");
+
+        for(int i = 0; (i < 10 && i < searchList.length); i++){
+
+            recipesGet(searchList[i], llRecipeList);
+            loadedThumnail++;
+            searchIndex++;
+
+        }
 
 
         //화면 최하단 스크롤
@@ -92,9 +103,16 @@ public class RecipeListActivity extends AppCompatActivity {
                 if(int_TextView_lines == int_scrollViewPos){
                     //화면 최하단 스크롤시 이벤트
 
-                    recipeListGet(contain, String.valueOf(loadedThumnail), "5", except, llRecipeList);
-                    loadedThumnail += 5;
+                    if(searchIndex < searchList.length){
+                        int tmp = searchList.length - searchIndex;
+                        for(int i = 0; (i < 10 && i < tmp); i++){
 
+                            recipesGet(searchList[i], llRecipeList);
+                            loadedThumnail++;
+                            searchIndex++;
+
+                        }
+                    }
                 }
 
             }
@@ -106,19 +124,19 @@ public class RecipeListActivity extends AppCompatActivity {
     private void showRecipeThumnail(final ThumnailInfo ti, LinearLayout ll)
     {
         //Thumnail의 틀 레이아웃
-        final LinearLayout ll_thumnail = new LinearLayout(RecipeListActivity.this);
+        final LinearLayout ll_thumnail = new LinearLayout(PostedRecipeByMeActivity.this);
         ll_thumnail.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300));
         ll_thumnail.setBackgroundResource(R.drawable.boxline_gradientwhite);
 
         //Thumnail의 위아래 여백
 
         //Thumnail 내의 이미지 틀 레이아웃
-        final LinearLayout ll_image = new LinearLayout(RecipeListActivity.this);
+        final LinearLayout ll_image = new LinearLayout(PostedRecipeByMeActivity.this);
         ll_image.setLayoutParams(new LinearLayout.LayoutParams(350, 300));
         ll_image.setBackgroundResource(R.drawable.boxline_black);
 
         //Thumnail 내의 메인 이미지
-        ImageView image_thumnail = new ImageView(RecipeListActivity.this);
+        ImageView image_thumnail = new ImageView(PostedRecipeByMeActivity.this);
 
         image_thumnail.setImageResource(R.drawable.thumnail);
         if(!ti.getImgUrl().isEmpty())
@@ -126,12 +144,12 @@ public class RecipeListActivity extends AppCompatActivity {
             Picasso.get().load(ti.getImgUrl()).placeholder(R.drawable.thumnail).resize(350, 300).centerCrop().into(image_thumnail);
         }
 
-        final LinearLayout ll_content = new LinearLayout(RecipeListActivity.this);
+        final LinearLayout ll_content = new LinearLayout(PostedRecipeByMeActivity.this);
         ll_content.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         ll_content.setOrientation(LinearLayout.VERTICAL);
         ll_content.setPadding(10, 10, 10, 10);
 
-        final TextView tv_recipeName = new TextView(RecipeListActivity.this);
+        final TextView tv_recipeName = new TextView(PostedRecipeByMeActivity.this);
         tv_recipeName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         tv_recipeName.setTextColor(Color.parseColor("#000000"));
         tv_recipeName.setPadding(10, 10, 10, 10);
@@ -139,7 +157,7 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_recipeName.setText(ti.getRecipeName());
         tv_recipeName.setSingleLine();
 
-        final TextView tv_ingredientList = new TextView(RecipeListActivity.this);
+        final TextView tv_ingredientList = new TextView(PostedRecipeByMeActivity.this);
         tv_ingredientList.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         tv_ingredientList.setTextColor(Color.parseColor("#000000"));
         tv_ingredientList.setPadding(10, 10, 10, 10);
@@ -152,7 +170,7 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_ingredientList.setText(recipeList);
         tv_ingredientList.setSingleLine();
 
-        final TextView tv_recommendCount = new TextView(RecipeListActivity.this);
+        final TextView tv_recommendCount = new TextView(PostedRecipeByMeActivity.this);
         tv_recommendCount.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         tv_recommendCount.setTextColor(Color.parseColor("#000000"));
         tv_recommendCount.setPadding(10, 10, 10, 10);
@@ -160,7 +178,7 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_recommendCount.setText("추천수 " + ti.getCount());
         tv_recommendCount.setSingleLine();
 
-        final TextView tv_writerName = new TextView(RecipeListActivity.this);
+        final TextView tv_writerName = new TextView(PostedRecipeByMeActivity.this);
         tv_writerName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         tv_writerName.setTextColor(Color.parseColor("#000000"));
         tv_writerName.setPadding(10, 10, 10, 10);
@@ -187,9 +205,8 @@ public class RecipeListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(RecipeListActivity.this, RecipeInfoActivity.class);
+                Intent intent = new Intent(PostedRecipeByMeActivity.this, RecipeInfoActivity.class);
                 intent.putExtra("id", ti.getRecipeId());
-                intent.putExtra("user_info", userInfo);
                 startActivity(intent);
             }
         });
@@ -202,9 +219,9 @@ public class RecipeListActivity extends AppCompatActivity {
 
     }
 
-    public void recipeListGet(String contain, String offset, String limit, String except, final LinearLayout ll) {
+    public void recipesGet(String id, final LinearLayout ll) {
 
-        connectUtil.getRecipeList(header, contain,offset,limit,except, new HttpCallback() {
+        connectUtil.getRecipe(header, id, new HttpCallback() {
             @Override
             public void onError(Throwable t) {
                 // 내부적 에러 발생할 경우
@@ -213,20 +230,23 @@ public class RecipeListActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
-                List<RecipeListGet> data = (List<RecipeListGet>) receivedData;
-                for(int i = 0; i < data.size(); i++)
+                RecipeGet data = (RecipeGet) receivedData;
+                Iterator<String> ingreVal = data.ingre_count.keySet().iterator();
+                int j = 0;
+                ArrayList<String> ingreList = new ArrayList<>();
+                while(ingreVal.hasNext())
                 {
-                    Iterator<String> ingreVal = data.get(i).ingre_count.keySet().iterator();
-                    int j = 0;
-                    ArrayList<String> ingreList = new ArrayList<>();
-                    while(ingreVal.hasNext())
-                    {
-                        String keys = (String)ingreVal.next();
-                        ingreList.add(keys);
-                    }
-                    ThumnailInfo thumnailinfo = new ThumnailInfo(data.get(i).recipe_id, data.get(i).title, data.get(i).image_url, ingreList,data.get(i).author_name, data.get(i).created_at, data.get(i).recommend_count);
-                    showRecipeThumnail(thumnailinfo, ll);
+                    String keys = (String)ingreVal.next();
+                    ingreList.add(keys);
                 }
+                ThumnailInfo thumnailinfo = new ThumnailInfo(
+                        data.recipe_id,
+                        data.title,
+                        data.image_url,
+                        ingreList,data.author_name,
+                        data.created_at,
+                        data.recommend_count);
+                showRecipeThumnail(thumnailinfo, ll);
 
 
                 System.out.println("RecipeListGet onSuccess@@@@@@");
@@ -244,4 +264,3 @@ public class RecipeListActivity extends AppCompatActivity {
 
     }
 }
-
