@@ -207,6 +207,7 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
             {
                 Intent intent = new Intent(PostedRecipeByMeActivity.this, RecipeInfoActivity.class);
                 intent.putExtra("id", ti.getRecipeId());
+                intent.putExtra("user_info", userInfo);
                 startActivity(intent);
             }
         });

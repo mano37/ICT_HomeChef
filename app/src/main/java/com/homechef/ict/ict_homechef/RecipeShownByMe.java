@@ -53,6 +53,7 @@ public class RecipeShownByMe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipelist);
 
+        System.out.println("this is RecipeShownByMe");
         //변수 선언
         Intent intent = getIntent();
         int ingredientNum;
@@ -84,6 +85,8 @@ public class RecipeShownByMe extends AppCompatActivity {
 
         for(int i = 0; (i < 10 && i < searchList.length); i++){
 
+
+            System.out.println("@@call Recipes Get");
             recipesGet(searchList[i], llRecipeList);
             loadedThumnail++;
             searchIndex++;
@@ -209,6 +212,8 @@ public class RecipeShownByMe extends AppCompatActivity {
                 Intent intent = new Intent(RecipeShownByMe.this, RecipeInfoActivity.class);
                 intent.putExtra("id", ti.getRecipeId());
                 intent.putExtra("user_info", userInfo);
+                System.out.println("startActivitiy - recipeInfoActivity @@@@@@");
+                System.out.println("userInfo is : " + userInfo);
                 startActivity(intent);
             }
         });
@@ -232,6 +237,7 @@ public class RecipeShownByMe extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 // 성공적으로 완료한 경우
+                System.out.println("RecipeShownByMe getRecipe onSuccess1 @@@@@@");
                 RecipeGet data = (RecipeGet) receivedData;
                 Iterator<String> ingreVal = data.ingre_count.keySet().iterator();
                 int j = 0;

@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,16 +47,36 @@ public class SplashActivity extends Activity{
 
 
 
+    // onCreate 시작
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
 
+
+        // 구글 로그인 버튼 설정
+        SignInButton signInButton = (SignInButton) findViewById(R.id.splash_sign_in_button);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStart();
+            }
+        });
+        // 구글 로그인 버튼 설정 끝
+
+
+        // 대기화면 시작
         try {
-            Thread.sleep(1000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        // 대기화면 끝
+
+
+        // 로그인 셋업
         String serverClientId = getString(R.string.server_client_id);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -63,10 +85,13 @@ public class SplashActivity extends Activity{
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-
+        // 로그인 셋업 끝
     }
 
+    // onCreate 끝
+
+
+    // onStart 시작
     @Override
     public void onStart() {
 
@@ -74,12 +99,17 @@ public class SplashActivity extends Activity{
 
         final Intent mainActivity = new Intent(this, MainActivity.class);
 
+        // 로컬 저장소에서 유저 token 얻기
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
         String tokenCalled = pref.getString(tokenKeyName, "0");
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        // 로컬 저장소에서 유저 token 얻기 끝
 
+
+        // 서버에 접속하여 유저 정보 얻기
+        // 접속 기록이 있다면 서버에 토큰 갱신을 시도함
         if(account != null){
             connectUtil = ConnectUtil.getInstance(this).createBaseApi();
             connectUtil.postSession(tokenCalled, new HttpCallback() {
@@ -93,31 +123,34 @@ public class SplashActivity extends Activity{
                 @Override
                 public void onSuccess(int code, Object receivedData) {
 
+                    // temp 변수 셋업
                     String data = (String) receivedData;
-                //    System.out.println("postSession Response Get Splash @@@@@ : " + data );
                     userJson = (JsonObject) parser.parse(data);
 
+                    // 토큰을 로컬에 저장
                     editor.putString(tokenKeyName, userJson.get(tokenKeyName).getAsString());
                     editor.commit();
-                 //   System.out.println("@@@@@@@@@@@@@@@@@@@@@ token is");
                     System.out.println(userJson.get(tokenKeyName).toString());
+                    // 토큰을 로컬에 저장 끝
 
+                    // mainActivity 시작, 유저 정보 전달
                     mainActivity.putExtra("user_info", data);
                     startActivity(mainActivity);
 
                     finish();
+                    // 끝
                 }
 
                 @Override
                 public void onFailure(int code) {
-                //    System.out.println("postSession onFailure Splash @@@@@");
+                    // 토큰 갱신에 실패했을 경우
                     signOut();
                     signIn();
                 }
             });
         }
+        // 접속 기록이 없을 경우
         else{
-       //     System.out.println("This is running!!!!");
             signIn();
         }
 
@@ -155,13 +188,6 @@ public class SplashActivity extends Activity{
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 String authCode = account.getServerAuthCode();
-
-                /*
-                String message = "RC_GET_AUTH_CODE SUCCESS";
-
-                Log.w(TAG, message);
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-                */
 
                 HashMap<String , String> loginPara = new HashMap<String , String>();
 
@@ -212,6 +238,5 @@ public class SplashActivity extends Activity{
             // [END get_auth_code]
         }
     }
-    // [END onActivityResult]
 
 }
