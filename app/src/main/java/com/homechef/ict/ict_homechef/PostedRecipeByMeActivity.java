@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -45,9 +46,10 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
     String filePostedRecipeByID;
 
     String[] searchList;
-    int searchIndex;
+    int searchIndex = 0;
 
 
+    // onCreate 시작
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,9 +85,8 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
 
         for(int i = 0; (i < 10 && i < searchList.length); i++){
 
+            System.out.println("searchList" + i + " is " + searchList[i]);
             recipesGet(searchList[i], llRecipeList);
-            loadedThumnail++;
-            searchIndex++;
 
         }
 
@@ -117,8 +118,13 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
 
             }
         });
+        System.out.println("@@@@@@@@ PostedRecipeByMe searchIndex : " + searchIndex);
+        if (savedPostedRecipeByID.equals("") || savedPostedRecipeByID.equals(" ")) {
+            Toast.makeText(PostedRecipeByMeActivity.this, "내가 본 레시피가 없습니다.", Toast.LENGTH_SHORT).show();
+        }
 
     }
+    // on Create 끝
 
 
     private void showRecipeThumnail(final ThumnailInfo ti, LinearLayout ll)
@@ -249,6 +255,8 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
                         data.recommend_count);
                 showRecipeThumnail(thumnailinfo, ll);
 
+                loadedThumnail++;
+                searchIndex++;
 
                 System.out.println("RecipeListGet onSuccess@@@@@@");
 

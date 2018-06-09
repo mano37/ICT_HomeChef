@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -42,11 +43,11 @@ public class RecipeShownByMe extends AppCompatActivity {
     int userID;
 
     final CacheUtil cacheUtil = new CacheUtil(RecipeShownByMe.this);
-    String savedPostedRecipeByID;
-    String filePostedRecipeByID;
+    String savedRecipeShownByID;
+    String fileRecipeShownByID;
 
     String[] searchList;
-    int searchIndex;
+    int searchIndex = 0;
 
 
     @Override
@@ -70,27 +71,27 @@ public class RecipeShownByMe extends AppCompatActivity {
         userID = userJson.get("user_id").getAsInt();
 
         makeHeader(jwt);
-        filePostedRecipeByID = "RecipeShownBy" + userID;
+        fileRecipeShownByID = "RecipeShownBy" + userID;
 
         //로컬에 저장된 파일 불러오기
         try {
-            savedPostedRecipeByID = cacheUtil.Read(filePostedRecipeByID);
-            System.out.println("불러온 캐쉬 데이터 :" + savedPostedRecipeByID);
+            savedRecipeShownByID = cacheUtil.Read(fileRecipeShownByID);
+            System.out.println("불러온 캐쉬 데이터 :" + savedRecipeShownByID);
         } catch (IOException e) {
             System.out.println("cacheRead Fail!");
             e.printStackTrace();
         }
 
         // 로컬에 저장된 id로 getRecipe 작업
-        searchList = savedPostedRecipeByID.split(" ");
+        searchList = savedRecipeShownByID.split(" ");
 
         for(int i = 0; (i < 10 && i < searchList.length); i++){
 
 
+            System.out.println("searchList" + i + " is " + searchList[i]);
             System.out.println("@@call Recipes Get");
             recipesGet(searchList[i], llRecipeList);
-            loadedThumnail++;
-            searchIndex++;
+
 
         }
 
@@ -123,8 +124,13 @@ public class RecipeShownByMe extends AppCompatActivity {
             }
         });
 
-    }
+        System.out.println("@@@@@@@@ RecipeShownByMe searchIndex : " + searchIndex);
+        if (savedRecipeShownByID.equals("") || savedRecipeShownByID.equals(" ")) {
+            Toast.makeText(RecipeShownByMe.this, "내가 본 레시피가 없습니다.", Toast.LENGTH_SHORT).show();
+        }
 
+
+    }
 
     private void showRecipeThumnail(final ThumnailInfo ti, LinearLayout ll)
     {
@@ -259,6 +265,8 @@ public class RecipeShownByMe extends AppCompatActivity {
                         data.recommend_count);
                 showRecipeThumnail(thumnailinfo, ll);
 
+                loadedThumnail++;
+                searchIndex++;
 
                 System.out.println("RecipeShownByMe getRecipe onSuccess@@@@@@");
 

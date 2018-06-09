@@ -332,4 +332,9 @@ public class SignInActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
  }
