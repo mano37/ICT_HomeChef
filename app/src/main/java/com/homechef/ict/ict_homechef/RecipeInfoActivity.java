@@ -3,7 +3,9 @@ package com.homechef.ict.ict_homechef;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -178,10 +180,12 @@ public class RecipeInfoActivity extends Activity {
                 tvTimeCost.setText(timeCost);
                 tvSteps.setText(steps);
 
-                if(!img.isEmpty())
-                {
-                    Picasso.get().load(img).resize(imgMain.getMeasuredWidth(), 0).centerCrop().into(imgMain);
-                }
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int width = size.x;
+                Picasso.get().load(img).resize(width, 0).centerCrop().into(imgMain);
 
 
                 for(int i = 0; i < recipeSpec.ingre_count.size(); i++)

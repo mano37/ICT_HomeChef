@@ -310,10 +310,7 @@ public class MainActivity extends AppCompatActivity
         display.getSize(size);
         int width = size.x;
         image_thumnail.setImageResource(R.drawable.thumnail);
-        if(!ti.getImgUrl().isEmpty())
-        {
-            Picasso.get().load(ti.getImgUrl()).resize(width, 0).centerCrop().into(image_thumnail);
-        }
+        Picasso.get().load(ti.getImgUrl()).resize(width, 0).centerCrop().into(image_thumnail);
 
 
         final LinearLayout ll_content = new LinearLayout(MainActivity.this);
