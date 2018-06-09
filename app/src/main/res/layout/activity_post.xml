@@ -28,7 +28,7 @@
                 android:id="@+id/post_edt_recipetitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="예) 돼지고기 밥 뚞닥 ㄹㅇㅋㅋ"/>
+                android:hint="예) 아이들 반찬으로 좋은 쇠고기 볶음"/>
 
         </LinearLayout>
 
@@ -230,7 +230,7 @@
                         android:id="@+id/post_edt_step"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="예) 소고기를 다져주세요"
+                        android:hint="예) 소고기를 적당한 크기로 썰어주세요"
                         android:layout_weight="1"/>
 
 
