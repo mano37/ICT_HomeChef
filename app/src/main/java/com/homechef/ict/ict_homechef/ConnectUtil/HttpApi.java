@@ -96,7 +96,7 @@ public interface HttpApi {
 
 
     @DELETE("/api/recipes/{recipe_id}")
-    Call<ResponseBody> deleteRecipe(@HeaderMap Map<String,String> headers, @Path("recipe_id") String id);
+    Call<ResponseBody> deleteRecipe(@HeaderMap Map<String,String> headers, @Path("recipe_id") int id);
 
 
 

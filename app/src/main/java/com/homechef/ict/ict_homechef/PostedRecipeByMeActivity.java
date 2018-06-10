@@ -82,6 +82,12 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
         }
 
         searchList = savedPostedRecipeByID.split(" ");
+        System.out.println("@@@@@@@@ PostedRecipeByMe searchIndex : " + searchIndex);
+        System.out.println("savedPostedRecipeByID is : " + savedPostedRecipeByID);
+        if (savedPostedRecipeByID.equals("") || savedPostedRecipeByID.equals(" ")) {
+            Toast.makeText(PostedRecipeByMeActivity.this, "내가 작성한 레시피가 없습니다.", Toast.LENGTH_SHORT).show();
+        }
+
 
         for(int i = 0; (i < 10 && i < searchList.length); i++){
 
@@ -89,6 +95,7 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
             recipesGet(searchList[i], llRecipeList);
 
         }
+
 
 
         //화면 최하단 스크롤
@@ -118,10 +125,6 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
 
             }
         });
-        System.out.println("@@@@@@@@ PostedRecipeByMe searchIndex : " + searchIndex);
-        if (savedPostedRecipeByID.equals("") || savedPostedRecipeByID.equals(" ")) {
-            Toast.makeText(PostedRecipeByMeActivity.this, "내가 작성한 레시피가 없습니다.", Toast.LENGTH_SHORT).show();
-        }
 
     }
     // on Create 끝
@@ -214,11 +217,24 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
                 Intent intent = new Intent(PostedRecipeByMeActivity.this, RecipeInfoActivity.class);
                 intent.putExtra("id", ti.getRecipeId());
                 intent.putExtra("user_info", userInfo);
-                startActivity(intent);
+                startActivityForResult(intent, 3333);
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 3333){
+            if(resultCode == 112){
+                Intent intent = new Intent(PostedRecipeByMeActivity.this, PostedRecipeByMeActivity.class);
+                intent.putExtra("user_info",userInfo);
+                startActivity(intent);
+                finish();
+            }
+        }
+    }
     public void makeHeader(String jwt_token){
 
         String token = "Bearer " + jwt_token;

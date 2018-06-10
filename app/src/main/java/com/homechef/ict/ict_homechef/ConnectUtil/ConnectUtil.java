@@ -260,7 +260,7 @@ public class ConnectUtil {
         });
     }
 
-    public void deleteRecipe(Map<String,String> header, String id, final HttpCallback callback){
+    public void deleteRecipe(Map<String,String> header, int id, final HttpCallback callback){
 
         apiService.deleteRecipe(header, id).enqueue(new Callback<ResponseBody>() {
             @Override

@@ -1,14 +1,19 @@
 package com.homechef.ict.ict_homechef;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -35,9 +40,10 @@ public class RecipeInfoActivity extends Activity {
     String updatedAt;
     String timeCost;
     String steps;
+    int authorID;
     int recommendedCount;
 
-    ConnectUtil connectUtil;
+    ConnectUtil connectUtil = ConnectUtil.getInstance(this).createBaseApi();
     Map<String,String> header = new HashMap<>();
 
     // user 정보
@@ -47,8 +53,15 @@ public class RecipeInfoActivity extends Activity {
     String jwt;
     int userID;
 
+    // 캐시 관련 스트링
     String savedRecipeShownByID;
     String fileRecipeShownByID;
+    String savedPostedRecipeByID;
+    String filePostedRecipeByID;
+
+    // startActivityForResult 반환용
+    Intent sendResult = new Intent();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +82,7 @@ public class RecipeInfoActivity extends Activity {
 
 
         fileRecipeShownByID = "RecipeShownBy" + userID;
+        filePostedRecipeByID = "PostedRecipeBy" + userID;
 
 
 
@@ -76,6 +90,27 @@ public class RecipeInfoActivity extends Activity {
         makeHeader(jwt);
         RecipeGet(String.valueOf(recipeId));
 
+
+        Button deleteButton = (Button)findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new AlertDialog.Builder(RecipeInfoActivity.this)
+                        .setTitle("레시피 삭제")
+                        .setMessage("정말 삭제하시겠습니까?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                if(userID == authorID){
+                                    deleteRecipe();
+                                }
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+
+
+            }
+        });
 
 
 
@@ -87,10 +122,62 @@ public class RecipeInfoActivity extends Activity {
 
     }
 
+    // 레시피 삭제 함수
+    public void deleteRecipe(){
+
+        connectUtil.deleteRecipe(header, recipeId, new HttpCallback() {
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(RecipeInfoActivity.this, "삭제에 실패했습니다", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                Toast.makeText(RecipeInfoActivity.this, "성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
+                CacheUtil cacheUtil = new CacheUtil(RecipeInfoActivity.this);
+                try {
+                    savedPostedRecipeByID = cacheUtil.Read(filePostedRecipeByID);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String[] splitStr = savedPostedRecipeByID.split(" ");
+                String tmpString = "";
+                int tmpindex = 0;
+                for(int i=0; i < splitStr.length; i++){
+                    if(splitStr[i].equals(Integer.toString(recipeId))){
+                        splitStr[i] = null;
+                    }
+                    else{
+                        tmpString = tmpString + splitStr[i] + " ";
+                    }
+                }
+                String writeString = tmpString;
+                try {
+                    cacheUtil.Write(writeString, filePostedRecipeByID);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Intent sendResult = new Intent();
+                sendResult.putExtra("delete", 1);
+                setResult(112, sendResult);
+
+                finish();
+            }
+
+            @Override
+            public void onFailure(int code) {
+                Toast.makeText(RecipeInfoActivity.this, "삭제에 실패했습니다", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    // 레시피 get 함수
     public void RecipeGet(final String id) {
-
-        connectUtil = ConnectUtil.getInstance(this).createBaseApi();
-
 
         connectUtil.getRecipe(header, id, new HttpCallback() {
             @Override
@@ -142,6 +229,12 @@ public class RecipeInfoActivity extends Activity {
                 steps = recipeSpec.steps;
                 serve = recipeSpec.serve;
                 recommendedCount = recipeSpec.recommend_count;
+                authorID = recipeSpec.author_id;
+
+                if(authorID == userID){
+                    Button button = (Button) findViewById(R.id.deleteButton);
+                    button.setVisibility(View.VISIBLE);
+                }
 
                 ArrayList<String> ingreList = new ArrayList<>();
                 ArrayList<String> ingreQuan = new ArrayList<>();

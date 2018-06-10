@@ -92,11 +92,22 @@ public class MainActivity extends AppCompatActivity
         // userinfo 세팅 끝
 
 
+
         // 환영 메세지
         String startStr = userNameStr +"님 " + "환영합니다.";
         Toast.makeText(getApplicationContext(), startStr, Toast.LENGTH_LONG).show();
         // 환영 메세지 끝
 
+
+        /* @@@@@@@@주의 , 저장된 레시피 캐시 유틸 초기화용 주석@@@@@@@@@@@@
+        CacheUtil cacheUtil = new CacheUtil(MainActivity.this);
+        String filePostedRecipeByID = "PostedRecipeBy" + String.valueOf(userJson.get("user_id").getAsString());
+        try {
+            cacheUtil.Write("", filePostedRecipeByID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
 
         // 화면 생성
         setContentView(R.layout.activity_main);

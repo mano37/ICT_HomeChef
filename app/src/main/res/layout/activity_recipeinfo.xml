@@ -82,13 +82,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="작성일 : "
-                    android:textSize="13dp"/>
+                    android:textSize="13dp" />
+
                 <TextView
                     android:id="@+id/tv_createdat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="date"
-                    android:textSize="13dp"/>
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -100,13 +101,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="수정일 : "
-                    android:textSize="13dp"/>
+                    android:textSize="13dp" />
+
                 <TextView
                     android:id="@+id/tv_updatedat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="date"
-                    android:textSize="13dp"/>
+                    android:textSize="13dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:orientation="vertical">
+
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/deleteButton"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:text="delete"
+                    android:textSize="10dp" />
             </LinearLayout>
 
         </LinearLayout>
