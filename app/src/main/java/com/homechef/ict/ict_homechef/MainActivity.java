@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity
         }
         */
 
+
         // 화면 생성
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -119,12 +119,12 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:visibility="gone"
                     android:id="@+id/deleteButton"
                     android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:text="delete"
-                    android:textSize="10dp" />
+                    android:textSize="8dp"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>

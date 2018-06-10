@@ -115,34 +115,29 @@ public class SearchActivity extends AppCompatActivity {
                 data[0] = "";
                 data[1] = "";
                 Intent intent = new Intent(SearchActivity.this, RecipeListActivity.class);
-                if(nowIngredientSet.size() >= 1)
-                {
+                // if(nowIngredientSet.size() >= 1) 시작
+                if(nowIngredientSet.size() >= 1) {
                     Iterator<String> ingreVal = nowIngredientSet.keySet().iterator();
                     int j = 0;
-                    while(ingreVal.hasNext())
-                    {
+                    while (ingreVal.hasNext()) {
                         int searchType;
-                        String keys = (String)ingreVal.next();
+                        String keys = (String) ingreVal.next();
                         searchType = nowIngredientSet.get(keys);
 
                         //////// 최근 사용한 검색어에 추가
                         recentIngredientSet.put(keys, 0);
                         ////////
 
-                        if(data[searchType].length() == 0)
-                        {
+                        if (data[searchType].length() == 0) {
                             data[searchType] = keys;
-                        }
-                        else
-                        {
+                        } else {
                             data[searchType] += " " + keys;
                         }
 
                     }
 
                     // 기본옵션값의 데이터가 없다면
-                    if(data[0].equals(""))
-                    {
+                    if (data[0].equals("")) {
                         Toast.makeText(SearchActivity.this, "최소 1개 이상의 재료를 포함해야 합니다.", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -153,16 +148,12 @@ public class SearchActivity extends AppCompatActivity {
                     int k = 0;
 
                     savedIngredients = "";
-                    while(saveIngre.hasNext())
-                    {
+                    while (saveIngre.hasNext()) {
                         int searchType;
-                        String keys = (String)saveIngre.next();
-                        if(savedIngredients.length() == 0)
-                        {
+                        String keys = (String) saveIngre.next();
+                        if (savedIngredients.length() == 0) {
                             savedIngredients = keys;
-                        }
-                        else
-                        {
+                        } else {
                             savedIngredients += " " + keys;
                         }
                     }
@@ -177,9 +168,10 @@ public class SearchActivity extends AppCompatActivity {
                     intent.putExtra("contain", data[0]);
                     intent.putExtra("except", data[1]);
                     intent.putExtra("user_info", userInfo);
-                }
 
-                startActivity(intent);
+                    startActivity(intent);
+                }
+                // if(nowIngredientSet.size() >= 1) 끝
             }
         });
 
