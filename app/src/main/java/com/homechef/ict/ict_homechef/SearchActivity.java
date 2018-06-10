@@ -125,7 +125,7 @@ public class SearchActivity extends AppCompatActivity {
                         String keys = (String)ingreVal.next();
                         searchType = nowIngredientSet.get(keys);
 
-                        ////////
+                        //////// 최근 사용한 검색어에 추가
                         recentIngredientSet.put(keys, 0);
                         ////////
 
@@ -137,11 +137,14 @@ public class SearchActivity extends AppCompatActivity {
                         {
                             data[searchType] += " " + keys;
                         }
-                        if(data[0] == "")
-                        {
-                            Toast.makeText(SearchActivity.this, "최소 1개 이상의 재료를 포함해야 합니다.", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+
+                    }
+
+                    // 기본옵션값의 데이터가 없다면
+                    if(data[0].equals(""))
+                    {
+                        Toast.makeText(SearchActivity.this, "최소 1개 이상의 재료를 포함해야 합니다.", Toast.LENGTH_SHORT).show();
+                        return;
                     }
 
                     //검색한 목록 캐쉬에 저장

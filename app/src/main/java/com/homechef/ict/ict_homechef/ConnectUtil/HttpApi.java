@@ -14,11 +14,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -102,22 +99,5 @@ public interface HttpApi {
     Call<ResponseBody> deleteRecipe(@HeaderMap Map<String,String> headers, @Path("recipe_id") String id);
 
 
-    // 예시들
-
-
-    @GET("/posts")
-    Call<List<ResponseGet>> getSecond(@Query("userId") String id);
-
-    @PUT("/posts/1")
-    Call<ResponseGet> putFirst(@Body RequestPut parameters);
-
-    @FormUrlEncoded
-    @PATCH("/posts/1")
-    Call<ResponseGet> patchFirst(@Field("title") String title);
-
-    /*
-    @DELETE("/posts/1")
-    Call<ResponseBody> deleteFirst();
-    */
 
 }
