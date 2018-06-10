@@ -214,12 +214,12 @@ public class ConnectUtil {
         apiService.getRecipe(header, id).enqueue(new Callback<RecipeGet>() {
             @Override
             public void onResponse(Call<RecipeGet> call, Response<RecipeGet> response) {
-                System.out.println("onResponse@@@@@@ ON Connect UITL getRecipe@@@@@@@@");
+            //    System.out.println("onResponse@@@@@@ ON Connect UITL getRecipe@@@@@@@@");
                 if (response.isSuccessful()) {
-                    System.out.println("onResponse OK and Success on getRecipe @@@@@@@@");
+             //       System.out.println("onResponse OK and Success on getRecipe @@@@@@@@");
                     callback.onSuccess(response.code(), response.body());
                 } else {
-                    System.out.println("onResponse OK But Failure on getRecipe @@@@@@@@@@@@");
+            //        System.out.println("onResponse OK But Failure on getRecipe @@@@@@@@@@@@");
                     APIError error = ErrorUtil.parseError(response);
                     System.out.println("Error message : " + error.message());
                     callback.onFailure(response.code());
@@ -228,7 +228,7 @@ public class ConnectUtil {
 
             @Override
             public void onFailure(Call<RecipeGet> call, Throwable t) {
-                System.out.println("onFailure@@@@@@ ConnectUtil on getRecipe @@@@@@@@");
+          //      System.out.println("onFailure@@@@@@ ConnectUtil on getRecipe @@@@@@@@");
                 callback.onError(t);
             }
         });
@@ -240,12 +240,12 @@ public class ConnectUtil {
         apiService.putRecipe(header, id).enqueue(new Callback<RecipeGet>() {
             @Override
             public void onResponse(Call<RecipeGet> call, Response<RecipeGet> response) {
-                System.out.println("onResponse@@@@@@ ON ConnectUtil putRecipe@@@@@@@@");
+           //     System.out.println("onResponse@@@@@@ ON ConnectUtil putRecipe@@@@@@@@");
                 if (response.isSuccessful()) {
                     System.out.println("onResponse OK and Success on putRecipe @@@@@@@@");
                     callback.onSuccess(response.code(), response.body());
                 } else {
-                    System.out.println("onResponse OK But Failure on putRecipe @@@@@@@@@@@@");
+            //        System.out.println("onResponse OK But Failure on putRecipe @@@@@@@@@@@@");
                     APIError error = ErrorUtil.parseError(response);
                     System.out.println("Error message : " + error.message());
                     callback.onFailure(response.code());
@@ -254,7 +254,7 @@ public class ConnectUtil {
 
             @Override
             public void onFailure(Call<RecipeGet> call, Throwable t) {
-                System.out.println("onFailure@@@@@@ ConnectUtil on putRecipe @@@@@@@@");
+            //    System.out.println("onFailure@@@@@@ ConnectUtil on putRecipe @@@@@@@@");
                 callback.onError(t);
             }
         });
@@ -266,12 +266,12 @@ public class ConnectUtil {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("onResponse OK and Delete Complete @@@@@@@@");
+              //      System.out.println("onResponse OK and Delete Complete @@@@@@@@");
                     callback.onSuccess(response.code(), response.body());
                 } else {
-                    System.out.println("onResponse OK But Failure on Delete @@@@@@@@@@@@");
+              //      System.out.println("onResponse OK But Failure on Delete @@@@@@@@@@@@");
                     APIError error = ErrorUtil.parseError(response);
-                    System.out.println("Error message : " + error.message());
+               //     System.out.println("Error message : " + error.message());
                     callback.onFailure(response.code());
                 }
             }

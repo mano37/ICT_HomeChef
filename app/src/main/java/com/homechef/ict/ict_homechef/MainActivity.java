@@ -35,7 +35,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,6 +60,10 @@ public class MainActivity extends AppCompatActivity
 
     TextView textView;
     ImageView imageView;
+
+    Queue<ThumnailInfo> thumnailInfoList = new LinkedList<>();
+    int connect_idx = 0;
+    int thumnail_idx = 0;
 
     //////////////////////////동하가 추가한 변수들
     ConnectUtil connectUtil = ConnectUtil.getInstance(this).createBaseApi();
@@ -106,7 +112,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -148,7 +154,7 @@ public class MainActivity extends AppCompatActivity
 
         makeHeader(userJson.get("jwt_token").getAsString());
 
-        for(int i = 0; i < 7; i++)
+        for(int i = 0; i < 10; i++)
         {
             int id = (int) (Math.random() * (120000)) + 1;
             recipesGet(String.valueOf(id), llRecipeList);
@@ -162,12 +168,15 @@ public class MainActivity extends AppCompatActivity
         svRecipeList.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
+                // 스크롤 하는동안 drawer 사용불가
+               // drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
                 int_scrollViewPos = svRecipeList.getScrollY();
                 int_TextView_lines = svRecipeList.getChildAt(0).getBottom() - svRecipeList.getHeight();
 
                 if(int_TextView_lines == int_scrollViewPos){
                     //화면 최하단 스크롤시 이벤트
-                    for(int i = 0; i < 2; i++)
+                    for(int i = 0; i < 10; i++)
                     {
                         int id = (int) (Math.random() * (120000)) + 1;
                         recipesGet(String.valueOf(id), llRecipeList);
@@ -175,6 +184,8 @@ public class MainActivity extends AppCompatActivity
 
                 }
 
+                // drawer 사용가능
+               // drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             }
         });
         //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -401,13 +412,24 @@ public class MainActivity extends AppCompatActivity
         connectUtil.getRecipe(header, id, new HttpCallback() {
             @Override
             public void onError(Throwable t) {
+                connect_idx++;
+
+                if(connect_idx == 10){
+                    for(int i = 0; i < thumnail_idx; i++){
+                        showRecipeThumnail(thumnailInfoList.remove(), ll);
+                    }
+                    thumnail_idx = 0;
+                    connect_idx = 0;
+                }
                 // 내부적 에러 발생할 경우
-                System.out.println("RecipeShownByMe getRecipe onError@@@@@@");
+            //    System.out.println("RecipeShownByMe getRecipe onError@@@@@@");
             }
             @Override
             public void onSuccess(int code, Object receivedData) {
+                connect_idx++;
+
                 // 성공적으로 완료한 경우
-                System.out.println("RecipeShownByMe getRecipe onSuccess1 @@@@@@");
+            //    System.out.println("RecipeShownByMe getRecipe onSuccess1 @@@@@@");
                 RecipeGet data = (RecipeGet) receivedData;
                 Iterator<String> ingreVal = data.ingre_count.keySet().iterator();
                 int j = 0;
@@ -424,19 +446,32 @@ public class MainActivity extends AppCompatActivity
                         ingreList,data.author_name,
                         data.created_at,
                         data.recommend_count);
-                showRecipeThumnail(thumnailinfo, ll);
-
-
-                System.out.println("RecipeShownByMe getRecipe onSuccess@@@@@@");
-
+                thumnailInfoList.add(thumnailinfo);
+                thumnail_idx++;
+                if(connect_idx == 10){
+                    for(int i = 0; i < thumnail_idx; i++){
+                        showRecipeThumnail(thumnailInfoList.remove(), ll);
+                    }
+                    thumnail_idx = 0;
+                    connect_idx = 0;
+                }
             }
 
             @Override
             public void onFailure(int code) {
+                connect_idx++;
+
+                if(connect_idx == 10){
+                    for(int i = 0; i < thumnail_idx; i++){
+                        showRecipeThumnail(thumnailInfoList.remove(), ll);
+                    }
+                    thumnail_idx = 0;
+                    connect_idx = 0;
+                }
                 // 통신에 실패한 경우
                 // 결과값이 없다거나, 서버에서 오류를 리턴했거나
                 // 또는 ResponseBody 안의 key 값이 이상하거나
-                System.out.println("RecipeShownByMe getRecipe onFailure@@@@@@");
+              //  System.out.println("RecipeShownByMe getRecipe onFailure@@@@@@");
             }
         });
 

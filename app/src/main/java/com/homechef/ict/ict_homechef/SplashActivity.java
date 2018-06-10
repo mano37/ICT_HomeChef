@@ -69,7 +69,7 @@ public class SplashActivity extends Activity{
 
         // 대기화면 시작
         try {
-            Thread.sleep(4000);
+            Thread.sleep(2500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
