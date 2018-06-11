@@ -21,14 +21,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="레시피 제목"
+                android:text="@string/recipetitle"
                 android:textSize="20dp"/>
 
             <EditText
                 android:id="@+id/post_edt_recipetitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="예) 아이들 반찬으로 좋은 쇠고기 볶음"/>
+                android:hint="@string/recipetitlehint"/>
 
         </LinearLayout>
 
@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="레시피 정보"
+                android:text="@string/recipeinfo"
                 android:textSize="20dp"/>
 
             <LinearLayout
@@ -53,7 +53,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="인원"
+                    android:text="@string/serve"
                     android:layout_weight="0.5"
                     android:textSize="18dp"/>
 
@@ -61,7 +61,7 @@
                     android:id="@+id/post_edt_serve"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="예) 2인분"
+                    android:hint="@string/servehint"
                     android:layout_weight="0.5"/>
 
             </LinearLayout>
@@ -75,7 +75,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="소요시간"
+                    android:text="@string/timecost"
                     android:layout_weight="0.5"
                     android:textSize="18dp"/>
 
@@ -83,7 +83,7 @@
                     android:id="@+id/post_edt_timecost"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="예) 30분 이내"
+                    android:hint="@string/timecosthint"
                     android:layout_weight="0.5"/>
 
             </LinearLayout>
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="재료"
+                    android:text="@string/ingredient"
                     android:textSize="20dp"
                     android:layout_weight="0.25"/>
 
@@ -120,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.75"
-                    android:text="재료 추가" />
+                    android:text="@string/addingredient" />
 
 
             </LinearLayout>
@@ -144,7 +144,7 @@
                         android:id="@+id/post_edt_ingre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="예) 소고기"
+                        android:hint="@string/ingredienthint"
                         android:singleLine="true"/>
 
                 </LinearLayout>
@@ -160,7 +160,7 @@
                         android:id="@+id/post_edt_quan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="예) 300g"
+                        android:hint="@string/quantityhint"
                         android:singleLine="true"/>
 
                 </LinearLayout>
@@ -199,7 +199,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="조리 순서"
+                    android:text="@string/steporder"
                     android:textSize="20dp"
                     android:layout_weight="0.25"/>
 
@@ -208,7 +208,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.75"
-                    android:text="순서 추가" />
+                    android:text="@string/addstep" />
 
 
             </LinearLayout>
@@ -230,7 +230,7 @@
                         android:id="@+id/post_edt_step"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="예) 소고기를 적당한 크기로 썰어주세요"
+                        android:hint="@string/stephint"
                         android:layout_weight="1"/>
 
 
@@ -252,7 +252,7 @@
                 android:id="@+id/post_btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="등록"/>
+                android:text="@string/register"/>
 
         </LinearLayout>
 

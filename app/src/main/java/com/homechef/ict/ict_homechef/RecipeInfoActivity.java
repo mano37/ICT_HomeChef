@@ -97,8 +97,8 @@ public class RecipeInfoActivity extends Activity {
             public void onClick(View v) {
 
                 new AlertDialog.Builder(RecipeInfoActivity.this)
-                        .setTitle("레시피 삭제")
-                        .setMessage("정말 삭제하시겠습니까?")
+                        .setTitle(getString(R.string.recipedelete))
+                        .setMessage(getString(R.string.recipedeletecheck))
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -128,12 +128,12 @@ public class RecipeInfoActivity extends Activity {
         connectUtil.deleteRecipe(header, recipeId, new HttpCallback() {
             @Override
             public void onError(Throwable t) {
-                Toast.makeText(RecipeInfoActivity.this, "삭제에 실패했습니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeInfoActivity.this, getString(R.string.deletefail), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-                Toast.makeText(RecipeInfoActivity.this, "성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeInfoActivity.this, getString(R.string.deletesuccessfully), Toast.LENGTH_SHORT).show();
 
                 CacheUtil cacheUtil = new CacheUtil(RecipeInfoActivity.this);
                 try {
@@ -169,7 +169,7 @@ public class RecipeInfoActivity extends Activity {
 
             @Override
             public void onFailure(int code) {
-                Toast.makeText(RecipeInfoActivity.this, "삭제에 실패했습니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeInfoActivity.this, getString(R.string.deletefail), Toast.LENGTH_SHORT).show();
             }
         });
 

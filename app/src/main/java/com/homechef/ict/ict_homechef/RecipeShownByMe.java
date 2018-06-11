@@ -126,7 +126,7 @@ public class RecipeShownByMe extends AppCompatActivity {
 
         System.out.println("@@@@@@@@ RecipeShownByMe searchIndex : " + searchIndex);
         if (savedRecipeShownByID.equals("") || savedRecipeShownByID.equals(" ")) {
-            Toast.makeText(RecipeShownByMe.this, "내가 본 레시피가 없습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RecipeShownByMe.this, getString(R.string.norecipeshownbyme), Toast.LENGTH_SHORT).show();
         }
 
 
@@ -174,7 +174,7 @@ public class RecipeShownByMe extends AppCompatActivity {
         tv_ingredientList.setTextColor(Color.parseColor("#000000"));
         tv_ingredientList.setPadding(10, 10, 10, 10);
         tv_ingredientList.setTextSize(12);
-        String recipeList = "재료: ";
+        String recipeList = getString(R.string.ingredientis);
         for(int i = 0; i < ti.getIngredientList().size(); i++)
         {
             recipeList += ti.getIngredientList().get(i) + " ";
@@ -188,7 +188,7 @@ public class RecipeShownByMe extends AppCompatActivity {
         tv_recommendCount.setTextColor(Color.parseColor("#000000"));
         tv_recommendCount.setPadding(10, 10, 10, 10);
         tv_recommendCount.setTextSize(10);
-        tv_recommendCount.setText("추천수 " + ti.getCount());
+        tv_recommendCount.setText(getString(R.string.recommendcount) + ti.getCount());
         tv_recommendCount.setSingleLine();
 
         final TextView tv_writerName = new TextView(RecipeShownByMe.this);

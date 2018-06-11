@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_recipeShown"
             android:icon="@drawable/icon_recipe_shown"
-            android:title="내가 본 레시피"/>
+            android:title="@string/recipeisaw"/>
         <item
             android:id="@+id/nav_postRecipe"
             android:icon="@drawable/icon_recipe_put"
@@ -19,7 +19,7 @@
         <item
             android:id="@+id/nav_recipePosted"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="내가 작성한 레시피" />
+            android:title="@string/recipeiposted" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/icon_logout"

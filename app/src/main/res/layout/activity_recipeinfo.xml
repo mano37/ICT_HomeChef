@@ -81,7 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="작성일 : "
+                    android:text="@string/createdat"
                     android:textSize="13dp" />
 
                 <TextView
@@ -100,7 +100,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="수정일 : "
+                    android:text="@string/updatedat"
                     android:textSize="13dp" />
 
                 <TextView
@@ -122,7 +122,7 @@
                     android:id="@+id/deleteButton"
                     android:layout_width="60dp"
                     android:layout_height="30dp"
-                    android:text="delete"
+                    android:text="@string/delete"
                     android:textSize="8dp"
                     android:visibility="gone" />
             </LinearLayout>
@@ -260,7 +260,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="재료"
+            android:text="@string/ingredient"
             android:textSize="24dp" />
 
         <LinearLayout
@@ -286,7 +286,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="이름"
+                    android:text="@string/name"
                     android:textSize="16dp" />
 
 
@@ -303,7 +303,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="양"
+                    android:text="@string/quantity"
                     android:textSize="16dp" />
 
 
@@ -336,7 +336,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="요리 방법"
+                android:text="@string/step"
                 android:textSize="24dp" />
 
             <TextView

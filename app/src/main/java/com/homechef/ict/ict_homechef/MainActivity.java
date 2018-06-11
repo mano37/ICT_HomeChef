@@ -2,6 +2,9 @@ package com.homechef.ict.ict_homechef;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
 
@@ -71,10 +76,7 @@ public class MainActivity extends AppCompatActivity
     static int int_scrollViewPos;
     static int int_TextView_lines;
 
-    int loadedThumnail = 0;
-
-    int searchIndex;
-
+    Locale en;
     //////////////////////////////////////////////
 
 
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity
 
 
         // 환영 메세지
-        String startStr = userNameStr +"님 " + "환영합니다.";
+        String startStr = userNameStr + getString(R.string.greeting);
         Toast.makeText(getApplicationContext(), startStr, Toast.LENGTH_LONG).show();
         // 환영 메세지 끝
 
@@ -119,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Beta 버전에서는 지원되지 않습니다", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, getString(R.string.beta_alert), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity
 
         makeHeader(userJson.get("jwt_token").getAsString());
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 20; i++)
         {
             int id = (int) (Math.random() * (120000)) + 1;
             recipesGet(String.valueOf(id), llRecipeList);
@@ -186,9 +188,9 @@ public class MainActivity extends AppCompatActivity
                 int_scrollViewPos = svRecipeList.getScrollY();
                 int_TextView_lines = svRecipeList.getChildAt(0).getBottom() - svRecipeList.getHeight();
 
-                if(int_TextView_lines == int_scrollViewPos){
+                if(int_TextView_lines == int_scrollViewPos && connect_idx == 0){
                     //화면 최하단 스크롤시 이벤트
-                    for(int i = 0; i < 10; i++)
+                    for(int i = 0; i < 20; i++)
                     {
                         int id = (int) (Math.random() * (120000)) + 1;
                         recipesGet(String.valueOf(id), llRecipeList);
@@ -231,6 +233,27 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if(getResources().getConfiguration().locale.equals(Locale.KOREA))
+            {
+                en = Locale.US;
+                Configuration config = new Configuration();
+                config.locale = en;
+                getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+                Intent intent = new Intent(this, SplashActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else
+            {
+                en = Locale.KOREA;
+                Configuration config = new Configuration();
+                config.locale = en;
+                getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+                Intent intent = new Intent(this, SplashActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
             return true;
         }
 
@@ -358,7 +381,7 @@ public class MainActivity extends AppCompatActivity
         tv_ingredientList.setTextColor(Color.parseColor("#000000"));
         tv_ingredientList.setPadding(10, 10, 10, 10);
         tv_ingredientList.setTextSize(12);
-        String recipeList = "재료: ";
+        String recipeList = getString(R.string.ingredientis);
         for(int i = 0; i < ti.getIngredientList().size(); i++)
         {
             recipeList += ti.getIngredientList().get(i) + " ";
@@ -371,7 +394,7 @@ public class MainActivity extends AppCompatActivity
         tv_recommendCount.setTextColor(Color.parseColor("#000000"));
         tv_recommendCount.setPadding(10, 10, 10, 10);
         tv_recommendCount.setTextSize(10);
-        tv_recommendCount.setText("추천수 " + ti.getCount());
+        tv_recommendCount.setText(getString(R.string.recommendcount) + ti.getCount());
         tv_recommendCount.setSingleLine();
 
         final TextView tv_writerName = new TextView(MainActivity.this);
@@ -426,7 +449,7 @@ public class MainActivity extends AppCompatActivity
             public void onError(Throwable t) {
                 connect_idx++;
 
-                if(connect_idx == 10){
+                if(connect_idx == 20){
                     for(int i = 0; i < thumnail_idx; i++){
                         showRecipeThumnail(thumnailInfoList.remove(), ll);
                     }
@@ -458,9 +481,29 @@ public class MainActivity extends AppCompatActivity
                         ingreList,data.author_name,
                         data.created_at,
                         data.recommend_count);
-                thumnailInfoList.add(thumnailinfo);
-                thumnail_idx++;
-                if(connect_idx == 10){
+
+                if(getResources().getConfiguration().locale.equals(Locale.KOREA))
+                {
+                    if(ingreList.get(0).matches("^.*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*$"))
+                    {
+                        thumnailInfoList.add(thumnailinfo);
+                        thumnail_idx++;
+                    }
+
+                }
+                else
+                {
+                    if(ingreList.get(0).matches("^.*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*$"))
+                    {
+
+                    }
+                    else
+                    {
+                        thumnailInfoList.add(thumnailinfo);
+                        thumnail_idx++;
+                    }
+                }
+                if(connect_idx == 20){
                     for(int i = 0; i < thumnail_idx; i++){
                         showRecipeThumnail(thumnailInfoList.remove(), ll);
                     }
@@ -473,7 +516,7 @@ public class MainActivity extends AppCompatActivity
             public void onFailure(int code) {
                 connect_idx++;
 
-                if(connect_idx == 10){
+                if(connect_idx == 20){
                     for(int i = 0; i < thumnail_idx; i++){
                         showRecipeThumnail(thumnailInfoList.remove(), ll);
                     }

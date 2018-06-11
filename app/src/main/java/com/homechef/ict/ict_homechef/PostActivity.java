@@ -102,8 +102,8 @@ public class PostActivity extends AppCompatActivity {
                 edt_ingredientQuantity.add(new EditText(PostActivity.this));
 
 
-                edt_ingredientName.get(instance).setHint("재료 입력");
-                edt_ingredientQuantity.get(instance).setHint("양 입력");
+                edt_ingredientName.get(instance).setHint(getString(R.string.inputingredient));
+                edt_ingredientQuantity.get(instance).setHint(getString(R.string.inputquantity));
                 edt_ingredientName.get(instance).setSingleLine();
                 edt_ingredientQuantity.get(instance).setSingleLine();
 
@@ -129,7 +129,7 @@ public class PostActivity extends AppCompatActivity {
 
                 edt_steps.add(new EditText(PostActivity.this));
 
-                edt_steps.get(instance).setHint("조리 방법 입력");
+                edt_steps.get(instance).setHint(getString(R.string.inputsteps));
                 RelativeLayout.LayoutParams rightButton = new RelativeLayout.LayoutParams(getDPSize(40f), ViewGroup.LayoutParams.WRAP_CONTENT);
                 RelativeLayout.LayoutParams leftEdt = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 rightButton.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -167,7 +167,7 @@ public class PostActivity extends AppCompatActivity {
 
                     if(!edt_steps.get(i).getText().toString().equals(""))
                     {
-                        steps += "step" + j + '\n';
+                        steps += "STEP" + j + '\n';
                         steps += edt_steps.get(i).getText().toString() + '\n';
                         j++;
                     }
@@ -234,7 +234,7 @@ public class PostActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                Toast.makeText(PostActivity.this, "레시피가 성공적으로 등록되었습니다!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostActivity.this, getString(R.string.recipesuccessfully), Toast.LENGTH_SHORT).show();
 
                 finish();
             }

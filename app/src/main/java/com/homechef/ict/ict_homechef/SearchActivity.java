@@ -138,7 +138,7 @@ public class SearchActivity extends AppCompatActivity {
 
                     // 기본옵션값의 데이터가 없다면
                     if (data[0].equals("")) {
-                        Toast.makeText(SearchActivity.this, "최소 1개 이상의 재료를 포함해야 합니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SearchActivity.this, getString(R.string.searchleastingredient), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -174,7 +174,7 @@ public class SearchActivity extends AppCompatActivity {
                 //검색 재료가 아예 없을 때
                 else
                 {
-                    Toast.makeText(SearchActivity.this, "최소 1개 이상의 재료를 포함해야 합니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchActivity.this, getString(R.string.searchleastingredient), Toast.LENGTH_SHORT).show();
                 }
                 // 검색 버튼 OnClickListner 끝
             }
@@ -230,14 +230,14 @@ public class SearchActivity extends AppCompatActivity {
         if (dl.getMaxNum() == ingredientSet.size()) {
             if(dl == dlNowIngredient)
             {
-                Toast.makeText(SearchActivity.this, "더 이상 재료를 추가할 수 없습니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this, getString(R.string.nomoreingredient), Toast.LENGTH_SHORT).show();
             }
             return false;
         }
         if (ingredientSet.keySet().contains(s)) {
             if(dl == dlNowIngredient)
             {
-                Toast.makeText(SearchActivity.this, "이미 추가된 재료입니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this, getString(R.string.ingredientalready), Toast.LENGTH_SHORT).show();
             }
             return false;
         }

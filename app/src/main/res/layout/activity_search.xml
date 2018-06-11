@@ -83,7 +83,7 @@
             android:layout_weight="0.1"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="@string/recent_ingredient"
+            android:text="@string/added_ingredient"
             android:textSize="15sp"/>
         <LinearLayout
             android:id="@+id/ll_recentingredient1"

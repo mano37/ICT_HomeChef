@@ -85,7 +85,7 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
         System.out.println("@@@@@@@@ PostedRecipeByMe searchIndex : " + searchIndex);
         System.out.println("savedPostedRecipeByID is : " + savedPostedRecipeByID);
         if (savedPostedRecipeByID.equals("") || savedPostedRecipeByID.equals(" ")) {
-            Toast.makeText(PostedRecipeByMeActivity.this, "내가 작성한 레시피가 없습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PostedRecipeByMeActivity.this, getString(R.string.norecipebyme), Toast.LENGTH_SHORT).show();
         }
 
 
@@ -184,7 +184,7 @@ public class PostedRecipeByMeActivity extends AppCompatActivity {
         tv_recommendCount.setTextColor(Color.parseColor("#000000"));
         tv_recommendCount.setPadding(10, 10, 10, 10);
         tv_recommendCount.setTextSize(10);
-        tv_recommendCount.setText("추천수 " + ti.getCount());
+        tv_recommendCount.setText(getString(R.string.recommendcount) + ti.getCount());
         tv_recommendCount.setSingleLine();
 
         final TextView tv_writerName = new TextView(PostedRecipeByMeActivity.this);

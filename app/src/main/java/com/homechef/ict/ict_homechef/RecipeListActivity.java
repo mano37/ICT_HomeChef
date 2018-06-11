@@ -145,7 +145,7 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_ingredientList.setTextColor(Color.parseColor("#000000"));
         tv_ingredientList.setPadding(10, 10, 10, 10);
         tv_ingredientList.setTextSize(12);
-        String recipeList = "재료: ";
+        String recipeList = getString(R.string.ingredientis);
         for(int i = 0; i < ti.getIngredientList().size(); i++)
         {
             recipeList += ti.getIngredientList().get(i) + " ";
@@ -158,7 +158,7 @@ public class RecipeListActivity extends AppCompatActivity {
         tv_recommendCount.setTextColor(Color.parseColor("#000000"));
         tv_recommendCount.setPadding(10, 10, 10, 10);
         tv_recommendCount.setTextSize(10);
-        tv_recommendCount.setText("추천수 " + ti.getCount());
+        tv_recommendCount.setText(getString(R.string.recommendcount) + ti.getCount());
         tv_recommendCount.setSingleLine();
 
         final TextView tv_writerName = new TextView(RecipeListActivity.this);
@@ -230,7 +230,7 @@ public class RecipeListActivity extends AppCompatActivity {
                 }
                 if(data.size() == 0)
                 {
-                    Toast.makeText(RecipeListActivity.this, "더 이상 로드할 레시피가 없습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RecipeListActivity.this, getString(R.string.norecipemore), Toast.LENGTH_SHORT).show();
                 }
                 System.out.println("RecipeListGet onSuccess@@@@@@");
 
