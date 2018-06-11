@@ -111,16 +111,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="0.30"
                     android:text="@string/ingredient"
-                    android:textSize="20dp"
-                    android:layout_weight="0.25"/>
+                    android:textSize="20dp" />
 
                 <Button
                     android:id="@+id/post_btn_addingredient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
-                    android:text="@string/addingredient" />
+                    android:layout_weight="0.70"
+                    android:text="@string/addingredient"
+                    android:textSize="10dp" />
 
 
             </LinearLayout>
@@ -199,15 +200,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="0.30"
                     android:text="@string/steporder"
-                    android:textSize="20dp"
-                    android:layout_weight="0.25"/>
+                    android:textSize="20dp" />
 
                 <Button
                     android:id="@+id/post_btn_addsteps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
+                    android:layout_weight="0.70"
+                    android:textSize="10dp"
                     android:text="@string/addstep" />
 
 

@@ -2,9 +2,7 @@ package com.homechef.ict.ict_homechef;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -318,7 +315,7 @@ public class MainActivity extends AppCompatActivity
                 userJson = (JsonObject) parser.parse(userInfo);
                 String str = userJson.get("name").toString();
 
-                editor.putString(tokenKeyName, userJson.get(tokenKeyName).toString());
+                editor.putString(tokenKeyName, userJson.get(tokenKeyName).getAsString());
                 editor.commit();
             }
             if(resultCode == 2){
@@ -326,7 +323,7 @@ public class MainActivity extends AppCompatActivity
                 userInfo = data.getStringExtra("user_info");
                 userJson = (JsonObject) parser.parse(userInfo);
                 String str = userJson.get("name").toString();
-                editor.putString(tokenKeyName, userJson.get(tokenKeyName).toString());
+                editor.putString(tokenKeyName, userJson.get(tokenKeyName).getAsString());
                 editor.commit();
             }
         }
@@ -484,23 +481,28 @@ public class MainActivity extends AppCompatActivity
 
                 if(getResources().getConfiguration().locale.equals(Locale.KOREA))
                 {
-                    if(ingreList.get(0).matches("^.*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*$"))
-                    {
-                        thumnailInfoList.add(thumnailinfo);
-                        thumnail_idx++;
+                    try {
+                        if (ingreList.get(0).matches("^.*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*$")) {
+                            thumnailInfoList.add(thumnailinfo);
+                            thumnail_idx++;
+                        }
                     }
-
+                    catch (Exception e) {
+                    e.printStackTrace();
+                    }
                 }
                 else
                 {
-                    if(ingreList.get(0).matches("^.*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*$"))
-                    {
+                    try {
+                        if (ingreList.get(0).matches("^.*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*$")) {
 
+                        } else {
+                            thumnailInfoList.add(thumnailinfo);
+                            thumnail_idx++;
+                        }
                     }
-                    else
-                    {
-                        thumnailInfoList.add(thumnailinfo);
-                        thumnail_idx++;
+                    catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
                 if(connect_idx == 20){
