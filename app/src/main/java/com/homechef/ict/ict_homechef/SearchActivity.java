@@ -171,7 +171,12 @@ public class SearchActivity extends AppCompatActivity {
 
                     startActivity(intent);
                 }
-                // if(nowIngredientSet.size() >= 1) 끝
+                //검색 재료가 아예 없을 때
+                else
+                {
+                    Toast.makeText(SearchActivity.this, "최소 1개 이상의 재료를 포함해야 합니다.", Toast.LENGTH_SHORT).show();
+                }
+                // 검색 버튼 OnClickListner 끝
             }
         });
 
