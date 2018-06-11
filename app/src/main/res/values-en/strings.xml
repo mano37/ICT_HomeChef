@@ -1,0 +1,128 @@
+<resources>
+    <string name="app_name">ICT_HomeChef</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">한국어 사용</string>
+    <string name="title_activity_login">Sign in</string>
+
+
+
+    <!-- Sign In layout related -->
+    <string name="desc_google_icon">Google Logo</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="refresh_token">Get Fresh Token</string>
+    <string name="loading">Loading…</string>
+    <string name="auth_code_fmt">Auth Code: %s</string>
+    <string name="id_token_fmt">ID Token: %s</string>
+
+    <color name="color_bg">#F0F0F0</color>
+
+    <string name="title_text">Google Sign-In</string>
+
+    <!-- 메뉴 버튼 관련 문자열 -->
+    <string name="recipe_search">Search Recipe</string>
+    <string name="recipe_add">Add Recipe</string>
+    <string name="recipeisaw">Recipe I Saw</string>
+    <string name="recipeiposted">Recipe I Posted</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="communicate">Communicate</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+
+    <!-- Sign-in status messages -->
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="signed_in">Signed in</string>
+    <string name="signing_in">Signing in…</string>
+    <string name="signed_out">Signed out</string>
+    <string name="signed_in_err">"Error: please check logs."</string>
+    <string name="error_null_person"></string>
+
+    <!-- activity_post.xml의 모든 string -->
+    <string name="recipetitle">Recipe Title</string>
+    <string name="recipetitlehint">ex) Lasagna for dinner party</string>
+    <string name="recipeinfo">Recipe Information</string>
+    <string name="serve">Portion</string>
+    <string name="servehint">ex) for 2 people</string>
+    <string name="timecost">Lead Time</string>
+    <string name="timecosthint">ex) 00:30</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="addingredient">Add Ingredient</string>
+    <string name="ingredienthint">ex) Pasta</string>
+    <string name="quantityhint">ex) 100g</string>
+    <string name="steporder">Cooking Order</string>
+    <string name="addstep">Add Order</string>
+    <string name="stephint">ex) Put some pastas on the tray</string>
+    <string name="register">Post</string>
+
+    <!-- activity_recipeinfo.xml의 모든 string -->
+    <string name="createdat">Posted At :\ \ </string>
+    <string name="updatedat">Updated At :\ -</string>
+
+    <!-- activity_search.xml의 모든 string -->
+    <string name="enter_ingredient">Enter Ingredient</string>
+    <string name="add_ingredient">Add</string>
+    <string name="added_ingredient">Added Ingredient</string>
+    <string name="search">Search</string>
+    <string name="delete">Delete</string>
+    <string name="step">Cuisine</string>
+    <string name="name">Name</string>
+    <string name="quantity">Quantity</string>
+
+
+
+    <!--MainActivity.java의 모든 String-->
+    <string name="greeting">\ Logged In</string>
+    <string name="beta_alert">Not supported on Beta Version</string>
+    <string name="ingredientis">Ingredient :\ </string>
+    <string name="recommendcount">Recommmend\ </string>
+
+    <!--PostActivity.java의 모든 String-->
+    <string name="inputingredient">Enter Ingredient</string>
+    <string name="inputquantity">Enter Quantity</string>
+    <string name="inputsteps">Enter Quisine</string>
+
+    <string name="inputtitle">Enter Recipe Title</string>
+    <string name="inputserve">Enter Portion</string>
+    <string name="inputtime">Enter Lead Time</string>
+    <string name="inputingredientleast">Enter at least one ingredient</string>
+    <string name="inputstepsleast">Enter at least one quisine</string>
+
+    <string name="recipesuccessfully">Recipe posted successfully!</string>
+
+    <!--PostedRecipeByMeActivity.java의 모든 String-->
+    <string name="norecipebyme">There is no recipe I posted</string>
+
+    <!--RecipeinfoActivity.java의 모든 String-->
+    <string name="recipedelete">Delete Recipe</string>
+    <string name="recipedeletecheck">Will you really delete this recipe?</string>
+    <string name="deletefail">Failed to delete recipe</string>
+    <string name="deletesuccessfully">Recipe deleted successfully!</string>
+
+    <!--RecipeListActivity.java의 모든 String-->
+    <string name="norecipemore">There is no recipe to load.</string>
+
+    <!--RecipeShownByMe.java의 모든 String-->
+    <string name="norecipeshownbyme">There is no recipe I saw.</string>
+
+    <!--SearchAcitivy.java의 모든 String-->
+    <string name="searchleastingredient">You should add at least one ingredient.</string>
+    <string name="nomoreingredient">Can\'t add more ingredient</string>
+    <string name="ingredientalready">Already added to the search list</string>
+
+    <!-- URL String 관리 -->
+    <string name="login_url">:80/auth/login</string>
+    <string name="session_url">:80/auth/sessions</string>
+    <string name="recipe_url">:80/api/recipes</string>
+
+    <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
+        from https://console.developers.google.com/ -->
+    <string name="server_client_id">712533371602-bha720n5fmejb3tn7531m2fl5s2ug37c.apps.googleusercontent.com</string>
+
+    <!-- 712533371602-bha720n5fmejb3tn7531m2fl5s2ug37c.apps.googleusercontent.com -->
+
+</resources>
